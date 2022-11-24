@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="prog3.project.mailclient.HelloController">
+<VBox alignment="CENTER" prefHeight="627.0" prefWidth="647.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="prog3.project.mailclient.HelloController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+   <TabPane prefHeight="637.0" prefWidth="607.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+     <tabs>
+       <Tab text="in arrivo">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="607.0">
+                  <children>
+                     <ListView layoutX="14.0" layoutY="74.0" prefHeight="409.0" prefWidth="582.0" />
+                     <Button layoutX="14.0" layoutY="494.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="109.0" text="Visualizza  corpo" />
+                     <ImageView fitHeight="54.0" fitWidth="86.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                  </children>
+               </AnchorPane>
+         </content>
+       </Tab>
+       <Tab text="spedite">
+         <content>
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <ListView layoutX="11.0" layoutY="84.0" prefHeight="497.0" prefWidth="562.0" />
+                     <ImageView fitHeight="44.0" fitWidth="79.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                  </children></AnchorPane>
+         </content>
+       </Tab>
+         <Tab text="nuova">
+            <content>
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="607.0">
+                  <children>
+                     <ImageView fitHeight="44.0" fitWidth="59.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                     <Button layoutX="18.0" layoutY="533.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="109.0" text="Visualizza  corpo" />
+                     <Button layoutX="150.0" layoutY="533.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="109.0" text="elimina" />
+                     <TextArea layoutX="18.0" layoutY="179.0" prefHeight="337.0" prefWidth="548.0" text="Text..." />
+                     <TextField layoutX="17.0" layoutY="105.0" prefHeight="25.0" prefWidth="550.0" text="Send to..." />
+                     <TextField layoutX="17.0" layoutY="139.0" prefHeight="25.0" prefWidth="550.0" text="Object" />
+                     <ImageView fitHeight="53.0" fitWidth="79.0" layoutX="18.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" />
+                  </children>
+               </AnchorPane>
+            </content>
+         </Tab>
+     </tabs>
+   </TabPane>
 </VBox>
