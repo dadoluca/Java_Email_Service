@@ -15,9 +15,11 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="607.0">
                   <children>
-                     <ListView layoutX="14.0" layoutY="74.0" prefHeight="409.0" prefWidth="582.0" />
-                     <Button layoutX="14.0" layoutY="494.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="109.0" text="Visualizza  corpo" />
+                     <ListView fx:id="lstIncomingMail" layoutX="14.0" layoutY="97.0" prefHeight="409.0" prefWidth="562.0" />
+                     <Button layoutX="14.0" layoutY="517.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="109.0" text="Visualizza  corpo" />
                      <ImageView fitHeight="54.0" fitWidth="86.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                     <TextField fx:id="txtMittenteIncomingEmail" layoutX="415.0" layoutY="14.0" />
+                     <TextField fx:id="textArgumentIncomingEmail" layoutX="415.0" layoutY="55.0" />
                   </children>
                </AnchorPane>
          </content>
