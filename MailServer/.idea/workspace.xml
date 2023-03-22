@@ -4,14 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d911588-cb14-45cc-9ed1-f825156ffc55" name="Changes" comment="" />
+    <list default="true" id="8d911588-cb14-45cc-9ed1-f825156ffc55" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/Java_Email_Service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Email.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Mailbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/email-view.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2HzpLfrF9srpzYPzpukKgpE6rtu" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -23,10 +52,36 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/lucad/development/projects/Java_Email_Service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="MailServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="prog3.project.mailserver.MailServerApplication" />
+      <module name="MailServer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="prog3.project.mailserver.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MailServerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -35,8 +90,14 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669297715594</updated>
+      <workItem from="1679488985635" duration="275000" />
+      <workItem from="1679489385129" duration="14835000" />
+      <workItem from="1679505138460" duration="26000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -48,5 +109,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
