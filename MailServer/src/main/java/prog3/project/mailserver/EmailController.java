@@ -9,14 +9,20 @@ import prog3.project.mailserver.models.Email;
 import prog3.project.mailserver.models.MailServerModel;
 import prog3.project.mailserver.models.Mailbox;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
 public class EmailController {
     @FXML
     private Label welcomeText;
 
     @FXML
-    private ListView<Mailbox> listViewMailBoxes;
+    private ListView<Mailbox> listViewLog;
 
     private MailServerModel model;
+
+
 
     public void initModel(MailServerModel model) {
         // ensure model is only set once:
@@ -25,9 +31,9 @@ public class EmailController {
         }
 
         this.model = model;
-        listViewMailBoxes.setItems(model.getMailboxes());
+        listViewLog.setItems(model.getMailboxes());
 
-        listViewMailBoxes.setCellFactory(lv -> new ListCell<Mailbox>() {
+        listViewLog.setCellFactory(lv -> new ListCell<Mailbox>() {
             @Override
             public void updateItem(Mailbox mailbox, boolean empty) {
                 super.updateItem(mailbox, empty);
@@ -38,6 +44,7 @@ public class EmailController {
                 }
             }
         });
+
     }
     @FXML
     protected void onHelloButtonClick() {

@@ -7,11 +7,9 @@
     <list default="true" id="8d911588-cb14-45cc-9ed1-f825156ffc55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/HelloApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/HelloController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/email-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/email-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../readme.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,22 +28,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/lucad/development/projects/Java_Email_Service/MailServer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/UNI/TERZO_ANNO_2022-2023/Prog III/Prog III/Lab/Esercizi/sockets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.MailServerApplication">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="prog3.project.mailserver.HelloApplication" />
@@ -92,7 +90,8 @@
       <workItem from="1679505380319" duration="345000" />
       <workItem from="1679506102009" duration="114000" />
       <workItem from="1680074244959" duration="375000" />
-      <workItem from="1680074645186" duration="3527000" />
+      <workItem from="1680074645186" duration="5799000" />
+      <workItem from="1680096863435" duration="2610000" />
     </task>
     <servers />
   </component>

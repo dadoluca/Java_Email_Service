@@ -11,5 +11,5 @@
 
     <Label fx:id="welcomeText" />
     <Button onAction="#onHelloButtonClick" text="Hello!" />
-   <ListView fx:id="listViewMailBoxes" prefHeight="200.0" prefWidth="200.0" />
+   <ListView fx:id="listViewLog" prefHeight="200.0" prefWidth="200.0" />
 </VBox>
