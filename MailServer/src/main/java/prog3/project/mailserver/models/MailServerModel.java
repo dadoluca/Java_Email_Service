@@ -4,7 +4,9 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +20,9 @@ public class MailServerModel {
         ArrayList<String> recipients = new ArrayList<>();
         recipients.add("davide.benotto@gmail.com");
         recipients.add("luca.dadone01@gmail.com");
-        Email e = new Email(0,"riad.muska@gmail.com",recipients,"Soggetto di prova",
-                "Oggetto di prova", "2022-03-22");
+        Email e = new Email(0, -1,"riad.muska@gmail.com",recipients,"Soggetto di prova",
+                "Oggetto di prova",  LocalDateTime.now());
+        System.out.println(LocalDateTime.now());
         Mailbox mb_luca = new Mailbox("luca.dadone01@gmail.com");
         Mailbox mb_davide = new Mailbox("davide.benotto@gmail.com");
         this.mailboxes.setAll(mb_luca,mb_davide);
