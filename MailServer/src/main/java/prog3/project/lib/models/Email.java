@@ -1,4 +1,4 @@
-package prog3.project.mailclient.models;
+package prog3.project.lib.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

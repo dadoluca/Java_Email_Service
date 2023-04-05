@@ -11,6 +11,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Client {
@@ -66,24 +67,25 @@ public class Client {
             connectToServer(host, port);
             //List<Student> students = generateStudents(3);
 
-            Thread.sleep(5000);
+            //Thread.sleep(5000);
 
             outputStream.writeObject(this.mailbox.getEmailAddress());
             //outputStream.writeObject("ciao sono il client");
             outputStream.flush();
 
             //ObservableList<Email> emailsList = ( ObservableList<Email>) inputStream.readObject();
-            Email em = (Email) inputStream.readObject();;
-            System.out.println(em.toString());
+            //Email em = (Email) inputStream.readObject();
+            //System.out.println(em.toString());
+            //System.out.println(inputStream.readObject().toString());
+
+            Date dt = (Date) inputStream.readObject();
+            System.out.println(dt.toString());
 
             return true;
         } catch (ConnectException ce) {
             // nothing to be done
             return false;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
         } finally {

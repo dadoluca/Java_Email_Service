@@ -4,15 +4,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import prog3.project.mailserver.models.Email;
 import prog3.project.mailserver.models.MailServerModel;
-import prog3.project.mailserver.models.Mailbox;
+import prog3.project.lib.models.Email;
+import prog3.project.lib.models.Mailbox;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MailServerApplication extends Application {
@@ -21,6 +24,7 @@ public class MailServerApplication extends Application {
     ObjectOutputStream outStream = null;
     MailServerModel model = null;
 
+    List<Runnable> pool_thread_server;
 
     /**
      * Il server si mette in ascolto su una determinata porta e serve i client.
@@ -34,7 +38,8 @@ public class MailServerApplication extends Application {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
                 ///devo creare un thread che lo serva
-                serveClient(serverSocket);
+                getRequest(serverSocket);
+
             }
 
         } catch (IOException e) {
@@ -48,18 +53,32 @@ public class MailServerApplication extends Application {
                 }
         }
     }
+    private void getRequest(ServerSocket serverSocket) throws IOException {
+        openStreams(serverSocket);
+        Runnable clientHandler = () -> {
+            serveClient(serverSocket);
+        };
+        //creiamo un thread che rimane in ascolto di richieste
+        Thread thread = new Thread(clientHandler);
+        thread.start();
+        pool_thread_server.add(thread);
+        System.out.println("dimensione lista thread a servire client: "+pool_thread_server.size());
+    }
 
     private void serveClient(ServerSocket serverSocket) {
         try {
-            System.out.println("Server in attesa di una richiesta...");
-            openStreams(serverSocket);
+            System.out.println("Server serve un client");
+            //openStreams(serverSocket);
 
             //Email em =(Email) inStream.readObject();
             String em_addr = (String) inStream.readObject();
             System.out.println(em_addr);
 
-            Mailbox mb_client = model.getMailbox(em_addr);
-            outStream.writeObject(mb_client.getEmailsList().get(0));
+            //Mailbox mb_client = model.getMailbox(em_addr);
+            //System.out.println("stampa email: "+mb_client.getEmailsList().get(0));
+            //outStream.writeObject(mb_client.getEmailsList().get(0));
+            outStream.writeObject(new Date());
+            //outStream.writeObject("Ciao sono il server!");
             outStream.flush();
 
         } catch (IOException | ClassNotFoundException e) {
@@ -101,8 +120,9 @@ public class MailServerApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+        pool_thread_server = new ArrayList<>();
         Runnable server = () -> {
-            //Ci mettiamo in ascolto
+            //Ci mettiamo in ascolto di richieste
             listen(4440);
         };
         //creiamo un thread che rimane in ascolto di richieste
@@ -113,8 +133,6 @@ public class MailServerApplication extends Application {
         model= new MailServerModel();
         model.loadData();
         email_controller.initModel(model);
-
-
 
     }
 

@@ -1,17 +1,12 @@
 package prog3.project.mailserver;
+import prog3.project.lib.models.Email;
+import prog3.project.lib.models.Mailbox;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import prog3.project.mailserver.models.Email;
 import prog3.project.mailserver.models.MailServerModel;
-import prog3.project.mailserver.models.Mailbox;
-
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class EmailController {
     @FXML

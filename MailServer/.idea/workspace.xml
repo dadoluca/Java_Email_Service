@@ -6,11 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8d911588-cb14-45cc-9ed1-f825156ffc55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/ClientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/ClientApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/MailServerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Email.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Mailbox.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +37,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/lucad/development/projects/Java_Email_Service/MailServer",
+    "last_opened_file_path": "D:/UNI/TERZO_ANNO_2022-2023/Prog III/Prog III/Lab/Esercizi/Soluzioni Esercizio sui Thread",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -47,10 +50,27 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailServer\src\main\resources\prog3.project.mailclient" />
+      <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailServer\src\main\resources" />
+      <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailServer\src\main\java\prog3\project\mailclient" />
+      <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailServer\src\main\java" />
       <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailServer\data" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MailServerApplication">
+    <configuration name="ClientApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="prog3.project.mailclient.ClientApplication" />
+      <module name="MailServer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="prog3.project.mailclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="prog3.project.mailserver.HelloApplication" />
       <module name="MailServer" />
@@ -80,6 +100,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MailServerApplication" />
+        <item itemvalue="Application.ClientApplication" />
         <item itemvalue="Application.HelloApplication" />
       </list>
     </recent_temporary>
@@ -99,7 +120,7 @@
       <workItem from="1680074645186" duration="5799000" />
       <workItem from="1680096863435" duration="11325000" />
       <workItem from="1680680077013" duration="5373000" />
-      <workItem from="1680695360828" duration="357000" />
+      <workItem from="1680695360828" duration="8048000" />
     </task>
     <servers />
   </component>

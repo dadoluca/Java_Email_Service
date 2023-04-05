@@ -1,4 +1,4 @@
-module prog3.project.mailserver {
+module prog3.project{
     requires javafx.controls;
     requires javafx.fxml;
     requires com.opencsv;

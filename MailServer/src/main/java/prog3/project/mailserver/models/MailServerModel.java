@@ -1,5 +1,7 @@
 package prog3.project.mailserver.models;
-
+import prog3.project.mailserver.models.MailServerModel;
+import prog3.project.lib.models.Email;
+import prog3.project.lib.models.Mailbox;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
