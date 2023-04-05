@@ -1,14 +1,18 @@
 package prog3.project.mailserver.models;
 
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+
+import com.opencsv.CSVReader;
 
 public class MailServerModel {
 
@@ -17,23 +21,60 @@ public class MailServerModel {
             new Observable[] {mailbox.emailAddressProperty()});
 
     public void loadData() {
-        ArrayList<String> recipients = new ArrayList<>();
-        recipients.add("davide.benotto@gmail.com");
-        recipients.add("luca.dadone01@gmail.com");
-        Email e = new Email(0, -1,"riad.muska@gmail.com",recipients,"Soggetto di prova",
-                "Oggetto di prova",  LocalDateTime.now());
-        //  System.out.println(LocalDateTime.now());
-        Mailbox mb_luca = new Mailbox("luca.dadone01@gmail.com");
-        Mailbox mb_davide = new Mailbox("davide.benotto@gmail.com");
-        this.mailboxes.setAll(mb_luca,mb_davide);
-        //addMailbox(mb_luca);
-        //addMailbox(mb_davide);
-        //receiveEmail(e);
+
+        /******************************** LETTURA UTENTI **************************************/
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader("data/user.txt"));
+            String line = reader.readLine();
+
+            while (line != null) {
+                mailboxes.add(new Mailbox(line));
+                System.out.println(line);
+                // read next line
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /******************************* LETTURA EMAIL **************************************/
+        ArrayList<String> recipientArrayList = new ArrayList<>();
+
+        try {
+            CSVReader reader2 = new CSVReader(new FileReader("data/email.csv"));
+            String[] line = null;
+            //salto l'intestazione
+            line = reader2.readNext();
+            while ((line = reader2.readNext()) != null) {
+                int id = Integer.parseInt(line[0]);
+                int replyID = Integer.parseInt(line[1]);
+                String sender = line[2];
+                String recipients = line[3];
+                String[] recipientList = recipients.split(",");
+                for (String recipient : recipientList) {
+                    recipientArrayList.add(recipient);
+                }
+
+                String subject = line[4];
+                String text = line[5];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                LocalDateTime date = LocalDateTime.parse(line[6], formatter);
+                // Do something with the values
+                Email e = new Email(id, replyID,sender,recipientArrayList,subject,
+                        text, date);
+                receiveEmail(e);
+            }
+            reader2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
+
     }
-/*
-    public void addMailbox(Mailbox mailbox) {
-        this.mailboxes.setAll(mailbox);
-    }*/
 
     public void removeMailbox(Mailbox mailbox) {
         this.mailboxes.remove(mailbox);
@@ -53,7 +94,6 @@ public class MailServerModel {
                 }
             }
         }
-        throw new RuntimeException("Mailbox not found for any recipient in the list " + email.getRecipientsList());
     }
 
 }

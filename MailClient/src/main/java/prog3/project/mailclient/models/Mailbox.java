@@ -1,5 +1,6 @@
-package prog3.project.mailserver.models;
+package prog3.project.mailclient.models;
 
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,8 +17,6 @@ public class Mailbox {
     public final void setEmailAddress(final String emailAddress){
         this.emailAddressProperty().set(emailAddress);
     }
-    /*private final ObservableList<Email> emailsList = FXCollections.observableArrayList(email ->
-            new Observable[] {email.getId(), email.getSender(), });*/
     private final ObservableList<Email> emailsList;
     public ObservableList<Email> getEmailsList() {
         return emailsList ;
@@ -27,6 +26,7 @@ public class Mailbox {
         setEmailAddress(emailAddress);
         this.emailsList = FXCollections.observableList(new ArrayList<>());
     }
+
     public void addEmail(Email email) {
         this.emailsList.add(email);
     }

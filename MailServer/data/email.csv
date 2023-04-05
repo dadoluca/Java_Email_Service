@@ -1,0 +1,4 @@
+"id","replyID","sender","recipients","subject","text","date"
+0,-1,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","prima mail","ciao amici",2023-03-29T09:22
+1,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","un solo destinatario mail","ciao luca come va?",2023-03-29T10:05
+2,1,"luca.dadone@gmail.com","riad.muska@gmail.com","un solo destinatario mail","bene grazie tu?",2023-03-29T10:22

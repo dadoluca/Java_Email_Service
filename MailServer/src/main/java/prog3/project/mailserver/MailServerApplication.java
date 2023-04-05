@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import prog3.project.mailserver.models.Email;
 import prog3.project.mailserver.models.MailServerModel;
 
 import java.io.IOException;
@@ -29,9 +30,6 @@ public class MailServerApplication extends Application {
     public void listen(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-
-
-
             while (true) {
                 ///devo creare un thread che lo serva
                 serveClient(serverSocket);
@@ -54,10 +52,12 @@ public class MailServerApplication extends Application {
             System.out.println("Server in attesa di una richiesta...");
             openStreams(serverSocket);
 
-            System.out.println(inStream.readObject());
+            Email em =(Email) inStream.readObject();
+            //String em = (String) inStream.readObject();
+            System.out.println(em.getText());
 
-            outStream.writeObject("ricevuto");
-            outStream.flush();
+           /* outStream.writeObject("ricevuto");
+            outStream.flush();*/
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -69,7 +69,6 @@ public class MailServerApplication extends Application {
     // apre gli stream necessari alla connessione corrente
     private void openStreams(ServerSocket serverSocket) throws IOException {
         socket = serverSocket.accept();
-        System.out.println("Server Connesso");
 
         inStream = new ObjectInputStream(socket.getInputStream());
         outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -99,14 +98,11 @@ public class MailServerApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //creiamo un thread che rimane in ascolto di richieste
-        //Runnable server = null;
-        //Thread thread = new Thread(server);
-        //MailServerApplication server = new MailServerApplication();
         Runnable server = () -> {
             //Ci mettiamo in ascolto
             listen(4440);
         };
+        //creiamo un thread che rimane in ascolto di richieste
         Thread listenRequests = new Thread(server);
         listenRequests.start();
 
