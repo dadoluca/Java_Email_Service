@@ -30,7 +30,7 @@ public class MailServerModel {
 
             while (line != null) {
                 mailboxes.add(new Mailbox(line));
-                System.out.println(line);
+                //System.out.println(line);
                 // read next line
                 line = reader.readLine();
             }
@@ -83,6 +83,17 @@ public class MailServerModel {
     public ObservableList<Mailbox> getMailboxes() {
         return this.mailboxes;
     }
+
+    public Mailbox getMailbox(String em_addr) {
+        for(Mailbox mailbox: mailboxes){
+            if (mailbox.getEmailAddress().equals(em_addr)){
+                return mailbox;
+            }
+        }
+        return null;
+    }
+
+
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public void receiveEmail(Email email) {

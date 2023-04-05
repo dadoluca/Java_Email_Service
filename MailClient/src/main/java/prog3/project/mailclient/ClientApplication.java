@@ -22,8 +22,9 @@ public class ClientApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+
         ClientController controller =  fxmlLoader.getController();
-        Client model = new Client();
+        Client model = new Client("luca.dadone@gmail.com");
         controller.initModel(model);
     }
 

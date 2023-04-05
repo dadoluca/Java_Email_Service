@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import prog3.project.mailserver.models.Email;
 import prog3.project.mailserver.models.MailServerModel;
+import prog3.project.mailserver.models.Mailbox;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,6 +19,7 @@ public class MailServerApplication extends Application {
     Socket socket = null;
     ObjectInputStream inStream = null;
     ObjectOutputStream outStream = null;
+    MailServerModel model = null;
 
 
     /**
@@ -52,12 +54,13 @@ public class MailServerApplication extends Application {
             System.out.println("Server in attesa di una richiesta...");
             openStreams(serverSocket);
 
-            Email em =(Email) inStream.readObject();
-            //String em = (String) inStream.readObject();
-            System.out.println(em.getText());
+            //Email em =(Email) inStream.readObject();
+            String em_addr = (String) inStream.readObject();
+            System.out.println(em_addr);
 
-           /* outStream.writeObject("ricevuto");
-            outStream.flush();*/
+            Mailbox mb_client = model.getMailbox(em_addr);
+            outStream.writeObject(mb_client.getEmailsList().get(0));
+            outStream.flush();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -107,7 +110,7 @@ public class MailServerApplication extends Application {
         listenRequests.start();
 
         EmailController email_controller = fxmlLoader.getController();
-        MailServerModel model= new MailServerModel();
+        model= new MailServerModel();
         model.loadData();
         email_controller.initModel(model);
 

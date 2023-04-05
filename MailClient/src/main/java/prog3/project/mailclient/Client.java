@@ -1,6 +1,8 @@
 package prog3.project.mailclient;
 
+import javafx.collections.ObservableList;
 import prog3.project.mailclient.models.Email;
+import prog3.project.mailclient.models.Mailbox;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,8 +18,13 @@ public class Client {
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
-    String username;
+    Mailbox mailbox;
     final int MAX_ATTEMPTS = 5;
+
+    public Client(String em_addr){
+        mailbox = new Mailbox(em_addr);
+
+    }
 
     /**
      * Costruisce un nuovo client.
@@ -61,22 +68,20 @@ public class Client {
 
             Thread.sleep(5000);
 
-            ArrayList<String> recipients = new ArrayList<>();
-            recipients.add("davide.benotto@gmail.com");
-            Email em = new Email(0, -1,"luca.dadone01@gmail.com",recipients,"Soggetto di prova",
-                    "Oggetto di prova",  LocalDateTime.now());
-            //List<Email> emailList = new ArrayList<>();
-            //emailList.add(em);
-            outputStream.writeObject(em);
+            outputStream.writeObject(this.mailbox.getEmailAddress());
             //outputStream.writeObject("ciao sono il client");
             outputStream.flush();
+
+            //ObservableList<Email> emailsList = ( ObservableList<Email>) inputStream.readObject();
+            Email em = (Email) inputStream.readObject();;
+            System.out.println(em.toString());
 
             return true;
         } catch (ConnectException ce) {
             // nothing to be done
             return false;
-        } catch (IOException se) {
-            se.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             return false;
         } catch (InterruptedException e) {
             e.printStackTrace();
