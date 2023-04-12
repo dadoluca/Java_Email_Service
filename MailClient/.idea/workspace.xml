@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d01c455f-48e8-4ba8-adfe-cf72416f63bf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/Java_Email_Service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailclient/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailclient/ClientApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailclient/ClientController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailclient/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailclient/models/Mailbox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prog3/project/mailclient/client-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/data/email.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/data/user.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/prog3/project/lib/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/prog3/project/lib/models/Mailbox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/prog3/project/mailserver/EmailController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/prog3/project/mailserver/MailServerApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/java/prog3/project/mailserver/models/MailServerModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailServer/src/main/resources/prog3/project/mailserver/email-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../readme.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NMzvpGfDfDCpxj7UMI26dDGtOO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/lucad/development/projects/Java_Email_Service/MailClient",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lucad\development\projects\Java_Email_Service\MailClient\src\main\java\prog3\project\mailclient" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ClientApplication" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="prog3.project.mailclient.ClientApplication" />
+      <module name="MailClient" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="prog3.project.mailclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClientApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d01c455f-48e8-4ba8-adfe-cf72416f63bf" name="Changes" comment="" />
+      <created>1679488971524</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679488971524</updated>
+      <workItem from="1679488972693" duration="282000" />
+      <workItem from="1679489369748" duration="1262000" />
+      <workItem from="1680100182856" duration="8136000" />
+      <workItem from="1680680100599" duration="4125000" />
+      <workItem from="1680694616685" duration="10114000" />
+      <workItem from="1681315655011" duration="632000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

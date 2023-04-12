@@ -5,15 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d911588-cb14-45cc-9ed1-f825156ffc55" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/Java_Email_Service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/ClientApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/ClientController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/java/prog3/project/mailclient/models/Mailbox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MailClient/src/main/resources/prog3/project/mailclient/client-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/email.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/user.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/lib/models/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/lib/models/Mailbox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/EmailController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/MailServerApplication.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/MailServerModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/prog3/project/mailserver/models/Mailbox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/prog3/project/mailserver/email-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../readme.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +70,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/UNI/TERZO_ANNO_2022-2023/Prog III/Prog III/Lab/Esercizi/Soluzioni Esercizio sui Thread",
+    "last_opened_file_path": "C:/Users/lucad/development/projects/MailService",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -120,7 +153,8 @@
       <workItem from="1680074645186" duration="5799000" />
       <workItem from="1680096863435" duration="11325000" />
       <workItem from="1680680077013" duration="5373000" />
-      <workItem from="1680695360828" duration="8048000" />
+      <workItem from="1680695360828" duration="9336000" />
+      <workItem from="1681303423716" duration="3378000" />
     </task>
     <servers />
   </component>
