@@ -70,16 +70,24 @@ public class MailServerApplication extends Application {
             System.out.println("Server in attesa di una richiesta...");
 
             //Email em =(Email) inStream.readObject();
-
+            Object message;
             /*********************************** RICEVO EMAIL LOGIN *************************/
-            String em_addr = (String) inStream.readObject();
-            System.out.println(em_addr);
-            Mailbox mb_client = model.getMailbox(em_addr);
-            if(mb_client == null)
-                outStream.writeObject("FALSE");
-            else{
-                outStream.writeObject("TRUE");
-                outStream.writeObject(mb_client.getEmailsList());
+            message=inStream.readObject();
+            if(message instanceof String){
+                System.out.println("E UNA STRINGA");
+                System.out.println(message);
+                Mailbox mb_client = model.getMailbox(message.toString());
+                if(mb_client == null)
+                    outStream.writeObject("FALSE");
+                else{
+                    outStream.writeObject("TRUE");
+                    outStream.writeObject(mb_client.getEmailsList());
+                }
+            }
+            if(message instanceof Email){
+                System.out.println("E UNA MAIL");
+                Email to_forward= (Email) message;
+                //TODO scriverla nel file
             }
             outStream.flush();
         } catch (IOException | ClassNotFoundException e) {
@@ -135,8 +143,6 @@ public class MailServerApplication extends Application {
         model= new MailServerModel();
         model.loadData();
         email_controller.initModel(model);
-
-
     }
 
     public static void main(String[] args) {

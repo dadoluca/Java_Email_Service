@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
+   <children>
+      <Label text="A:" />
+      <TextField fx:id="txtDestinatari" />
+      <Label layoutX="10.0" layoutY="10.0" text="Oggetto:" />
+      <TextField fx:id="txtOggetto" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="334.0" />
+      <Label layoutX="10.0" layoutY="53.0" text="Testo:" />
+      <TextField fx:id="txtContenuto" layoutX="10.0" layoutY="70.0" prefHeight="185.0" prefWidth="600.0" />
+      <Button fx:id="btnInvia" mnemonicParsing="false" onAction="#onBtnInviaClick" text="Invia Email" />
+   </children>
+</VBox>

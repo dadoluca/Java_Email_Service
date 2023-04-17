@@ -19,7 +19,6 @@ public class ClientApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-
         LoginController controller =  fxmlLoader.getController();
     }
 

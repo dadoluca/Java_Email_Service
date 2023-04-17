@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -20,16 +21,17 @@ public class Client {
     Socket socket = null;
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
-
     Mailbox mailbox;
 
-    public ObservableList<String> getInboxContent() {
+
+
+    public ObservableList<Email> getInboxContent() {
         return inboxContent;
     }
 
-    private final ObservableList<String> inboxContent;
-    private final ListProperty<String> inbox;
-    public ListProperty<String> inboxProperty() {
+    private final ObservableList<Email> inboxContent;
+    private final ListProperty<Email> inbox;
+    public ListProperty<Email> inboxProperty() {
         return inbox;
     }
 
@@ -95,7 +97,7 @@ public class Client {
                 emailsList = (List<Email>) inputStream.readObject();
                 for(Email em : emailsList){
                     this.mailbox.addEmail(em);
-                    this.inboxContent.add(em.toString());
+                    this.inboxContent.add(em);
                 }
                 System.out.println(emailsList.toString());
             }
@@ -110,6 +112,33 @@ public class Client {
             return true;
         } catch (ConnectException ce) {
             // nothing to be done
+            return false;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            closeConnections();
+        }
+    }
+
+    private synchronized boolean tryCommunicationEmail(String host, int port,Email to_send) {
+        try {
+            connectToServer(host, port);
+
+            outputStream.writeObject(to_send);
+            outputStream.flush();
+            List<Email> emailsList;
+
+            String success = (String) inputStream.readObject();
+            if(Objects.equals(success, "TRUE"))//TODO VERIFICARE SE I DESTINATARI ESISTONO
+            {
+                System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());
+            }
+            else{
+                return false;
+            }
+            return true;
+        } catch (ConnectException ce) {
             return false;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -142,5 +171,19 @@ public class Client {
         inputStream = new ObjectInputStream(socket.getInputStream());
 
         //System.out.println("[Client luca.dadone01@gmail.com] Connesso");
+    }
+    public void deleteEmail(Email e){
+        //this.inboxContent.remove(e);
+        //TODO: aggiornare file e lista del controller rimuovendo la mail
+        System.out.println("tutto ok per ora, sto eliminando: "+e.toString());
+    }
+
+    public void newEmail(String dest,String oggetto,String contenuto){
+        String host="127.0.0.1";
+        int port = 4440;
+        List<String> destinatari= new ArrayList<>();
+        destinatari.add("davide.benotto@gmail.com");
+        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),destinatari,oggetto,contenuto,null);
+        tryCommunicationEmail(host,port,to_send);
     }
 }
