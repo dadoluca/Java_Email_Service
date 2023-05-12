@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,23 +26,23 @@ public class Client {
 
 
 
-    public ObservableList<Email> getInboxContent() {
+   /* public ObservableList<Email> getInboxContent() {
         return inboxContent;
-    }
+    }*/
 
-    private final ObservableList<Email> inboxContent;
-    private final ListProperty<Email> inbox;
-    public ListProperty<Email> inboxProperty() {
+    //private final ObservableList<Email> inboxContent;
+   // private final ListProperty<Email> inbox;
+    /*public ListProperty<Email> inboxProperty() {
         return inbox;
-    }
+    }*/
 
     final int MAX_ATTEMPTS = 5;
 
     public Client(String em_addr){
         mailbox = new Mailbox(em_addr);
-        this.inboxContent = FXCollections.observableList(new LinkedList<>());
-        this.inbox = new SimpleListProperty<>();
-        this.inbox.set(inboxContent);
+        //this.inboxContent = FXCollections.observableList(new LinkedList<>());
+        //this.inbox = new SimpleListProperty<>();
+        //this.inbox.set(inboxContent);
     }
 
     /**
@@ -63,7 +64,7 @@ public class Client {
             attempts += 1;
             System.out.println();
 
-            success = tryCommunication(host, port);
+            success = tryLoginCommunication(host, port);
 
             if(success) {
                 System.out.println("Ho comunicato!!");
@@ -80,7 +81,7 @@ public class Client {
     }
 
     // Tenta di comunicare con il server. Restituisce true se ha successo, false altrimenti
-    private synchronized boolean tryCommunication(String host, int port) {
+    private synchronized boolean tryLoginCommunication(String host, int port) {
         try {
             connectToServer(host, port);
             //List<Student> students = generateStudents(3);
@@ -97,7 +98,7 @@ public class Client {
                 emailsList = (List<Email>) inputStream.readObject();
                 for(Email em : emailsList){
                     this.mailbox.addEmail(em);
-                    this.inboxContent.add(em);
+                    //this.inboxContent.add(em);
                 }
                 System.out.println(emailsList.toString());
             }
@@ -178,12 +179,10 @@ public class Client {
         System.out.println("tutto ok per ora, sto eliminando: "+e.toString());
     }
 
-    public void newEmail(String dest,String oggetto,String contenuto){
-        String host="127.0.0.1";
-        int port = 4440;
+    public void newEmail(String host, int port,String dest,String oggetto,String contenuto){
         List<String> destinatari= new ArrayList<>();
-        destinatari.add("davide.benotto@gmail.com");
-        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),destinatari,oggetto,contenuto,null);
+        destinatari.add(dest);
+        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),destinatari,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
     }
 }

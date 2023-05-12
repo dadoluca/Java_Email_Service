@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Mailbox {
@@ -23,8 +24,11 @@ public class Mailbox {
     /*private final ObservableList<Email> emailsList = FXCollections.observableArrayList(email ->
             new Observable[] {email.getId(), email.getSender(), });*/
     //private final ObservableList<Email> emailsList;
-    private final List<Email> emailList;
 
+    private final ObservableList<Email> emailList;
+    public ObservableList<Email> getEmailList() {
+        return emailList;
+    }
 
 //    private final ListProperty<Email> emailListProperty;
 //    public ObservableList<Email> getEmailsList() {
@@ -33,13 +37,13 @@ public class Mailbox {
 //    public ListProperty<Email> emailListProperty() {
 //        return emailListProperty;
 //    }
-    public List<Email> getEmailsList() {
+    /*public List<Email> getEmailsList() {
         return emailList;
-    }
+    }*/
 
     public Mailbox(String emailAddress) {
         setEmailAddress(emailAddress);
-        this.emailList = new ArrayList<>();
+        this.emailList = FXCollections.observableList(new LinkedList<>());
 //        this.emailListProperty = new SimpleListProperty<>();
 //        this.emailListProperty.set(emailsList);
     }

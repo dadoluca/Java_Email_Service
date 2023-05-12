@@ -35,7 +35,7 @@ public class NewMailController {
         String destinatari=txtDestinatari.getText();
         String contenuto=txtContenuto.getText();
 
-        client.newEmail(destinatari,oggetto,contenuto);
+        client.newEmail(host, port,destinatari,oggetto,contenuto);
     }
 
 }

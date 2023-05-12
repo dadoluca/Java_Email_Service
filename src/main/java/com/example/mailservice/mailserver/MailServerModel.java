@@ -1,5 +1,7 @@
-package com.example.mailservice.lib;
+package com.example.mailservice.mailserver;
 
+import com.example.mailservice.lib.Email;
+import com.example.mailservice.lib.Mailbox;
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;

@@ -1,28 +1,21 @@
 package com.example.mailservice.mailserver;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import com.example.mailservice.lib.Email;
-import com.example.mailservice.lib.Mailbox;
-import com.example.mailservice.lib.MailServerModel;
-
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
 public class EmailController {
     @FXML
     private Label welcomeText;
 
     @FXML
-    private ListView<Mailbox> listViewLog;
+    private ListView<String> listViewLog;
 
     private MailServerModel model;
 
-
+    ObservableList<String> logRecords;
 
     public void initModel(MailServerModel model) {
         // ensure model is only set once:
@@ -31,6 +24,11 @@ public class EmailController {
         }
 
         this.model = model;
+
+        logRecords= FXCollections.observableArrayList();
+        listViewLog = new ListView<>(logRecords);
+
+/* veniva usato per stampare nel log la lista di email_address registrati
         listViewLog.setItems(model.getMailboxes());
 
         listViewLog.setCellFactory(lv -> new ListCell<Mailbox>() {
@@ -44,8 +42,13 @@ public class EmailController {
                 }
             }
         });
-
+ */
     }
+
+    public void addRecord(String record){
+        logRecords.add(record);
+    }
+
     @FXML
     protected void onHelloButtonClick() {
         welcomeText.setText("Log");
