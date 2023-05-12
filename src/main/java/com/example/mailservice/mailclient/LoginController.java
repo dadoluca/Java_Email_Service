@@ -42,9 +42,6 @@ public class LoginController {
         boolean success = client.login(host,port);
         if(success){
             switchToNewView(e);
-            //cambia schermata
-            //System.out.println(model.mailbox.getEmailsList());
-
         }else {
             welcomeText.setText("Utente non registrato");
         }

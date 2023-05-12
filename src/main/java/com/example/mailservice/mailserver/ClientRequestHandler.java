@@ -58,17 +58,12 @@ public class ClientRequestHandler extends Thread {
                  * Riceve una mail dal client
                  **/
                 Email to_forward = (Email) message;
-
                 System.out.println("Ho ricevuto la mail: " + to_forward);
-
-                //model.addRecord(to_forward.toString());
-                // aggiorno il model
                 model.receiveEmail(to_forward,true);
                 /**
-                 * Scriviamo nel log
                  * preleva i destinatari e inoltra la mail
                  **/
-                //TODO scriverla nel file
+
             }
             outStream.flush();
         } catch (IOException | ClassNotFoundException e) {

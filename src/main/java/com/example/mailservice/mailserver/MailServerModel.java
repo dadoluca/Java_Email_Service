@@ -37,7 +37,7 @@ public class MailServerModel {
         /******************************** LETTURA UTENTI **************************************/
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("data/user.txt"));
+            reader = new BufferedReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/user.txt"));
             String line = reader.readLine();
 
             while (line != null) {
@@ -56,7 +56,7 @@ public class MailServerModel {
         ArrayList<String> recipientArrayList;
 
         try {
-            CSVReader reader2 = new CSVReader(new FileReader("data/email.csv"));
+            CSVReader reader2 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/email.csv"));
             //salto l'intestazione
             String[] line  = reader2.readNext();
             while ((line = reader2.readNext()) != null) {
@@ -108,12 +108,22 @@ public class MailServerModel {
 
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
-    public synchronized void receiveEmail(Email email,boolean add_to_log) {
+    public synchronized void receiveEmail(Email email,boolean isNew) throws IOException {
         for (String recipient : email.getRecipientsList()) {
             for (Mailbox mailbox : mailboxes) {
                 if (mailbox.getEmailAddress().equals(recipient)) {
-                    if(add_to_log){
+                    if(isNew){/** nuova mail */
+                        /**
+                         * la mail viene stampata nel log
+                         * */
                         logRecords.add("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate());
+
+                        /**
+                         *  la mail viene salvata nel csv
+                         * */
+                        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv"));
+                        //writer.println(email.toCSV());
+                        writer.close();
                     }
                     mailbox.addEmail(email);
                     break;

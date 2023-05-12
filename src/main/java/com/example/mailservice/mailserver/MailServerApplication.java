@@ -46,7 +46,7 @@ public class MailServerApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         System.out.println(MailServerApplication.class.getResource(""));
-        FXMLLoader fxmlLoader = new FXMLLoader(MailServerApplication.class.getResource("email-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MailServerApplication.class.getResource("log_view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
@@ -62,7 +62,7 @@ public class MailServerApplication extends Application {
         Thread requestsListener = new Thread(server);
         requestsListener.start();
 
-        EmailController email_controller = fxmlLoader.getController();
+        LogController email_controller = fxmlLoader.getController();
         email_controller.initModel(model);
     }
 
