@@ -6,14 +6,16 @@ import java.net.Socket;
 
 import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
+import javafx.beans.Observable;
 
 import java.io.IOException;
 
-public class ClientRequestHandler extends Thread{
+public class ClientRequestHandler extends Thread {
     MailServerModel model;
     ObjectInputStream inStream = null;
     ObjectOutputStream outStream = null;
     Socket socket;
+
 
     public ClientRequestHandler(Socket socket, MailServerModel model){
         this.socket = socket;
@@ -56,9 +58,12 @@ public class ClientRequestHandler extends Thread{
                  * Riceve una mail dal client
                  **/
                 Email to_forward = (Email) message;
+
                 System.out.println("Ho ricevuto la mail: " + to_forward);
+
+                //model.addRecord(to_forward.toString());
                 // aggiorno il model
-                model.receiveEmail(to_forward);
+                model.receiveEmail(to_forward,true);
                 /**
                  * Scriviamo nel log
                  * preleva i destinatari e inoltra la mail

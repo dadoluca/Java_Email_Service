@@ -19,6 +19,13 @@ public class MailServerModel {
 
 
  /**lista di caselle di posta*/
+
+    private ObservableList<String> logRecords= FXCollections.observableArrayList();
+
+    public ObservableList<String> getLogRecords(){
+        return this.logRecords;
+    }
+
     private final ObservableList<Mailbox> mailboxes = FXCollections.observableArrayList(mailbox ->
             new Observable[] {mailbox.emailAddressProperty()});
 
@@ -70,7 +77,7 @@ public class MailServerModel {
                 // Do something with the values
                 Email e = new Email(id, replyID,sender,recipientArrayList,subject,
                         text, date);
-                receiveEmail(e);
+                receiveEmail(e,false);
             }
             reader2.close();
         } catch (IOException e) {
@@ -101,15 +108,19 @@ public class MailServerModel {
 
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
-    public synchronized void receiveEmail(Email email) {
+    public synchronized void receiveEmail(Email email,boolean add_to_log) {
         for (String recipient : email.getRecipientsList()) {
             for (Mailbox mailbox : mailboxes) {
                 if (mailbox.getEmailAddress().equals(recipient)) {
+                    if(add_to_log){
+                        logRecords.add("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate());
+                    }
                     mailbox.addEmail(email);
                     break;
                 }
             }
         }
+
     }
 
 }
