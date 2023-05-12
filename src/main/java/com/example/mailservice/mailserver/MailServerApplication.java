@@ -16,14 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MailServerApplication extends Application {
-    Socket socket = null;
+   /* Socket socket = null;
     ObjectInputStream inStream = null;
     ObjectOutputStream outStream = null;
     MailServerModel model = null;
 
     List<Runnable> pool_thread_server;
-    EmailController email_controller;
+    EmailController email_controller;*/
 
+    MailServerModel model;
+    List<ClientRequestHandler> pool_requestHandler_threads;
 
     /**
      * Il server si mette in ascolto su una determinata porta e serve i client.
@@ -31,7 +33,7 @@ public class MailServerApplication extends Application {
      * NB: Ogni volta che ricevo un client devo creare un thread che lo serva
      *
      * @param port la porta su cui è in ascolto il server.
-     */
+
     public void listen(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
@@ -51,9 +53,9 @@ public class MailServerApplication extends Application {
                     e.printStackTrace();
                 }
         }
-    }
+    } */
 /**
- * Genera un thread che serve la richiesta ricevuta*/
+ * Genera un thread che serve la richiesta ricevuta
     private void getRequest(ServerSocket serverSocket) throws IOException {
         openStreams(serverSocket);
         Runnable clientHandler = () -> {
@@ -64,9 +66,9 @@ public class MailServerApplication extends Application {
         thread.start();
         pool_thread_server.add(thread);
         System.out.println("dimensione lista thread a servire client: "+pool_thread_server.size());
-    }
+    }*/
     /**
-     * usa java reflection per identificare tipo di messaggio ricevuto*/
+     * usa java reflection per identificare tipo di messaggio ricevuto
     private void serveClient(ServerSocket serverSocket) {
         try {
             Object message=inStream.readObject();
@@ -74,7 +76,7 @@ public class MailServerApplication extends Application {
                 /**
                  * Riceve un email address da un client che vuole loggarsi,
                  * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
-                 * */
+                 *
                 System.out.println(message + " vuole loggarsi");
                 String email_addr = message.toString();
                 Mailbox mb_client = model.getMailbox(email_addr);
@@ -87,15 +89,16 @@ public class MailServerApplication extends Application {
             }
             if(message instanceof Email){
                 /**
-                 * Riceve una mail da un client, preleva i destinatari e inoltra la mail
-                 * */
+                 * Riceve una mail da un client
+                 *
                 Email to_forward= (Email) message;
                 System.out.println("Ho ricevuto la mail: "+to_forward);
                 // aggiorno il model
                 model.receiveEmail(to_forward);
                 /**
                  * Scriviamo nel log
-                 * */
+                 * preleva i destinatari e inoltra la mail
+                 *
                 //TODO scriverla nel file
             }
             outStream.flush();
@@ -128,6 +131,39 @@ public class MailServerApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    /**
+     * Il server si mette in ascolto su una determinata porta e serve i client.
+     * <p>
+     * NB: Ogni volta che ricevo un client devo creare un thread che lo serva
+     *
+     * @param port la porta su cui è in ascolto il server.
+     */
+
+    public void listen(int port) {
+        Socket socket = null;
+        try {
+            ServerSocket serverSocket = new ServerSocket(port);
+            while (true) {
+                socket = serverSocket.accept();
+                ClientRequestHandler requestHandler = new ClientRequestHandler(socket,model);
+                requestHandler.start();
+                pool_requestHandler_threads.add(requestHandler);
+                System.out.println("dimensione del pool di threads a servire i client: "
+                        +pool_requestHandler_threads.size());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (socket!=null)
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
     @Override
@@ -139,19 +175,17 @@ public class MailServerApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        pool_thread_server = new ArrayList<>();
+        model= new MailServerModel();
+        pool_requestHandler_threads = new ArrayList<>();
+        /**Thread che si mette in ascolto delle richieste*/
         Runnable server = () -> {
             //Ci mettiamo in ascolto
             listen(4440);
         };
-        //creiamo un thread che rimane in ascolto di richieste
-        //TODO usare il thread main per andare in listen o capire perché ne creiamo un altro
-        Thread listenRequests = new Thread(server);
-        listenRequests.start();
+        Thread requestsListener = new Thread(server);
+        requestsListener.start();
 
-        email_controller = fxmlLoader.getController();
-        model= new MailServerModel();
-        model.loadData();
+        EmailController email_controller = fxmlLoader.getController();
         email_controller.initModel(model);
     }
 

@@ -7,9 +7,8 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,10 +17,14 @@ import com.opencsv.CSVReader;
 
 public class MailServerModel {
 
- //lista di caselle di posta
+
+ /**lista di caselle di posta*/
     private final ObservableList<Mailbox> mailboxes = FXCollections.observableArrayList(mailbox ->
             new Observable[] {mailbox.emailAddressProperty()});
 
+    public MailServerModel(){
+        loadData();
+    }
     public void loadData() {
 
         /******************************** LETTURA UTENTI **************************************/
@@ -78,7 +81,7 @@ public class MailServerModel {
 
     }
 
-    public void removeMailbox(Mailbox mailbox) {
+    public synchronized void removeMailbox(Mailbox mailbox) {
         this.mailboxes.remove(mailbox);
     }
 
@@ -86,7 +89,7 @@ public class MailServerModel {
         return this.mailboxes;
     }
 
-    public Mailbox getMailbox(String em_addr) {
+    public synchronized Mailbox getMailbox(String em_addr) {
         for(Mailbox mailbox: mailboxes){
             if (mailbox.getEmailAddress().equals(em_addr)){
                 return mailbox;
@@ -98,7 +101,7 @@ public class MailServerModel {
 
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
-    public void receiveEmail(Email email) {
+    public synchronized void receiveEmail(Email email) {
         for (String recipient : email.getRecipientsList()) {
             for (Mailbox mailbox : mailboxes) {
                 if (mailbox.getEmailAddress().equals(recipient)) {

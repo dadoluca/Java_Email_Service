@@ -38,7 +38,7 @@ public class ClientController {
 
 
         lblUsername.setText(model.mailbox.getEmailAddress());
-        lstEmails.setItems(model.mailbox.getEmailList());
+        lstEmails.setItems(model.mailbox.getObsEmailList());
 
 
         lstEmails.setCellFactory(lv -> new ListCell<Email>() {

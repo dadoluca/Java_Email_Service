@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,10 @@ public class Mailbox {
     //private final ObservableList<Email> emailsList;
 
     private final ObservableList<Email> emailList;
-    public ObservableList<Email> getEmailList() {
+    public ArrayList<Email> getEmailList() {
+        return new ArrayList<Email>(emailList);
+    }
+    public ObservableList<Email> getObsEmailList() {
         return emailList;
     }
 
@@ -51,3 +55,5 @@ public class Mailbox {
         this.emailList.add(email);
     }
 }
+
+
