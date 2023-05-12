@@ -3,6 +3,7 @@ package com.example.mailservice.mailserver;
 import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
 import com.opencsv.exceptions.CsvValidationException;
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -116,8 +117,7 @@ public class MailServerModel {
                         /**
                          * la mail viene stampata nel log
                          * */
-                        logRecords.add("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate());
-
+                        Platform.runLater(() -> logRecords.add("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
                         /**
                          *  la mail viene salvata nel csv
                          * */
