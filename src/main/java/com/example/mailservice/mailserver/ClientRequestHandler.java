@@ -49,6 +49,8 @@ public class ClientRequestHandler extends Thread {
                 if (mb_client == null)
                     outStream.writeObject("FALSE");
                 else {
+                    //l'utente esiste
+                    model.addLogRecords("L'utente "+mb_client.getEmailAddress()+ " si è loggato");
                     outStream.writeObject("TRUE");
                     outStream.writeObject(mb_client.getEmailList());
                 }

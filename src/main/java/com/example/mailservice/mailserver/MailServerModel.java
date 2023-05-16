@@ -10,9 +10,11 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.opencsv.CSVReader;
 
@@ -22,6 +24,9 @@ public class MailServerModel {
  /**lista di caselle di posta*/
 
     private ObservableList<String> logRecords= FXCollections.observableArrayList();
+    public void addLogRecords(String record){
+        logRecords.add(record);
+    }
 
     public ObservableList<String> getLogRecords(){
         return this.logRecords;
@@ -29,6 +34,8 @@ public class MailServerModel {
 
     private final ObservableList<Mailbox> mailboxes = FXCollections.observableArrayList(mailbox ->
             new Observable[] {mailbox.emailAddressProperty()});
+
+    private int nextId; //prossimo email id da assegnare
 
     public MailServerModel(){
         loadData();
@@ -58,8 +65,10 @@ public class MailServerModel {
 
         try {
             CSVReader reader2 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/email.csv"));
+            System.out.println(System.getProperty("user.dir"));
             //salto l'intestazione
             String[] line  = reader2.readNext();
+            Email e = null;
             while ((line = reader2.readNext()) != null) {
                 int id = Integer.parseInt(line[0]);
                 int replyID = Integer.parseInt(line[1]);
@@ -76,10 +85,11 @@ public class MailServerModel {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime date = LocalDateTime.parse(line[6], formatter);
                 // Do something with the values
-                Email e = new Email(id, replyID,sender,recipientArrayList,subject,
+                e = new Email(id, replyID,sender,recipientArrayList,subject,
                         text, date);
                 receiveEmail(e,false);
             }
+            nextId = e != null ? e.getId()+1 : 0;
             reader2.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,8 +116,6 @@ public class MailServerModel {
         return null;
     }
 
-
-
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized void receiveEmail(Email email,boolean isNew) throws IOException {
         for (String recipient : email.getRecipientsList()) {
@@ -117,20 +125,30 @@ public class MailServerModel {
                         /**
                          * la mail viene stampata nel log
                          * */
-                        Platform.runLater(() -> logRecords.add("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
+                        Platform.runLater(() -> this.addLogRecords("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
+
                         /**
                          *  la mail viene salvata nel csv
-                         * */
-                        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv"));
-                        //writer.println(email.toCSV());
+                         **/
+                        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv",true));
+
+                        /**
+                         * Gestione accesso alla variabile condivisa nextId
+                         *
+                        synchronized (this){*/
+                            writer.println();
+                            writer.print(email.toCSV(nextId));
+                            //System.out.println("scrivo "+email.toCSV(nextId));
+                            nextId++;
+                       /* }*/
                         writer.close();
+
                     }
                     mailbox.addEmail(email);
                     break;
                 }
             }
         }
-
     }
 
 }

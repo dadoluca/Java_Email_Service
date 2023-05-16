@@ -1,0 +1,7 @@
+"id","replyID","sender","recipients","subject","text","date"
+0,-1,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","prima mail","ciao amici",2023-03-29T09:22
+1,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","un solo destinatario mail","ciao luca come va?",2023-03-29T10:05
+2,1,"luca.dadone@gmail.com","riad.muska@gmail.com","un solo destinatario mail","bene grazie tu?",2023-03-29T10:22
+3,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","ciao","ciao benox sei special",2023-05-16T12:09
+4,-1,"luca.dadone@gmail.com","riad.muska@gmail.com","ciao","ciao fr",2023-05-16T12:09
+5,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","ciao","ciaooooooo :)",2023-05-16T12:31

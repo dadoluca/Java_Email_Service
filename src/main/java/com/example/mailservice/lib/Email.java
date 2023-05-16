@@ -116,4 +116,19 @@ public class Email implements Serializable {
         return "Sender: " + getSender() + "; Subject: " + getSubject();
     }
 
+    public String getRecipientsString() {
+        StringBuilder s = new StringBuilder("\"");
+        for(int i = 0; i < recipients.size(); i++)
+        {
+            s.append(recipients.get(i));
+            if(recipients.size()-1 > i)
+                s.append(",");
+        }
+
+        s.append("\"");
+        return s.toString();
+    }
+    public String toCSV(int id){
+        return  id + "," + this.replyId + ",\"" + this.sender + "\"," + this.getRecipientsString() + ",\"" + this.subject + "\",\"" + this.text + "\"," + this.date.withSecond(0).withNano(0);  }
+
 }
