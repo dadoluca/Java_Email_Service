@@ -1,5 +1,6 @@
 package com.example.mailservice.lib;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -33,7 +34,7 @@ public class Mailbox {
 
     }
     public void addEmail(Email email) {
-        this.emailList.add(email);
+        Platform.runLater(() -> this.emailList.add(email));
     }
 }
 

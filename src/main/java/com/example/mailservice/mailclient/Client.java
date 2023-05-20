@@ -22,8 +22,8 @@ import java.util.Objects;
 
 public class Client {
     Socket socket = null;
-    ObjectOutputStream outputStream = null;
-    ObjectInputStream inputStream = null;
+    ObjectOutputStream outStream = null;
+    ObjectInputStream inStream = null;
     Mailbox mailbox;
 
 
@@ -52,14 +52,16 @@ public class Client {
             success = tryLoginCommunication(host, port);
 
             if(success) {
-                System.out.println("Sono loggato");
-                /**Thread che si mette in ascolto della ricezione di email
+                System.out.println("Sono loggato come: "+this.mailbox.getEmailAddress());
+                /**
+                 * Thread che si mette in ascolto della ricezione di email
+                 * */
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
-                    listen(4440);
+                    listenForEmails();
                 };
-                Thread requestsListener = new Thread(server);
-                requestsListener.start();*/
+                Thread serverListener = new Thread(listener);
+                serverListener.start();
                 continue;
             }
 
@@ -77,15 +79,16 @@ public class Client {
         try {
             connectToServer(host, port);
 
-            outputStream.writeObject(this.mailbox.getEmailAddress());
+            outStream.writeObject(this.mailbox.getEmailAddress());
             //outputStream.writeObject("ciao sono il client");
-            outputStream.flush();
+            outStream.flush();
             List<Email> emailsList;
 
-            String success = (String) inputStream.readObject();
+            String success = (String) inStream.readObject();
             if(Objects.equals(success, "TRUE"))
             {
-                emailsList = (List<Email>) inputStream.readObject();
+                //legge la sua mailbox inviata dal server
+                emailsList = (List<Email>) inStream.readObject();
                 for(Email em : emailsList){
                     this.mailbox.addEmail(em);
                     //this.inboxContent.add(em);
@@ -94,7 +97,6 @@ public class Client {
             }
 
             else{
-
                 return false;
             }
             return true;
@@ -105,19 +107,18 @@ public class Client {
             e.printStackTrace();
             return false;
         } finally {
-            closeConnections();
+            //closeStreams();
         }
     }
 
     private synchronized void tryCommunicationEmail(String host, int port,Email to_send) {
         try {
-            connectToServer(host, port);
+            //connectToServer(host, port);
 
-            outputStream.writeObject(to_send);
-            outputStream.flush();
-            List<Email> emailsList;
+            outStream.writeObject(to_send);
+            outStream.flush();
 
-            /* per sapere se l'invio è avvenuto con successo
+            /* per sapere se l'invio è avvenuto con successo NON NECESSARIO
             String success = (String) inputStream.readObject();
             if(Objects.equals(success, "TRUE")){System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());}
             else{return false;}
@@ -126,15 +127,15 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            closeConnections();
+            //closeStreams();
         }
     }
 
     private void closeConnections() {
         if (socket != null) {
             try {
-                inputStream.close();
-                outputStream.close();
+                inStream.close();
+                outStream.close();
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -143,14 +144,14 @@ public class Client {
     }
     private void connectToServer(String host, int port) throws IOException {
         socket = new Socket(host, port);
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outStream = new ObjectOutputStream(socket.getOutputStream());
 
         // Dalla documentazione di ObjectOutputStream
         // callers may wish to flush the stream immediately to ensure that constructors for receiving
         // ObjectInputStreams will not block when reading the header.
-        outputStream.flush();
+        outStream.flush();
 
-        inputStream = new ObjectInputStream(socket.getInputStream());
+        inStream = new ObjectInputStream(socket.getInputStream());
 
         //System.out.println("[Client luca.dadone01@gmail.com] Connesso");
     }
@@ -166,29 +167,45 @@ public class Client {
         Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),destinatari,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
     }
-/*
-    public void listen(int port) {
-        Socket socket = null;
+
+    //------------------------------ ascolto della ricezione di email dal server
+    public void listenForEmails() {
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
-                socket = serverSocket.accept();
-                ClientRequestHandler requestHandler = new ClientRequestHandler(socket,model);
-                requestHandler.start();
-                pool_requestHandler_threads.add(requestHandler);
-                System.out.println("dimensione del pool di threads a servire i client: "
-                        +pool_requestHandler_threads.size());
+                Object message = inStream.readObject();
+                if (message instanceof Email received_email) {
+                    /**
+                     * Riceve una mail dal server
+                     **/
+                    System.out.println("Ho ricevuto la mail: " + received_email);
+                    this.mailbox.addEmail(received_email);
+                }
+                else{//errore
+                    System.out.println(message.toString());
+                }
+                //outStream.flush();
+
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            closeStreams();
+            throw new RuntimeException(e);
+        } finally {
+            closeStreams();
+        }
+    }
+
+    private void closeStreams() {
+        try {
+            if (inStream != null) {
+                inStream.close();
             }
 
+            if (outStream != null) {
+                outStream.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (socket!=null)
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
         }
-    }*/
+    }
+
 }
