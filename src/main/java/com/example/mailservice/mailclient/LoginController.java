@@ -21,31 +21,36 @@ public class LoginController {
 
     private int port;
 
+    private Client model=null;
+
     private void initModel(Client client) {
         // ensure model is only set once:
-        if (this.client != null) {
+        /*if (this.client != null) {
             throw new IllegalStateException("Model can only be initialized once");
-        }
-
+        }*/
+        //else
         this.client = client;
-
         host = "127.0.0.1";
         port = 4440;
     }
 
     @FXML
     protected void onBtnLoginClick(ActionEvent e) throws IOException {
-
         String mail_addr = txtEmail.getText();
-        Client model = new Client(mail_addr);
-        initModel(model);
-        boolean success = client.login(host,port);
-        if(success){
+        if (model == null) {
+            model = new Client(mail_addr);
+            initModel(model);
+        }
+        boolean success = client.login(host, port);
+        if (success) {
             switchToNewView(e);
-        }else {
+        } else {
             welcomeText.setText("Utente non registrato");
+            model = null;
+            txtEmail.setText("");
         }
     }
+
 
     @FXML
     private void switchToNewView(ActionEvent event) throws IOException {

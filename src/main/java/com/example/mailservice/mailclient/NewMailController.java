@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class NewMailController {
@@ -34,8 +35,12 @@ public class NewMailController {
         String oggetto=txtOggetto.getText();
         String destinatari=txtDestinatari.getText();
         String contenuto=txtContenuto.getText();
-
-        client.newEmail(host, port,destinatari,oggetto,contenuto);
+        ArrayList<String>dest=new ArrayList<>();
+        String[]splitted=destinatari.split(",");
+        for (int i=0;i<splitted.length;i++){
+            dest.add(splitted[i]);
+        }
+        client.newEmail(host, port,dest,oggetto,contenuto);
     }
 
 }

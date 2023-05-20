@@ -160,10 +160,8 @@ public class Client {
         System.out.println("tutto ok per ora, sto eliminando: "+e.toString());
     }
 
-    public void newEmail(String host, int port,String dest,String oggetto,String contenuto){
-        List<String> destinatari= new ArrayList<>();
-        destinatari.add(dest);
-        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),destinatari,oggetto,contenuto, LocalDateTime.now());
+    public void newEmail(String host, int port,ArrayList<String> dest,String oggetto,String contenuto){
+        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
     }
 /*

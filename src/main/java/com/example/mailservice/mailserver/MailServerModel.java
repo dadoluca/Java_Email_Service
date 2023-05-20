@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.opencsv.CSVReader;
 
@@ -85,8 +86,7 @@ public class MailServerModel {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime date = LocalDateTime.parse(line[6], formatter);
                 // Do something with the values
-                e = new Email(id, replyID,sender,recipientArrayList,subject,
-                        text, date);
+                e = new Email(id, replyID,sender,recipientArrayList,subject, text, date);
                 receiveEmail(e,false);
             }
             nextId = e != null ? e.getId()+1 : 0;
@@ -118,37 +118,61 @@ public class MailServerModel {
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized void receiveEmail(Email email,boolean isNew) throws IOException {
+        String message="";//stringa di messaggio composta, in modo che il server possa inviare al client l''errore
+        boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
+        System.out.println("lista destinatari: "+email.getRecipientsList().toString());
+        System.out.println("nella posizione 0 di RecipientList"+email.getRecipientsList().get(0));
         for (String recipient : email.getRecipientsList()) {
-            for (Mailbox mailbox : mailboxes) {
-                if (mailbox.getEmailAddress().equals(recipient)) {
-                    if(isNew){/** nuova mail */
-                        /**
-                         * la mail viene stampata nel log
-                         * */
-                        Platform.runLater(() -> this.addLogRecords("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
+            System.out.println("recipiente x: "+recipient);
+            founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
+            if(!isValidEmail(recipient)){
+                message+=recipient+" non è una mail sintatticamente giusta, ";
+            }
+            else {//se la mail è sintatticamente sbagliata non controllo nemmeno se il destinatario esiste
+                for (Mailbox mailbox : mailboxes) {
+                    if (mailbox.getEmailAddress().equals(recipient)) {
+                        founded=true;
+                        if(isNew){/** nuova mail */
+                            /**
+                             * la mail viene stampata nel log
+                             * */
+                            Platform.runLater(() -> this.addLogRecords("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
 
-                        /**
-                         *  la mail viene salvata nel csv
-                         **/
-                        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv",true));
+                            /**
+                             *  la mail viene salvata nel csv
+                             **/
+                            PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv",true));
 
-                        /**
-                         * Gestione accesso alla variabile condivisa nextId
-                         *
-                        synchronized (this){*/
+                            /**
+                             * Gestione accesso alla variabile condivisa nextId
+                             *
+                             synchronized (this){*/
                             writer.println();
                             writer.print(email.toCSV(nextId));
                             //System.out.println("scrivo "+email.toCSV(nextId));
                             nextId++;
-                       /* }*/
-                        writer.close();
+                            /* }*/
+                            writer.close();
 
+                        }
+                        mailbox.addEmail(email);
+                        break;
                     }
-                    mailbox.addEmail(email);
-                    break;
+                }
+                if(!founded){
+                    message+=recipient+" non è un cliente esistente, ";
                 }
             }
         }
+        System.out.println(" messaggio che dovrei restituire al client::::: "+message);
+        if(!message.equals("")){
+            //TODO DEVO DIRE AL CLIENTE CHE LA SUA MAIL PRESENTA ERRORI
+        }
+
+    }
+    public static boolean isValidEmail(String email) {//Funzione per verificare la correttezza sintattica di una mail
+        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return Pattern.matches(regex, email);
     }
 
 }
