@@ -6,9 +6,10 @@ import java.net.Socket;
 
 import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
-import javafx.beans.Observable;
+import javafx.application.Platform;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 public class ClientRequestHandler extends Thread {
     MailServerModel model;
@@ -17,7 +18,7 @@ public class ClientRequestHandler extends Thread {
     Socket socket;
 
 
-    public ClientRequestHandler(Socket socket, MailServerModel model){
+    public ClientRequestHandler(Socket socket, MailServerModel model) {
         this.socket = socket;
         this.model = model;
     }
@@ -25,11 +26,13 @@ public class ClientRequestHandler extends Thread {
     public void run() {
         try {
             openStreams();
+            serveClient();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        serveClient();
-        closeStreams();
+        finally {
+            closeStreams();
+        }
     }
 
     /**
@@ -37,41 +40,51 @@ public class ClientRequestHandler extends Thread {
      */
     private void serveClient() {
         try {
-            Object message = inStream.readObject();
-            if (message instanceof String) {
-                /**
-                 * Riceve un email address dal client che vuole loggarsi,
-                 * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
-                 **/
-                System.out.println(message + " vuole loggarsi");
-                String email_addr = message.toString();
-                Mailbox mb_client = model.getMailbox(email_addr);
-                if (mb_client == null)
-                    outStream.writeObject("FALSE");
-                else {
-                    //l'utente esiste
-                    model.addLogRecords("L'utente "+mb_client.getEmailAddress()+ " si è loggato");
-                    outStream.writeObject("TRUE");
-                    outStream.writeObject(mb_client.getEmailList());
-                }
-            }
-            if (message instanceof Email) {
-                /**
-                 * Riceve una mail dal client
-                 **/
-                Email to_forward = (Email) message;
-                System.out.println("Ho ricevuto la mail: " + to_forward);
-                model.receiveEmail(to_forward,true);
-                /**
-                 * preleva i destinatari e inoltra la mail
-                 **/
+             while (true) {
+                    Object message = inStream.readObject();
+                    if (message instanceof String) {
+                        /**
+                         * Riceve un email address dal client che vuole loggarsi,
+                         * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
+                         **/
+                        System.out.println(message + " vuole loggarsi");
+                        String email_addr = message.toString();
+                        Mailbox mb_client = model.getMailbox(email_addr);
+                        if (mb_client == null)
+                            outStream.writeObject("FALSE");
+                        else {//l'utente esiste
+                            /**
+                             * aggiungiamo il socket del client alla mappa dei email_addr - sockets
+                             * */
+                            model.addClientSocket(email_addr, this.socket, this.outStream, this.inStream);
 
+                            //stampa nel log
+                            Platform.runLater(() -> model.addLogRecords("L'utente " + mb_client.getEmailAddress() + " si è loggato"));
+
+                            //invia al client la sua mailbox
+                            outStream.writeObject("TRUE");
+                            outStream.writeObject(mb_client.getEmailList());
+                            outStream.flush();
+                        }
+                    }
+                    if (message instanceof Email) {
+                        /**
+                         * Riceve una mail dal client
+                         **/
+                        Email to_forward = (Email) message;
+                        System.out.println("Ho ricevuto la mail: " + to_forward);
+                        model.receiveEmail(to_forward, true);//scrive nel log e su csv
+                        /**
+                         * preleva i destinatari e inoltra la mail
+                         **/
+                        for (String recepient : to_forward.getRecipientsList()) {
+                            tryCommunicationEmail(to_forward, recepient);
+                        }
+
+                    }
             }
-            outStream.flush();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            closeStreams();
         }
     }
 
@@ -92,6 +105,26 @@ public class ClientRequestHandler extends Thread {
             if (outStream != null) {
                 outStream.close();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //--------------------------- inoltro mail ai clients
+    private synchronized void tryCommunicationEmail(Email to_send, String recipient) {
+        try {
+            model.getClientObjectOutputStream(recipient).flush();
+            model.getClientObjectOutputStream(recipient).writeObject(to_send);
+            model.getClientObjectOutputStream(recipient).flush();
+
+            /** TODO per sapere se l'invio è avvenuto con successo
+            String success = (String) inStream.readObject();
+            if(Objects.equals(success, "TRUE")){
+                model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
+            }*/
+        } catch (SocketException e) {
+            //eccezione quando il socket è chiuso
+            System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
