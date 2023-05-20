@@ -73,14 +73,19 @@ public class ClientRequestHandler extends Thread {
                          **/
                         Email to_forward = (Email) message;
                         System.out.println("Ho ricevuto la mail: " + to_forward);
-                        model.receiveEmail(to_forward, true);//scrive nel log e su csv
+                        String resulOfReceviveEmail=model.receiveEmail(to_forward, true);
+                        if(!resulOfReceviveEmail.equals("RECIPPIENTS_ERROR:"))//scrive nel log e su csv e controlla eventuali errori
+                        {
+                            tryErrorCommunicationEmail(resulOfReceviveEmail, to_forward.getSender());
+                        }
                         /**
                          * preleva i destinatari e inoltra la mail
                          **/
-                        for (String recepient : to_forward.getRecipientsList()) {
-                            tryCommunicationEmail(to_forward, recepient);
+                        else{// se non ci sono errori procede all'inoltro
+                            for (String recepient : to_forward.getRecipientsList()) {
+                                tryCommunicationEmail(to_forward, recepient);
+                            }
                         }
-
                     }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -122,6 +127,24 @@ public class ClientRequestHandler extends Thread {
             if(Objects.equals(success, "TRUE")){
                 model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
             }*/
+        } catch (SocketException e) {
+            //eccezione quando il socket è chiuso
+            System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private synchronized void tryErrorCommunicationEmail(String to_send, String recipient) {
+        try {
+            model.getClientObjectOutputStream(recipient).flush();
+            model.getClientObjectOutputStream(recipient).writeObject(to_send);
+            model.getClientObjectOutputStream(recipient).flush();
+
+            /** TODO per sapere se l'invio è avvenuto con successo
+             String success = (String) inStream.readObject();
+             if(Objects.equals(success, "TRUE")){
+             model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
+             }*/
         } catch (SocketException e) {
             //eccezione quando il socket è chiuso
             System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());

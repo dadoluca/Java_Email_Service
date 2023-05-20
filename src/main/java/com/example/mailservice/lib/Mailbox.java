@@ -1,8 +1,11 @@
 package com.example.mailservice.lib;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,7 +22,6 @@ public class Mailbox {
     public final void setEmailAddress(final String emailAddress){
         this.emailAddressProperty().set(emailAddress);
     }
-
     private final ObservableList<Email> emailList;
     public ArrayList<Email> getEmailList() {
         return new ArrayList<Email>(emailList);
@@ -27,14 +29,30 @@ public class Mailbox {
     public ObservableList<Email> getObsEmailList() {
         return emailList;
     }
+    private ObservableStringValue error;
+    public ObservableStringValue getObsError(){
+        return this.error;
+    }
+    public String getError()
+    {
+        return this.error.toString();
+    }
+
+
 
     public Mailbox(String emailAddress) {
         setEmailAddress(emailAddress);
         this.emailList = FXCollections.observableList(new LinkedList<>());
+        this.error=new SimpleStringProperty("");
 
     }
     public void addEmail(Email email) {
         Platform.runLater(() -> this.emailList.add(email));
+    }
+    public void putError(String err) {
+        Platform.runLater(() -> {
+            this.error = new SimpleStringProperty(err);
+        });
     }
 }
 

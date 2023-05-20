@@ -14,6 +14,8 @@ public class NewMailController {
     private TextField txtOggetto;
     @FXML
     private TextField txtContenuto;
+    @FXML
+    private TextField txtError;
     private Client client;
     private String host;
 
@@ -24,8 +26,12 @@ public class NewMailController {
         if (this.client != null) {
             throw new IllegalStateException("Model can only be initialized once");
         }
-
         this.client = client;
+        // Inizializza la textbox con il valore iniziale della proprietà error
+        txtError.setText(client.mailbox.getObsError().get());
+
+        // Crea un binding tra il valore della proprietà error e il testo del TextField
+        txtError.textProperty().bind(client.mailbox.getObsError());
 
         host = "127.0.0.1";
         port = 4440;

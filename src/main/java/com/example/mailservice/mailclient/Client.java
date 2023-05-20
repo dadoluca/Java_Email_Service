@@ -113,7 +113,6 @@ public class Client {
 
     private synchronized void tryCommunicationEmail(String host, int port,Email to_send) {
         try {
-            //connectToServer(host, port);
 
             outStream.writeObject(to_send);
             outStream.flush();
@@ -177,8 +176,10 @@ public class Client {
                      **/
                     System.out.println("Ho ricevuto la mail: " + received_email);
                     this.mailbox.addEmail(received_email);
-                }
-                else{//errore
+                } else if (message instanceof String) {//HO RICEVUTO UN ERRORE SUI DESTINATARI ERRATI
+                    System.out.println("ERRORE RICEVUTO::::::::: "+message.toString());
+                    mailbox.putError(message.toString());
+                } else {//errore
                     System.out.println(message.toString());
                 }
                 //outStream.flush();

@@ -168,13 +168,10 @@ public class MailServerModel {
     }
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
-    public synchronized void receiveEmail(Email email,boolean isNew) throws IOException {
-        String message="";//stringa di messaggio composta, in modo che il server possa inviare al client l''errore
+    public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
+        String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l''errore
         boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
-        System.out.println("lista destinatari: "+email.getRecipientsList().toString());
-        System.out.println("nella posizione 0 di RecipientList"+email.getRecipientsList().get(0));
         for (String recipient : email.getRecipientsList()) {
-            System.out.println("recipiente x: "+recipient);
             founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
             if(!isValidEmail(recipient)){
                 message+=recipient+" non è una mail sintatticamente giusta, ";
@@ -216,9 +213,7 @@ public class MailServerModel {
             }
         }
         System.out.println(" messaggio che dovrei restituire al client::::: "+message);
-        if(!message.equals("")){
-            //TODO DEVO DIRE AL CLIENTE CHE LA SUA MAIL PRESENTA ERRORI
-        }
+        return message;
 
     }
     public static boolean isValidEmail(String email) {//Funzione per verificare la correttezza sintattica di una mail
