@@ -56,18 +56,19 @@ public class ClientController {
                 } else {
                     String from = email.getSender();
                     String subject = email.getSubject();
-                    String text = String.format("From: %s\n%s", from, subject);
+                    String text = String.format("From: %s\nSubject: %s", from, subject);
                     setText(text);
                 }
             }
         });
         selected = null;
         lstEmails.setOnMouseClicked(this::showSelectedEmail);
+        txtEmailDetails.setEditable(false);
 
     }
     @FXML
     private void onBtnEliminaClick(){
-        model.deleteEmail(lstEmails.getSelectionModel().getSelectedItem());
+        model.deleteEmail(selected);
     }
     @FXML
     private void onBtnNuovaEmailClick(ActionEvent e) throws IOException {
@@ -89,7 +90,8 @@ public class ClientController {
 
     protected void updateDetailView(Email email) {
         if(email != null) {
-            txtEmailDetails.setText(email.getText());
+            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText());
+            txtEmailDetails.setText(text);
         }
     }
 }
