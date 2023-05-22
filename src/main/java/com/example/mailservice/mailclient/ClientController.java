@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
@@ -20,8 +22,12 @@ public class ClientController {
     @FXML
     private Label lblUsername;
     private Client model;
+
     private String host;
     private Email selected;
+
+    @FXML
+    private TextArea txtEmailDetails;
 
 
     private int port;
@@ -48,10 +54,16 @@ public class ClientController {
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(email.toString());
+                    String from = email.getSender();
+                    String subject = email.getSubject();
+                    String text = String.format("From: %s\n%s", from, subject);
+                    setText(text);
                 }
             }
         });
+        selected = null;
+        lstEmails.setOnMouseClicked(this::showSelectedEmail);
+
     }
     @FXML
     private void onBtnEliminaClick(){
@@ -67,5 +79,17 @@ public class ClientController {
 
         Scene scene = ((Node) e.getSource()).getScene();
         scene.setRoot(root);
+    }
+
+    protected void showSelectedEmail(MouseEvent mouseEvent) {
+        Email email = lstEmails.getSelectionModel().getSelectedItem();
+        selected = email;
+        updateDetailView(email);
+    }
+
+    protected void updateDetailView(Email email) {
+        if(email != null) {
+            txtEmailDetails.setText(email.getText());
+        }
     }
 }

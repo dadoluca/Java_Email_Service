@@ -8,10 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
+
+    private Stage primaryStage;
     @FXML
     private Label welcomeText;
     @FXML
@@ -57,10 +60,17 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
         Parent root = loader.load();
 
-        ClientController controller =  loader.getController();
+        ClientController controller = loader.getController();
         controller.initModel(client);
 
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(root);
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close(); // Chiudi la finestra precedente
+
+        Stage newStage = new Stage();
+        Scene scene = new Scene(root, 600, 500);
+        newStage.setScene(scene);
+        newStage.show();
     }
+
+
 }
