@@ -63,7 +63,7 @@ public class LoginController {
 
     @FXML
     private void switchToNewView(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("mailbox-view.fxml"));
         Parent root = loader.load();
 
         MailboxController controller = loader.getController();

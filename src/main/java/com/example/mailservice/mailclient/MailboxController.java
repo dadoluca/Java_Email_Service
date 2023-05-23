@@ -86,37 +86,39 @@ public class MailboxController {
     private void onBtnEliminaClick(){
         model.deleteEmail(selected);
     }
-    @FXML
-    private void onBtnNuovaEmailClick(ActionEvent e) throws IOException {
+
+    private void redirectToNewMailView(ActionEvent e, int action) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("new-mail-view.fxml"));
         Parent root = loader.load();
 
         NewMailController controller =  loader.getController();
         controller.initModel(model);
-
+        if(action>0){
+            if(selected!=null){
+                //imposta alla nuova vista l'email a cui deve rispondere
+                controller.setEmailtoReply(selected,action == 1 ? false : true);
+            }
+            else {
+                //TODO STAMPO UN MESSAGGIO:"SELEZIONARE LA MAIL PRIMA"
+            }
+        }
         Scene scene = ((Node) e.getSource()).getScene();
         scene.setRoot(root);
+    }
+    @FXML
+    private void onBtnNuovaEmailClick(ActionEvent e) throws IOException {
+        redirectToNewMailView(e,0);
     }
 
     @FXML
     protected void onBtnReplyClick(ActionEvent e)throws IOException{
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("new-mail-view.fxml"));
-        Parent root = loader.load();
-
-        NewMailController controller =  loader.getController();
-        controller.initModel(model);
-
-        if(selected!=null){
-            controller.setEmailtoReply(selected);   //imposta alla nuova vista l'email a cui deve rispondere
-        }
-        else {
-            //TODO STAMPO UN MESSAGGIO:"SELEZIONARE LA MAIL PRIMA"
-        }
-
-        Scene scene = ((Node) e.getSource()).getScene();
-        scene.setRoot(root);
+        redirectToNewMailView(e,1);
     }
+    @FXML
+    protected void onBtnReplyAllClick(ActionEvent e)throws IOException{
+        redirectToNewMailView(e,2);
+    }
+
 
     protected void showSelectedEmail(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
