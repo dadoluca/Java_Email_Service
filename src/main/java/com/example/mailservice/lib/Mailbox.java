@@ -29,30 +29,16 @@ public class Mailbox {
     public ObservableList<Email> getObsEmailList() {
         return emailList;
     }
-    private ObservableStringValue error;
-    public ObservableStringValue getObsError(){
-        return this.error;
-    }
-    public String getError()
-    {
-        return this.error.toString();
-    }
 
 
 
     public Mailbox(String emailAddress) {
         setEmailAddress(emailAddress);
         this.emailList = FXCollections.observableList(new LinkedList<>());
-        this.error=new SimpleStringProperty("");
 
     }
     public void addEmail(Email email) {
         Platform.runLater(() -> this.emailList.add(email));
-    }
-    public void putError(String err) {
-        Platform.runLater(() -> {
-            this.error = new SimpleStringProperty(err);
-        });
     }
 }
 

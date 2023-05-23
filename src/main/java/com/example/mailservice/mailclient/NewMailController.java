@@ -1,6 +1,7 @@
 package com.example.mailservice.mailclient;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.text.SimpleDateFormat;
@@ -15,7 +16,7 @@ public class NewMailController {
     @FXML
     private TextField txtContenuto;
     @FXML
-    private TextField txtError;
+    private Label txtDestinatariError;
     private Client client;
     private String host;
 
@@ -27,26 +28,29 @@ public class NewMailController {
             throw new IllegalStateException("Model can only be initialized once");
         }
         this.client = client;
-        // Inizializza la textbox con il valore iniziale della proprietà error
-        txtError.setText(client.mailbox.getObsError().get());
-
-        // Crea un binding tra il valore della proprietà error e il testo del TextField
-        txtError.textProperty().bind(client.mailbox.getObsError());
-
         host = "127.0.0.1";
         port = 3456;
     }
 
     @FXML private void onBtnInviaClick(){
-        String oggetto=txtOggetto.getText();
         String destinatari=txtDestinatari.getText();
-        String contenuto=txtContenuto.getText();
         ArrayList<String>dest=new ArrayList<>();
+        boolean correctEmail = true;
         String[]splitted=destinatari.split(",");
-        for (int i=0;i<splitted.length;i++){
-            dest.add(splitted[i]);
+        for (int i=0;i<splitted.length && correctEmail;i++){
+            if(Client.isValidEmail(splitted[i]))
+                dest.add(splitted[i]);
+            else
+                correctEmail = false;
         }
-        client.newEmail(host, port,dest,oggetto,contenuto);
+        if(correctEmail){
+            String oggetto=txtOggetto.getText();
+            String contenuto=txtContenuto.getText();
+            client.newEmail(host, port,dest,oggetto,contenuto);
+        }else{
+            txtDestinatariError.setText("Mail non valida");
+        }
+
     }
 
 }

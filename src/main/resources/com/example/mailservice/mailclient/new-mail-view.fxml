@@ -5,9 +5,8 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
    <children>
-      <Label text="A:" />
       <TextField fx:id="txtDestinatari" />
-      <TextField fx:id="txtError" />
+      <Label fx:id="txtDestinatariError"/>
       <Label layoutX="10.0" layoutY="10.0" text="Oggetto:" />
       <TextField fx:id="txtOggetto" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="334.0" />
       <Label layoutX="10.0" layoutY="53.0" text="Testo:" />
