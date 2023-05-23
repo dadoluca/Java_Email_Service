@@ -2,6 +2,7 @@ module com.example.mailservice {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.opencsv;
+    requires org.controlsfx.controls;
 
     opens com.example.mailservice to javafx.fxml;
     exports com.example.mailservice;

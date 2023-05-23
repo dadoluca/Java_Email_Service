@@ -1,5 +1,6 @@
 package com.example.mailservice.lib;
 
+import com.example.mailservice.mailclient.Client;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;

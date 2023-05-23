@@ -3,10 +3,13 @@ package com.example.mailservice.mailclient;
 import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
 import com.example.mailservice.mailserver.ClientRequestHandler;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
-
+import org.controlsfx.control.Notifications;
 public class Client {
     Socket socket = null;
     ObjectOutputStream outStream = null;
@@ -181,6 +184,8 @@ public class Client {
                      **/
                     System.out.println("Ho ricevuto la mail: " + received_email);
                     this.mailbox.addEmail(received_email);
+                    Platform.runLater(()-> Client.showAlert(received_email,this.mailbox.getEmailAddress()));
+
                 } else if (message instanceof String) {//HO RICEVUTO UN ERRORE SUI DESTINATARI ERRATI
                     System.out.println("ERRORE RICEVUTO::::::::: "+message.toString());
                 } else {//errore
@@ -216,6 +221,25 @@ public class Client {
     public static boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         return Pattern.matches(regex, email);
+    }
+
+    public static void showAlert(Email e, String client){
+
+        String imagePath = System.getProperty("user.dir") + "/src/main/java/com/example/mailservice/mailclient/assets/user.jpg";
+
+        ImageView imageView = new ImageView(imagePath);
+        imageView.setFitWidth(50); // Imposta la larghezza desiderata dell'immagine
+        imageView.setFitHeight(50); // Imposta l'altezza desiderata dell'immagine
+        String notificationText = "From: " + e.getSender() + "\n" +
+                "Subject: " + ( e.getSubject().length() >= 30 ? e.getSubject().substring(0,30) : e.getSubject());
+
+        Notifications.create()
+                .title(client)
+                .text(notificationText)
+                .graphic(imageView)
+//                .darkStyle()
+                .hideAfter(Duration.INDEFINITE)
+                .show();
     }
 
 }
