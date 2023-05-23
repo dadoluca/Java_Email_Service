@@ -8,7 +8,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -21,7 +26,7 @@ public class NewMailController {
     @FXML
     private TextField txtOggetto;
     @FXML
-    private TextField txtContenuto;
+    private TextArea txtContenuto;
     @FXML
     private Label txtDestinatariError;
     private Client client;
@@ -40,16 +45,32 @@ public class NewMailController {
         port = 3456;
     }
 
-    public void setEmailtoReply(Email e, boolean isAReplyAll) {
+    public void setEmailtoReply(Email e, int action) {
         this.to_reply = e;
         String destinatari = e.getSender();
-        if (isAReplyAll) {
-            for (String recipient : e.getRecipientsList()) {
-                if(!recipient.equals(this.client.mailbox.getEmailAddress()))
-                    destinatari += ",   " + recipient;
-            }
+        switch (action){
+            case 1 :
+                txtDestinatari.setText(destinatari);
+                break;
+            case 2:
+                for (String recipient : e.getRecipientsList()) {
+                    if(!recipient.equals(this.client.mailbox.getEmailAddress()))
+                        destinatari += ",   " + recipient;
+                }
+                txtDestinatari.setText(destinatari);
+                break;
+            case 3:
+                txtOggetto.setText(e.getSubject());
+                String text = String.format("------- foreward message -------\n" +
+                                "From: <"+e.getSender()+">\n"+
+                                "Date: "+e.getDate().toString()+"\n"+
+                                "Subject: "+e.getSubject()+"\n"+
+                                "To: "+e.getRecipientsString()+"\n\n" +
+                        e.getText()+"\n\n");
+                txtContenuto.setText(text);
         }
-        txtDestinatari.setText(destinatari);
+
+
     }
 
     @FXML

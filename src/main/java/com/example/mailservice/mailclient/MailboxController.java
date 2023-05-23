@@ -96,7 +96,7 @@ public class MailboxController {
         if(action>0){
             if(selected!=null){
                 //imposta alla nuova vista l'email a cui deve rispondere
-                controller.setEmailtoReply(selected,action == 1 ? false : true);
+                controller.setEmailtoReply(selected,action);
             }
             else {
                 //TODO STAMPO UN MESSAGGIO:"SELEZIONARE LA MAIL PRIMA"
@@ -106,9 +106,10 @@ public class MailboxController {
         scene.setRoot(root);
     }
     @FXML
-    private void onBtnNuovaEmailClick(ActionEvent e) throws IOException {
+    private void onBtnNewEmailClick(ActionEvent e) throws IOException {
         redirectToNewMailView(e,0);
     }
+
 
     @FXML
     protected void onBtnReplyClick(ActionEvent e)throws IOException{
@@ -119,6 +120,10 @@ public class MailboxController {
         redirectToNewMailView(e,2);
     }
 
+    @FXML
+    private void onBtnForewardClick(ActionEvent e) throws IOException {
+        redirectToNewMailView(e,3);
+    }
 
     protected void showSelectedEmail(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
