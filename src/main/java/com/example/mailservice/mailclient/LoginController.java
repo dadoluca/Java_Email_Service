@@ -73,7 +73,7 @@ public class LoginController {
         currentStage.close(); // Chiudi la finestra precedente
 
         Stage newStage = new Stage();
-        Scene scene = new Scene(root, 600, 450);
+        Scene scene = new Scene(root, 900, 600);
         newStage.setScene(scene);
         newStage.show();
     }

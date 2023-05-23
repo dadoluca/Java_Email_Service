@@ -41,6 +41,19 @@ public class Mailbox {
     public void addEmail(Email email) {
         Platform.runLater(() -> this.emailList.add(email));
     }
+
+    public void removeEmail(int id){
+        Email to_remove=null;
+        int index=0;
+        for(int i=0;i<this.emailList.size();i++){
+            if(this.emailList.get(i).getId()==id){
+                to_remove=this.emailList.get(i);
+                index=i;
+            }
+        }
+        final Email finalTo_remove = to_remove;
+        Platform.runLater(() -> this.emailList.remove(finalTo_remove));
+    }
 }
 
 

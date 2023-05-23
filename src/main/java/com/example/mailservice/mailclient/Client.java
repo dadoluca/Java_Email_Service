@@ -158,10 +158,11 @@ public class Client {
 
         //System.out.println("[Client luca.dadone01@gmail.com] Connesso");
     }
-    public void deleteEmail(Email e){
-        //this.inboxContent.remove(e);
+    public void deleteEmail(String host, int port,Email e,String client_address){
         //TODO: aggiornare file e lista del controller rimuovendo la mail
-        System.out.println("tutto ok per ora, sto eliminando: "+e.toString());
+        String send_to_server="DELETE-"+e.getId()+"-"+client_address;
+        tryCommunicationDeleteEmail(host,port,send_to_server);
+        this.mailbox.removeEmail(e.getId());
     }
 
     public void newEmail(String host, int port,ArrayList<String> dest,String oggetto,String contenuto){
@@ -240,6 +241,24 @@ public class Client {
 //                .darkStyle()
                 .hideAfter(Duration.INDEFINITE)
                 .show();
+    }
+
+    private synchronized void tryCommunicationDeleteEmail(String host, int port,String to_send) {
+        try {
+            outStream.writeObject(to_send);
+            outStream.flush();
+
+            /* per sapere se l'invio è avvenuto con successo NON NECESSARIO
+            String success = (String) inputStream.readObject();
+            if(Objects.equals(success, "TRUE")){System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());}
+            else{return false;}
+            return true;*/
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //closeStreams();
+        }
     }
 
 }

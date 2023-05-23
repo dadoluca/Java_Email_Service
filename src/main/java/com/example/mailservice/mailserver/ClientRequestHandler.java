@@ -40,13 +40,24 @@ public class ClientRequestHandler extends Thread {
      */
     private void serveClient() {
         try {
-             while (true) {
-                    Object message = inStream.readObject();
-                    if (message instanceof String) {
-                        /**
-                         * Riceve un email address dal client che vuole loggarsi,
-                         * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
-                         **/
+            while (true) {
+                Object message = inStream.readObject();
+                if (message instanceof String) {
+                    if(((String) message).contains("DELETE")){
+                        String[]messageParts=((String) message).split("-");
+                        System.out.println(message.toString());
+                        if(messageParts[0].equals("DELETE")){
+                            //SONO IL SERVER SCRIVO NEL LOG CHE ELIMINA E LA TOLGO DAL CSV
+                            //TODO RIMUOVERE DA CSV
+                            Platform.runLater(() -> model.addLogRecords("ELIMINAZIONE EMAIL NUMERO: "+messageParts[1]));
+                            model.getMailbox(messageParts[2]).removeEmail(Integer.valueOf(messageParts[1]));
+                        }
+                    }
+                    else{
+                            /*
+                             * Riceve un email address dal client che vuole loggarsi,
+                             * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
+                                */
                         System.out.println(message + " vuole loggarsi");
                         String email_addr = message.toString();
                         Mailbox mb_client = model.getMailbox(email_addr);
@@ -57,9 +68,9 @@ public class ClientRequestHandler extends Thread {
                         }
 
                         else {//l'utente esiste
-                            /**
-                             * aggiungiamo il socket del client alla mappa dei email_addr - sockets
-                             * */
+                                /*
+                                 * aggiungiamo il socket del client alla mappa dei email_addr - sockets
+                                    * */
                             model.addClientSocket(email_addr, this.socket, this.outStream, this.inStream);
 
                             //stampa nel log
@@ -71,26 +82,27 @@ public class ClientRequestHandler extends Thread {
                             outStream.flush();
                         }
                     }
-                    if (message instanceof Email) {
-                        /**
+                }
+                if (message instanceof Email) {
+                        /*
                          * Riceve una mail dal client
-                         **/
-                        Email to_forward = (Email) message;
-                        System.out.println("Ho ricevuto la mail: " + to_forward);
-                        String resulOfReceviveEmail=model.receiveEmail(to_forward, true);
-                        if(!resulOfReceviveEmail.equals("RECIPPIENTS_ERROR:"))//scrive nel log e su csv e controlla eventuali errori
-                        {
-                            tryErrorCommunicationEmail(resulOfReceviveEmail, to_forward.getSender());
-                        }
-                        /**
+                          */
+                            Email to_forward = (Email) message;
+                    System.out.println("Ho ricevuto la mail: " + to_forward);
+                    String resulOfReceviveEmail=model.receiveEmail(to_forward, true);
+                    if(!resulOfReceviveEmail.equals("RECIPPIENTS_ERROR:"))//scrive nel log e su csv e controlla eventuali errori
+                    {
+                        tryErrorCommunicationEmail(resulOfReceviveEmail, to_forward.getSender());
+                    }
+                        /*
                          * preleva i destinatari e inoltra la mail
-                         **/
+                            **/
                         else{// se non ci sono errori procede all'inoltro
-                            for (String recepient : to_forward.getRecipientsList()) {
-                                tryCommunicationEmail(to_forward, recepient);
-                            }
+                        for (String recepient : to_forward.getRecipientsList()) {
+                            tryCommunicationEmail(to_forward, recepient);
                         }
                     }
+                }
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -8,10 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -25,6 +22,18 @@ public class MailboxController {
     private ListView<Email> lstEmails;
     @FXML
     private Label lblUsername;
+
+    @FXML
+    private Button btnRispondi;
+
+    @FXML
+    private Button btnElimina;
+
+    @FXML
+    private Button btnReplyAll;
+
+    @FXML
+    private Button btnForward;
     private Client model;
 
     private String host;
@@ -84,7 +93,7 @@ public class MailboxController {
     }
     @FXML
     private void onBtnEliminaClick(){
-        model.deleteEmail(selected);
+        model.deleteEmail(host,port,selected,this.model.mailbox.getEmailAddress());
     }
 
     private void redirectToNewMailView(ActionEvent e, int action) throws IOException {
@@ -121,7 +130,7 @@ public class MailboxController {
     }
 
     @FXML
-    private void onBtnForewardClick(ActionEvent e) throws IOException {
+    private void onBtnForwardClick(ActionEvent e) throws IOException {
         redirectToNewMailView(e,3);
     }
 
@@ -136,6 +145,12 @@ public class MailboxController {
             String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText().replaceAll("%%","\n"));
             txtEmailDetails.setText(text);
         }
+        btnRispondi.setVisible(true);
+        btnElimina.setVisible(true);
+        btnReplyAll.setVisible(true);
+        btnForward.setVisible(true);
+        txtEmailDetails.setVisible(true);
+
     }
 
 

@@ -61,7 +61,7 @@ public class NewMailController {
                 break;
             case 3:
                 txtOggetto.setText(e.getSubject());
-                String text = String.format("------- foreward message -------\n" +
+                String text = String.format("------- Forward message -------\n" +
                                 "From: <"+e.getSender()+">\n"+
                                 "Date: "+e.getDate().toString()+"\n"+
                                 "Subject: "+e.getSubject()+"\n"+
@@ -92,7 +92,7 @@ public class NewMailController {
             /**
              * Controllo se è una mail di risposta
              * */
-            if (to_reply != null && to_reply.getSender() == splitted[0]) {
+            if (to_reply != null && to_reply.getSender().equals(splitted[0])) {
                 client.newEmail(host, port, to_reply.getId(), dest, oggetto, contenuto);
             } else {
                 client.newEmail(host, port, dest, oggetto, contenuto);

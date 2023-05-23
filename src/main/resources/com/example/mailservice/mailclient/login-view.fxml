@@ -3,14 +3,21 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.LoginController">
+<VBox alignment="CENTER" prefHeight="250" prefWidth="300" spacing="20.0" style="-fx-background-color: #236176;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.LoginController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <Label fx:id="lblEmail" text="Email" />
-    <TextField fx:id="txtEmail" />
+    <Label fx:id="lblEmail" text="Email Service" textFill="#fafafa">
+      <font>
+         <Font name="System Bold Italic" size="19.0" />
+      </font></Label>
+    <TextField fx:id="txtEmail" promptText="user@example.com" />
 
-    <Label fx:id="errorText"/>
-    <Button fx:id="btnLogin" onAction="#onBtnLoginClick" text="LOGIN" />
+    <Label fx:id="errorText" textFill="#fff1a9" />
+    <Button fx:id="btnLogin" onAction="#onBtnLoginClick" style="-fx-background-color: white;" text="LOGIN" textFill="#236176">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font></Button>
 </VBox>

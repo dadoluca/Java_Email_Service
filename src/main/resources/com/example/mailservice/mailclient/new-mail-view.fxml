@@ -5,7 +5,7 @@
 
 <VBox alignment="CENTER" prefHeight="495.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
    <children>
-      <Pane fx:id="paneNewMail" prefHeight="579.0" prefWidth="600.0">
+      <Pane fx:id="paneNewMail" prefHeight="579.0" prefWidth="600.0" style="-fx-background-image: url('https://static.vecteezy.com/ti/foto-gratuito/p1/15587819-creativo-disposizione-di-blu-le-foglie-natura-sfondo-foto.jpg'); -fx-background-size: cover;">
          <children>
             <Button fx:id="btnGoBack" alignment="TOP_LEFT" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#onBtnGoBackClick" text="&lt;--" />
             <TextField fx:id="txtDestinatari" layoutX="37.0" layoutY="59.0" prefHeight="25.0" prefWidth="518.0" />
