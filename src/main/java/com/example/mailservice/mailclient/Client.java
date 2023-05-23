@@ -165,10 +165,9 @@ public class Client {
         Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
     }
-
-    public void replyEmail(String host, int port,ArrayList<String> dest,String oggetto,String contenuto,int idReply){
-        Email to_reply= new Email(1010,idReply,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
-        tryCommunicationEmail(host,port,to_reply);
+    public void newEmail(String host, int port,int replyId, ArrayList<String> dest,String oggetto,String contenuto){
+        Email to_send= new Email(1010,replyId,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
+        tryCommunicationEmail(host,port,to_send);
     }
 
     //------------------------------ ascolto della ricezione di email dal server

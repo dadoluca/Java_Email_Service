@@ -98,6 +98,26 @@ public class MailboxController {
         scene.setRoot(root);
     }
 
+    @FXML
+    protected void onBtnReplyClick(ActionEvent e)throws IOException{
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("new-mail-view.fxml"));
+        Parent root = loader.load();
+
+        NewMailController controller =  loader.getController();
+        controller.initModel(model);
+
+        if(selected!=null){
+            controller.setEmailtoReply(selected);   //imposta alla nuova vista l'email a cui deve rispondere
+        }
+        else {
+            //TODO STAMPO UN MESSAGGIO:"SELEZIONARE LA MAIL PRIMA"
+        }
+
+        Scene scene = ((Node) e.getSource()).getScene();
+        scene.setRoot(root);
+    }
+
     protected void showSelectedEmail(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
         selected = email;
@@ -110,23 +130,6 @@ public class MailboxController {
             txtEmailDetails.setText(text);
         }
     }
-    @FXML
-    protected void onBtnRispondiClick(ActionEvent e)throws IOException{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("new-mail-view.fxml"));
-        Parent root = loader.load();
 
-        NewMailController controller =  loader.getController();
-        controller.initModel(model);
-
-        if(selected!=null){
-            controller.setEmail(selected);   //imposta alla nuova vista l'email a cui deve rispondere
-        }
-        else {
-            //TODO STAMPO UN MESSAGGIO:"SELEZIONARE LA MAIL PRIMA"
-        }
-
-        Scene scene = ((Node) e.getSource()).getScene();
-        scene.setRoot(root);
-    }
 }

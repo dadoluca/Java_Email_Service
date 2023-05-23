@@ -30,11 +30,6 @@ public class NewMailController {
     private int port;
     private Email to_reply=null;
 
-    public void setEmail(Email e){
-        this.to_reply=e;
-        txtDestinatari.setText(e.getSender());
-    }
-
     public void initModel(Client client) {
         // ensure model is only set once:
         if (this.client != null) {
@@ -45,49 +40,12 @@ public class NewMailController {
         port = 3456;
     }
 
-    @FXML private void onBtnInviaClick(){
-        if(to_reply==null){
-            String oggetto=txtOggetto.getText();
-            String destinatari=txtDestinatari.getText();
-            String contenuto=txtContenuto.getText();
-            ArrayList<String>dest=new ArrayList<>();
-            String[]splitted=destinatari.split(",");
-            for (int i=0;i<splitted.length;i++){
-                dest.add(splitted[i]);
-            }
-            client.newEmail(host, port,dest,oggetto,contenuto);
-        }
-        else{
-            if(txtDestinatari.getText().equals(to_reply.getSender())){
-                String oggetto=txtOggetto.getText();
-                String destinatari=to_reply.getSender();
-                String contenuto=txtContenuto.getText();
-                ArrayList<String>dest=new ArrayList<>();
-                String[]splitted=destinatari.split(",");
-                for (int i=0;i<splitted.length;i++){
-                    dest.add(splitted[i]);
-                }
-                client.replyEmail(host, port,dest,oggetto,contenuto,to_reply.getId());
-            }
-            else{
-                String oggetto=txtOggetto.getText();
-                String destinatari=txtDestinatari.getText();
-                String contenuto=txtContenuto.getText();
-                ArrayList<String>dest=new ArrayList<>();
-                String[]splitted=destinatari.split(",");
-                for (int i=0;i<splitted.length;i++){
-                    dest.add(splitted[i]);
-                }
-                client.newEmail(host, port,dest,oggetto,contenuto);
-            }
-        }
+    public void setEmailtoReply(Email e){
+        this.to_reply=e;
+        txtDestinatari.setText(e.getSender());
     }
-    @FXML
-    protected void onBtnGoBackClick(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
-        Parent root = loader.load();
-        Scene scene = ((Node) e.getSource()).getScene();
-        scene.setRoot(root);
+
+    @FXML private void onBtnSendClick(){
         String destinatari=txtDestinatari.getText();
         ArrayList<String>dest=new ArrayList<>();
         boolean correctEmail = true;
@@ -101,10 +59,29 @@ public class NewMailController {
         if(correctEmail){
             String oggetto=txtOggetto.getText();
             String contenuto=txtContenuto.getText();
-            client.newEmail(host, port,dest,oggetto,contenuto);
+
+            /**
+             * Controllo se è una mail di risposta
+             * */
+            if(to_reply!= null && to_reply.getSender() == splitted[0]){
+                client.newEmail(host, port,to_reply.getId() ,dest,oggetto,contenuto);
+            }
+            else{
+                client.newEmail(host, port,dest,oggetto,contenuto);
+            }
         }else{
             txtDestinatariError.setText("Mail non valida");
         }
+    }
+
+    @FXML
+    protected void onBtnGoBackClick(ActionEvent e) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
+        Parent root = loader.load();
+        MailboxController c= loader.getController();
+        c.initModel(client);
+        Scene scene = ((Node) e.getSource()).getScene();
+        scene.setRoot(root);
     }
 
 }

@@ -184,13 +184,8 @@ public class MailServerModel {
                             /**
                              * la mail viene stampata nel log
                              * */
+                            Platform.runLater(() -> this.addLogRecords("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
 
-                            if(email.getReplyId()!=-1){
-                                Platform.runLater(() -> this.addLogRecords(email.getSender()+"risponde a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
-                            }
-                            else{
-                                Platform.runLater(() -> this.addLogRecords("Email da: "+email.getSender()+" a: "+recipient+" subject: "+email.getSubject()+" Oraio: "+email.getDate()));
-                            }
                             /**
                              *  la mail viene salvata nel csv
                              **/

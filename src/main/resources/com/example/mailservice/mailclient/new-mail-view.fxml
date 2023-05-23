@@ -3,15 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
+<VBox alignment="CENTER" prefHeight="495.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
    <children>
-      <TextField fx:id="txtDestinatari" />
-      <Label fx:id="txtDestinatariError"/>
-      <Label layoutX="10.0" layoutY="10.0" text="Oggetto:" />
-      <TextField fx:id="txtOggetto" layoutX="10.0" layoutY="27.0" prefHeight="25.0" prefWidth="334.0" />
-      <Label layoutX="10.0" layoutY="53.0" text="Testo:" />
-      <TextField fx:id="txtContenuto" layoutX="10.0" layoutY="70.0" prefHeight="138.0" prefWidth="600.0" />
-      <Button fx:id="btnInvia" mnemonicParsing="false" onAction="#onBtnInviaClick" text="Invia Email" />
-      <Button fx:id="btnTornaIndietro" mnemonicParsing="false" onAction="#onBtnGoBackClick" text="Torna Indietro" />
+      <Pane prefHeight="579.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="btnGoBack" alignment="TOP_LEFT" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" text="&lt;--" />
+            <TextField fx:id="txtDestinatari" layoutX="37.0" layoutY="59.0" prefHeight="25.0" prefWidth="518.0" />
+            <Label fx:id="txtDestinatariError" layoutX="38.0" layoutY="92.0" text="" />
+            <Label layoutX="276.0" layoutY="116.0" text="Oggetto:" />
+            <TextField fx:id="txtOggetto" layoutX="38.0" layoutY="147.0" prefHeight="25.0" prefWidth="518.0" />
+            <Label layoutX="284.0" layoutY="200.0" text="Testo:" />
+            <TextField fx:id="txtContenuto" layoutX="41.0" layoutY="229.0" prefHeight="138.0" prefWidth="518.0" />
+            <Button fx:id="btnInvia" layoutX="506.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBtnSendClick" text="Invia Email" />
+         </children>
+      </Pane>
    </children>
 </VBox>
