@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Client {
     Socket socket = null;
@@ -66,7 +67,7 @@ public class Client {
             }
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -183,7 +184,6 @@ public class Client {
                     this.mailbox.addEmail(received_email);
                 } else if (message instanceof String) {//HO RICEVUTO UN ERRORE SUI DESTINATARI ERRATI
                     System.out.println("ERRORE RICEVUTO::::::::: "+message.toString());
-                    mailbox.putError(message.toString());
                 } else {//errore
                     System.out.println(message.toString());
                 }
@@ -210,6 +210,13 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    //Funzione per verificare la correttezza sintattica di una mail
+    public static boolean isValidEmail(String email) {
+        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return Pattern.matches(regex, email);
     }
 
 }

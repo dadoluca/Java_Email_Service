@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class NewMailController {
     @FXML
     private TextField txtContenuto;
     @FXML
-    private TextField txtError;
+    private Label txtDestinatariError;
     private Client client;
     private String host;
 
@@ -40,18 +41,11 @@ public class NewMailController {
             throw new IllegalStateException("Model can only be initialized once");
         }
         this.client = client;
-        // Inizializza la textbox con il valore iniziale della proprietà error
-        txtError.setText(client.mailbox.getObsError().get());
-
-        // Crea un binding tra il valore della proprietà error e il testo del TextField
-        txtError.textProperty().bind(client.mailbox.getObsError());
-
         host = "127.0.0.1";
-        port = 4440;
+        port = 3456;
     }
 
     @FXML private void onBtnInviaClick(){
-
         if(to_reply==null){
             String oggetto=txtOggetto.getText();
             String destinatari=txtDestinatari.getText();
@@ -89,11 +83,28 @@ public class NewMailController {
         }
     }
     @FXML
-    protected void onBtnTornaIndietroClick(ActionEvent e) throws IOException {
+    protected void onBtnGoBackClick(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
         Parent root = loader.load();
         Scene scene = ((Node) e.getSource()).getScene();
         scene.setRoot(root);
+        String destinatari=txtDestinatari.getText();
+        ArrayList<String>dest=new ArrayList<>();
+        boolean correctEmail = true;
+        String[]splitted=destinatari.split(",");
+        for (int i=0;i<splitted.length && correctEmail;i++){
+            if(Client.isValidEmail(splitted[i]))
+                dest.add(splitted[i]);
+            else
+                correctEmail = false;
+        }
+        if(correctEmail){
+            String oggetto=txtOggetto.getText();
+            String contenuto=txtContenuto.getText();
+            client.newEmail(host, port,dest,oggetto,contenuto);
+        }else{
+            txtDestinatariError.setText("Mail non valida");
+        }
     }
 
 }

@@ -57,7 +57,7 @@ public class MailServerApplication extends Application {
         /**Thread che si mette in ascolto delle richieste*/
         Runnable server = () -> {
             //Ci mettiamo in ascolto
-            listen(4440);
+            listen(3456);
         };
         Thread requestsListener = new Thread(server);
         requestsListener.start();

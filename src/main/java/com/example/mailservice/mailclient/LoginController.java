@@ -16,7 +16,7 @@ public class LoginController {
 
     private Stage primaryStage;
     @FXML
-    private Label welcomeText;
+    private Label errorText;
     @FXML
     private TextField txtEmail;
     private Client client;
@@ -34,24 +34,30 @@ public class LoginController {
         //else
         this.client = client;
         host = "127.0.0.1";
-        port = 4440;
+        port = 3456;
     }
 
     @FXML
     protected void onBtnLoginClick(ActionEvent e) throws IOException {
         String mail_addr = txtEmail.getText();
-        if (model == null) {
-            model = new Client(mail_addr);
-            initModel(model);
+        if(Client.isValidEmail(mail_addr)){
+            if (model == null) {
+                model = new Client(mail_addr);
+                initModel(model);
+            }
+            boolean success = client.login(host, port);
+            if (success) {
+                switchToNewView(e);
+            } else {
+                errorText.setText("Utente non registrato");
+                model = null;
+                txtEmail.setText("");
+            }
+        }else{
+            errorText.setText("Inserire una mail valida");
+
         }
-        boolean success = client.login(host, port);
-        if (success) {
-            switchToNewView(e);
-        } else {
-            welcomeText.setText("Utente non registrato");
-            model = null;
-            txtEmail.setText("");
-        }
+
     }
 
 
@@ -60,7 +66,7 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("client-view.fxml"));
         Parent root = loader.load();
 
-        ClientController controller = loader.getController();
+        MailboxController controller = loader.getController();
         controller.initModel(client);
 
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

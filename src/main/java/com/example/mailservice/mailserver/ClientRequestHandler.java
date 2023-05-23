@@ -51,7 +51,11 @@ public class ClientRequestHandler extends Thread {
                         String email_addr = message.toString();
                         Mailbox mb_client = model.getMailbox(email_addr);
                         if (mb_client == null)
+                        {
                             outStream.writeObject("FALSE");
+                            outStream.flush();
+                        }
+
                         else {//l'utente esiste
                             /**
                              * aggiungiamo il socket del client alla mappa dei email_addr - sockets
@@ -117,21 +121,23 @@ public class ClientRequestHandler extends Thread {
 
     //--------------------------- inoltro mail ai clients
     private synchronized void tryCommunicationEmail(Email to_send, String recipient) {
-        try {
-            model.getClientObjectOutputStream(recipient).flush();
-            model.getClientObjectOutputStream(recipient).writeObject(to_send);
-            model.getClientObjectOutputStream(recipient).flush();
 
-            /** TODO per sapere se l'invio è avvenuto con successo
-            String success = (String) inStream.readObject();
-            if(Objects.equals(success, "TRUE")){
-                model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
-            }*/
-        } catch (SocketException e) {
-            //eccezione quando il socket è chiuso
-            System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(model.getClientSocket(recipient)!=null){ //recipient online
+            try {
+                model.getClientObjectOutputStream(recipient).writeObject(to_send);
+                model.getClientObjectOutputStream(recipient).flush();
+
+                /** TODO per sapere se l'invio è avvenuto con successo
+                 String success = (String) inStream.readObject();
+                 if(Objects.equals(success, "TRUE")){
+                 model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
+                 }*/
+            } catch (SocketException e) {
+                //eccezione quando il socket è chiuso
+                System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     private synchronized void tryErrorCommunicationEmail(String to_send, String recipient) {
