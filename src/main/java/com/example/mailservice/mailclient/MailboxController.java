@@ -133,7 +133,7 @@ public class MailboxController {
 
     protected void updateDetailView(Email email) {
         if(email != null) {
-            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText());
+            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText().replaceAll("%%","\n"));
             txtEmailDetails.setText(text);
         }
     }

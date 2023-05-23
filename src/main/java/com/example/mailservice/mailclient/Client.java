@@ -225,7 +225,7 @@ public class Client {
 
     public static void showAlert(Email e, String client){
 
-        String imagePath = System.getProperty("user.dir") + "/src/main/java/com/example/mailservice/mailclient/assets/mail.png";
+        String imagePath = System.getProperty("user.dir") + "/src/main/java/com/example/mailservice/mailclient/assets/email.png";
 
         ImageView imageView = new ImageView(imagePath);
         imageView.setFitWidth(50); // Imposta la larghezza desiderata dell'immagine

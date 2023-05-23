@@ -129,6 +129,7 @@ public class Email implements Serializable {
         return s.toString();
     }
     public String toCSV(int id){
-        return  id + "," + this.replyId + ",\"<" + this.sender + ">\"," + this.getRecipientsString() + ",\"" + this.subject + "\",\"" + this.text + "\"," + this.date.withSecond(0).withNano(0);  }
+        return  id + "," + this.replyId + ",\"<" + this.sender + ">\"," + this.getRecipientsString() + ",\"" + this.subject + "\",\"" + this.text.replaceAll("\n","%%") + "\"," + this.date.withSecond(0).withNano(0);
+    }
 
 }
