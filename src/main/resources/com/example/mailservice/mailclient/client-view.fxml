@@ -6,7 +6,7 @@
 <AnchorPane prefHeight="436.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.ClientController">
    <children>
       <ListView fx:id="lstEmails" layoutX="33.0" layoutY="26.0" prefHeight="350.0" prefWidth="220.0" />
-      <Button fx:id="btnRispondi" layoutX="125.0" layoutY="392.0" mnemonicParsing="false" text="Rispondi" />
+      <Button fx:id="btnRispondi" layoutX="125.0" layoutY="392.0" mnemonicParsing="false" onAction="#onBtnRispondiClick" text="Rispondi" />
       <Button fx:id="btnVisualizza" layoutX="33.0" layoutY="392.0" mnemonicParsing="false" text="Visualizza" />
       <Button fx:id="btnElimina" layoutX="222.0" layoutY="392.0" mnemonicParsing="false" onAction="#onBtnEliminaClick" text="Elimina" />
       <Label fx:id="lblUsername" layoutX="33.0" layoutY="5.0" />
