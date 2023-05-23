@@ -11,6 +11,6 @@
     <Label fx:id="lblEmail" text="Email" />
     <TextField fx:id="txtEmail" />
 
-    <Label fx:id="welcomeText" />
-    <Button fx:id="btnLogin" onAction="#onBtnLoginClick" text="Hello!" />
+    <Label fx:id="errorText"/>
+    <Button fx:id="btnLogin" onAction="#onBtnLoginClick" text="LOGIN" />
 </VBox>

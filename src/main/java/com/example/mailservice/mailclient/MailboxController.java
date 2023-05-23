@@ -1,10 +1,10 @@
 package com.example.mailservice.mailclient;
 
 import com.example.mailservice.lib.Email;
-import com.example.mailservice.lib.Mailbox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,10 +13,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public class ClientController {
+public class MailboxController {
     @FXML
     private ListView<Email> lstEmails;
     @FXML
@@ -40,7 +44,7 @@ public class ClientController {
         this.model = client;
 
         host = "127.0.0.1";
-        port = 4440;
+        port = 3456;
 
 
         lblUsername.setText(model.mailbox.getEmailAddress());
@@ -56,8 +60,20 @@ public class ClientController {
                 } else {
                     String from = email.getSender();
                     String subject = email.getSubject();
-                    String text = String.format("From: %s\nSubject: %s", from, subject);
-                    setText(text);
+
+                    Text fromText = new Text(from);
+                    fromText.setFont(Font.font("Arial", FontWeight.BOLD,12));
+
+                    Label fromLabel = new Label();
+                    fromLabel.setGraphic(fromText); // Imposta il testo "From" come grafica nella Label
+
+                    Label subjectLabel = new Label(subject);
+
+                    VBox vbox = new VBox(fromLabel, subjectLabel);
+                    vbox.setSpacing(5); // Spazio tra i componenti all'interno del VBox
+                    vbox.setPadding(new Insets(5)); // Padding intorno al VBox
+
+                    setGraphic(vbox);
                 }
             }
         });

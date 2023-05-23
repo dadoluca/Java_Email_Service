@@ -51,7 +51,11 @@ public class ClientRequestHandler extends Thread {
                         String email_addr = message.toString();
                         Mailbox mb_client = model.getMailbox(email_addr);
                         if (mb_client == null)
+                        {
                             outStream.writeObject("FALSE");
+                            outStream.flush();
+                        }
+
                         else {//l'utente esiste
                             /**
                              * aggiungiamo il socket del client alla mappa dei email_addr - sockets

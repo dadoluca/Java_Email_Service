@@ -34,7 +34,7 @@ public class NewMailController {
         txtError.textProperty().bind(client.mailbox.getObsError());
 
         host = "127.0.0.1";
-        port = 4440;
+        port = 3456;
     }
 
     @FXML private void onBtnInviaClick(){
