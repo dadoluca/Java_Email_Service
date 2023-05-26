@@ -62,7 +62,7 @@ public class NewMailController {
             case 3:
                 txtOggetto.setText(e.getSubject());
                 String text = String.format("------- Forward message -------\n" +
-                                "From: <"+e.getSender()+">\n"+
+                                "From: "+e.getSender()+"\n"+
                                 "Date: "+e.getDate().toString()+"\n"+
                                 "Subject: "+e.getSubject()+"\n"+
                                 "To: "+e.getRecipientsString()+"\n\n" +

@@ -92,7 +92,9 @@ public class MailServerModel {
 
     public void loadData() {
 
-        /******************************** LETTURA UTENTI **************************************/
+        /*
+         *  Lettura users
+         *  */
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/user.txt"));
@@ -111,12 +113,13 @@ public class MailServerModel {
             e.printStackTrace();
         }
 
-        /******************************* LETTURA EMAIL **************************************/
-        ArrayList<String> recipientArrayList;
-
+        /*
+         * Lettura emails
+         * */
         try {
-            CSVReader reader2 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/email.csv"));
-            System.out.println(System.getProperty("user.dir"));
+            ArrayList<String> recipientArrayList;
+            CSVReader reader2 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/emails.csv"));
+            //System.out.println(System.getProperty("user.dir"));
             //salto l'intestazione
             String[] line = reader2.readNext();
             Email e = null;
@@ -148,12 +151,27 @@ public class MailServerModel {
             throw new RuntimeException(e);
         }
 
-    }
+        /*
+         * Lettura deleted emails
+         * */
+        try {
+            CSVReader reader3 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/deleted_emails.csv"));
+            //salto l'intestazione
+            String[] line = reader3.readNext();
+            Email e = null;
+            while ((line = reader3.readNext()) != null) {
+                int id = Integer.parseInt(line[0]);
+                String email_addr = line[1];
+                this.getMailbox(email_addr).removeEmail(id);//elimino dalla casella di posta
+            }
+            reader3.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
 
-    public synchronized void removeMailbox(Mailbox mailbox) {
-        this.mailboxes.remove(mailbox);
     }
-
     public List<Mailbox> getMailboxes() {
         return this.mailboxes;
     }
@@ -167,9 +185,21 @@ public class MailServerModel {
         return null;
     }
 
+    public synchronized void deleteEmail(Email email, String email_addr) throws IOException {
+        this.getMailbox(email_addr).removeEmail(email);
+        /**
+         *  la mail eliminata dalla mailbox del client email_addr
+         *  viene salvata nel csv
+         **/
+        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/deleted_emails.csv",true));
+        writer.println();
+        writer.print(email.getId()+","+email_addr);
+        writer.close();
+    }
+
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
-        String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l''errore
+        String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
         boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
         for (String recipient : email.getRecipientsList()) {
             founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
@@ -189,17 +219,11 @@ public class MailServerModel {
                             /**
                              *  la mail viene salvata nel csv
                              **/
-                            PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/email.csv",true));
-
-                            /**
-                             * Gestione accesso alla variabile condivisa nextId
-                             *
-                             synchronized (this){*/
+                            PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
                             writer.println();
                             writer.print(email.toCSV(nextId));
                             //System.out.println("scrivo "+email.toCSV(nextId));
                             nextId++;
-                            /* }*/
                             writer.close();
 
                         }

@@ -27,7 +27,7 @@ public class MailboxController {
     private Button btnRispondi;
 
     @FXML
-    private Button btnElimina;
+    private Button btnDelete;
 
     @FXML
     private Button btnReplyAll;
@@ -92,7 +92,7 @@ public class MailboxController {
 
     }
     @FXML
-    private void onBtnEliminaClick(){
+    private void onBtnDeleteClick(){
         model.deleteEmail(host,port,selected,this.model.mailbox.getEmailAddress());
     }
 
@@ -146,11 +146,10 @@ public class MailboxController {
             txtEmailDetails.setText(text);
         }
         btnRispondi.setVisible(true);
-        btnElimina.setVisible(true);
+        btnDelete.setVisible(true);
         btnReplyAll.setVisible(true);
         btnForward.setVisible(true);
         txtEmailDetails.setVisible(true);
-
     }
 
 

@@ -54,6 +54,10 @@ public class Mailbox {
         final Email finalTo_remove = to_remove;
         Platform.runLater(() -> this.emailList.remove(finalTo_remove));
     }
+    public void removeEmail(Email email){
+        Platform.runLater(() -> this.emailList.remove(email));
+    }
+
 }
 
 

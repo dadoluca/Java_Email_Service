@@ -43,15 +43,21 @@ public class ClientRequestHandler extends Thread {
             while (true) {
                 Object message = inStream.readObject();
                 if (message instanceof String) {
-                    if(((String) message).contains("DELETE")){
-                        String[]messageParts=((String) message).split("-");
-                        System.out.println(message.toString());
-                        if(messageParts[0].equals("DELETE")){
-                            //SONO IL SERVER SCRIVO NEL LOG CHE ELIMINA E LA TOLGO DAL CSV
-                            //TODO RIMUOVERE DA CSV
-                            Platform.runLater(() -> model.addLogRecords("ELIMINAZIONE EMAIL NUMERO: "+messageParts[1]));
-                            model.getMailbox(messageParts[2]).removeEmail(Integer.valueOf(messageParts[1]));
+                    if(message.equals("DELETE")){
+                        Object author = inStream.readObject();
+                        if(author instanceof String){
+                            Object email = inStream.readObject();
+                            if(email instanceof Email){
+                                Email to_delete = (Email) email;
+                                /*
+                                 * informa il log della delete
+                                 * rimuove dal model
+                                 */
+                                Platform.runLater(() -> model.addLogRecords("Elimino mail da "+to_delete.getSender()+ " a "+to_delete.getRecipientsString()+" per "+author));
+                                model.deleteEmail(to_delete, author.toString());
+                            }
                         }
+
                     }
                     else{
                             /*
@@ -87,7 +93,7 @@ public class ClientRequestHandler extends Thread {
                         /*
                          * Riceve una mail dal client
                           */
-                            Email to_forward = (Email) message;
+                    Email to_forward = (Email) message;
                     System.out.println("Ho ricevuto la mail: " + to_forward);
                     String resulOfReceviveEmail=model.receiveEmail(to_forward, true);
                     if(!resulOfReceviveEmail.equals("RECIPPIENTS_ERROR:"))//scrive nel log e su csv e controlla eventuali errori

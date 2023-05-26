@@ -158,12 +158,6 @@ public class Client {
 
         //System.out.println("[Client luca.dadone01@gmail.com] Connesso");
     }
-    public void deleteEmail(String host, int port,Email e,String client_address){
-        //TODO: aggiornare file e lista del controller rimuovendo la mail
-        String send_to_server="DELETE-"+e.getId()+"-"+client_address;
-        tryCommunicationDeleteEmail(host,port,send_to_server);
-        this.mailbox.removeEmail(e.getId());
-    }
 
     public void newEmail(String host, int port,ArrayList<String> dest,String oggetto,String contenuto){
         Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
@@ -172,6 +166,31 @@ public class Client {
     public void newEmail(String host, int port,int replyId, ArrayList<String> dest,String oggetto,String contenuto){
         Email to_send= new Email(1010,replyId,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
+    }
+    public void deleteEmail(String host, int port,Email e,String client_address){
+        /**
+         * Come gmail eliminiamo la mail in locale lato client e poi proviamo a comunicarlo al server
+         * (non attendiamo risposta)
+         * */
+        this.mailbox.removeEmail(e);
+        String delete_msg ="DELETE";
+        tryCommunicationDeleteEmail(host,port,delete_msg,e);
+    }
+
+    private synchronized void tryCommunicationDeleteEmail(String host, int port,String delete_msg, Email email) {
+        try {
+            outStream.writeObject(delete_msg);
+            outStream.flush();
+            outStream.writeObject(this.mailbox.getEmailAddress());
+            outStream.flush();
+            outStream.writeObject(email);
+            outStream.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //closeStreams();
+        }
     }
 
     //------------------------------ ascolto della ricezione di email dal server
@@ -241,24 +260,6 @@ public class Client {
 //                .darkStyle()
                 .hideAfter(Duration.INDEFINITE)
                 .show();
-    }
-
-    private synchronized void tryCommunicationDeleteEmail(String host, int port,String to_send) {
-        try {
-            outStream.writeObject(to_send);
-            outStream.flush();
-
-            /* per sapere se l'invio è avvenuto con successo NON NECESSARIO
-            String success = (String) inputStream.readObject();
-            if(Objects.equals(success, "TRUE")){System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());}
-            else{return false;}
-            return true;*/
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            //closeStreams();
-        }
     }
 
 }
