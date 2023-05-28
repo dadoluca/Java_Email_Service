@@ -209,13 +209,16 @@ public class MailServerModel {
     public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
         String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
         boolean send = false;
+        boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
         for (String recipient : email.getRecipientsList()) {
+            founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
             if(!isValidEmail(recipient)){
                 message+=recipient+" non è una mail sintatticamente giusta, ";
             }
             else {//se la mail è sintatticamente sbagliata non controllo nemmeno se il destinatario esiste
                 for (Mailbox mailbox : mailboxes) {
                     if (mailbox.getEmailAddress().equals(recipient)) {
+                        founded=true;
                         if(isNew){/** nuova mail */
                             /**
                              * la mail viene stampata nel log
@@ -229,20 +232,20 @@ public class MailServerModel {
                                 PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
                                 writer.println();
                                 writer.print(email.toCSV(nextId));
-                                email.setId(nextId);
                                 //System.out.println("scrivo "+email.toCSV(nextId));
                                 nextId++;
                                 writer.close();
                             }
-
                             send = true;
+
 
                         }
                         mailbox.addEmail(email);
                         break;
-                    }else{
-                        message+=recipient+" non è un client esistente, ";
                     }
+                }
+                if(!founded){
+                    message+=recipient+" non è un cliente esistente, ";
                 }
             }
         }

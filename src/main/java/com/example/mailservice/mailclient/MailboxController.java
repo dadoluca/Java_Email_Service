@@ -68,7 +68,7 @@ public class MailboxController {
             @Override
             public void updateItem(Email email, boolean empty) {
                 super.updateItem(email, empty);
-                if (empty || email == null) {
+                if (empty) {
                     setText(null);
                     setGraphic(null);
                 } else {
@@ -90,11 +90,11 @@ public class MailboxController {
                     setGraphic(vbox);
 
                     // Gestione dello stato di selezione
-                    if (isSelected()) {
-                        setBackground(new Background(new BackgroundFill(Color.rgb(35, 97, 118), CornerRadii.EMPTY, Insets.EMPTY)));
-                    } else {
-                        setBackground(Background.EMPTY);
-                    }
+//                    if (isSelected()) {
+//                        setBackground(new Background(new BackgroundFill(Color.rgb(35, 97, 118), CornerRadii.EMPTY, Insets.EMPTY)));
+//                    } else {
+//                        setBackground(Background.EMPTY);
+//                    }
                 }
             }
         });
