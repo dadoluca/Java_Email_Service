@@ -114,6 +114,29 @@ public class MailServerModel {
         }
 
         /*
+         * Lettura deleted emails
+         * */
+        Map<Integer,String> deleted = new HashMap<>();
+        try {
+            CSVReader reader3 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/deleted_emails.csv"));
+            //salto l'intestazione
+            String[] line = reader3.readNext();
+            Email e = null;
+            while ((line = reader3.readNext()) != null) {
+                int id = Integer.parseInt(line[0]);
+                String email_addr = line[1];
+//                System.out.println(id + "" + email_addr);
+//                this.getMailbox(email_addr).removeEmail(id);//elimino dalla casella di posta
+                deleted.put(id,email_addr);
+            }
+            reader3.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*
          * Lettura emails
          * */
         try {
@@ -131,7 +154,12 @@ public class MailServerModel {
                 String[] recipientList = recipients.split(",");
                 recipientArrayList = new ArrayList<>();
                 for (String recipient : recipientList) {
-                    recipientArrayList.add(recipient);
+                    if(deleted.get(id) == null){
+                        recipientArrayList.add(recipient);
+                    } else if (!deleted.get(id).equals(recipient)) {
+                        recipientArrayList.add(recipient);
+                    }
+
                 }
 
                 String subject = line[4];
@@ -145,26 +173,6 @@ public class MailServerModel {
             }
             setNextId(e != null ? e.getId() + 1 : 0);
             reader2.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CsvValidationException e) {
-            throw new RuntimeException(e);
-        }
-
-        /*
-         * Lettura deleted emails
-         * */
-        try {
-            CSVReader reader3 = new CSVReader(new FileReader("src/main/java/com/example/mailservice/mailserver/data/deleted_emails.csv"));
-            //salto l'intestazione
-            String[] line = reader3.readNext();
-            Email e = null;
-            while ((line = reader3.readNext()) != null) {
-                int id = Integer.parseInt(line[0]);
-                String email_addr = line[1];
-                this.getMailbox(email_addr).removeEmail(id);//elimino dalla casella di posta
-            }
-            reader3.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CsvValidationException e) {
@@ -200,16 +208,14 @@ public class MailServerModel {
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
         String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
-        boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
+        boolean send = false;
         for (String recipient : email.getRecipientsList()) {
-            founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
             if(!isValidEmail(recipient)){
                 message+=recipient+" non è una mail sintatticamente giusta, ";
             }
             else {//se la mail è sintatticamente sbagliata non controllo nemmeno se il destinatario esiste
                 for (Mailbox mailbox : mailboxes) {
                     if (mailbox.getEmailAddress().equals(recipient)) {
-                        founded=true;
                         if(isNew){/** nuova mail */
                             /**
                              * la mail viene stampata nel log
@@ -219,20 +225,24 @@ public class MailServerModel {
                             /**
                              *  la mail viene salvata nel csv
                              **/
-                            PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
-                            writer.println();
-                            writer.print(email.toCSV(nextId));
-                            //System.out.println("scrivo "+email.toCSV(nextId));
-                            nextId++;
-                            writer.close();
+                            if(!send){
+                                PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
+                                writer.println();
+                                writer.print(email.toCSV(nextId));
+                                email.setId(nextId);
+                                //System.out.println("scrivo "+email.toCSV(nextId));
+                                nextId++;
+                                writer.close();
+                            }
+
+                            send = true;
 
                         }
                         mailbox.addEmail(email);
                         break;
+                    }else{
+                        message+=recipient+" non è un client esistente, ";
                     }
-                }
-                if(!founded){
-                    message+=recipient+" non è un cliente esistente, ";
                 }
             }
         }

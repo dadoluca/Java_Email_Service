@@ -40,6 +40,7 @@ public class Mailbox {
     }
     public void addEmail(Email email) {
         Platform.runLater(() -> this.emailList.add(email));
+//        System.out.println("ID mail " + email.getId());
     }
 
     public void removeEmail(int id){
