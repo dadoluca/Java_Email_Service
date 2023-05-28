@@ -53,10 +53,16 @@ public class Mailbox {
             }
         }
         final Email finalTo_remove = to_remove;
+        System.out.println(this.emailList.size());
         Platform.runLater(() -> this.emailList.remove(finalTo_remove));
+        System.out.println(this.emailList.size());
+
     }
     public void removeEmail(Email email){
-        Platform.runLater(() -> this.emailList.remove(email));
+        Platform.runLater(() -> {
+            this.emailList.remove(email);
+        });
+
     }
 
 }

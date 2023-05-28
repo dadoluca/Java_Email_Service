@@ -10,7 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -64,8 +68,9 @@ public class MailboxController {
             @Override
             public void updateItem(Email email, boolean empty) {
                 super.updateItem(email, empty);
-                if (empty) {
+                if (empty || email == null) {
                     setText(null);
+                    setGraphic(null);
                 } else {
                     String from = email.getSender();
                     String subject = email.getSubject();
@@ -83,6 +88,13 @@ public class MailboxController {
                     vbox.setPadding(new Insets(5)); // Padding intorno al VBox
 
                     setGraphic(vbox);
+
+                    // Gestione dello stato di selezione
+                    if (isSelected()) {
+                        setBackground(new Background(new BackgroundFill(Color.rgb(35, 97, 118), CornerRadii.EMPTY, Insets.EMPTY)));
+                    } else {
+                        setBackground(Background.EMPTY);
+                    }
                 }
             }
         });
@@ -94,6 +106,7 @@ public class MailboxController {
     @FXML
     private void onBtnDeleteClick(){
         model.deleteEmail(host,port,selected,this.model.mailbox.getEmailAddress());
+//        lstEmails.refresh();
     }
 
     private void redirectToNewMailView(ActionEvent e, int action) throws IOException {
