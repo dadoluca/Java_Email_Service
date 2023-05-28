@@ -212,10 +212,6 @@ public class MailServerModel {
         boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
         for (String recipient : email.getRecipientsList()) {
             founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
-            if(!isValidEmail(recipient)){
-                message+=recipient+" non è una mail sintatticamente giusta, ";
-            }
-            else {//se la mail è sintatticamente sbagliata non controllo nemmeno se il destinatario esiste
                 for (Mailbox mailbox : mailboxes) {
                     if (mailbox.getEmailAddress().equals(recipient)) {
                         founded=true;
@@ -248,15 +244,9 @@ public class MailServerModel {
                     message+=recipient+" non è un cliente esistente, ";
                 }
             }
-        }
         System.out.println(" messaggio che dovrei restituire al client::::: "+message);
         return message;
 
     }
-    public static boolean isValidEmail(String email) {//Funzione per verificare la correttezza sintattica di una mail
-        String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
-        return Pattern.matches(regex, email);
-    }
-
 }
 

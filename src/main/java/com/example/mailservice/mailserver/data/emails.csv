@@ -26,3 +26,5 @@
 28,11,"riad.muska@gmail.com","davide.benotto@gmail.com","Test forwarded","------- Forward message -------%%From: davide.benotto@gmail.com%%Date: 2023-05-28T08:53%%Subject: Test forwarded%%To: riad.muska@gmail.com%%%%ciao bellii%%%%",2023-05-28T10:56
 29,-1,"riad.muska@gmail.com","davide.benotto@gmail.com","test nuovissimo","ciao",2023-05-28T10:57
 30,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com","Test forwarded","------- Forward message -------%%From: riad.muska@gmail.com%%Date: 2023-05-28T10:56%%Subject: Test forwarded%%To: davide.benotto@gmail.com%%%%------- Forward message -------%From: davide.benotto@gmail.com%Date: 2023-05-28T08:53%Subject: Test forwarded%To: riad.muska@gmail.com%%ciao bellii%%%%%%",2023-05-28T11:01
+31,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com","test nuovissimo","------- Forward message -------%%From: riad.muska@gmail.com%%Date: 2023-05-28T10:57%%Subject: test nuovissimo%%To: davide.benotto@gmail.com%%%%ciao%%%%",2023-05-28T11:49
+32,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","test reversed","ciaooo",2023-05-28T12:06

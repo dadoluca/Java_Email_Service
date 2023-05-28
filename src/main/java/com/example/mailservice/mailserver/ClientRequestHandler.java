@@ -10,6 +10,7 @@ import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Objects;
 
 public class ClientRequestHandler extends Thread {
     MailServerModel model;
@@ -145,16 +146,20 @@ public class ClientRequestHandler extends Thread {
                 model.getClientObjectOutputStream(recipient).writeObject(to_send);
                 model.getClientObjectOutputStream(recipient).flush();
 
-                /** TODO per sapere se l'invio è avvenuto con successo
+                /** TODO per sapere se l'invio è avvenuto con successo*/
                  String success = (String) inStream.readObject();
                  if(Objects.equals(success, "TRUE")){
-                 model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
-                 }*/
+                     model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
+                 }else {
+                     model.addLogRecords("L'utente " +recipient + "non ha ricevuto la mail da " + to_send.getSender());
+                 }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }

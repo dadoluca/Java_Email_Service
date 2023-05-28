@@ -1,6 +1,7 @@
 package com.example.mailservice.mailclient;
 
 import com.example.mailservice.lib.Email;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class MailboxController {
     @FXML
@@ -61,7 +63,9 @@ public class MailboxController {
 
 
         lblUsername.setText(model.mailbox.getEmailAddress());
-        lstEmails.setItems(model.mailbox.getObsEmailList());
+
+        //order with decrescent Data
+        lstEmails.setItems(model.mailbox.getObsEmailList().sorted(Comparator.comparing(Email::getDate).reversed()));
 
 
         lstEmails.setCellFactory(lv -> new ListCell<Email>() {
