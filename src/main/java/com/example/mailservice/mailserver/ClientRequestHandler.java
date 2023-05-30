@@ -150,18 +150,24 @@ public class ClientRequestHandler extends Thread {
                 model.getClientObjectOutputStream(recipient).writeObject(to_send);
                 model.getClientObjectOutputStream(recipient).flush();
 
-                /** TODO per sapere se l'invio è avvenuto con successo*/
-//                 String success = (String) inStream.readObject();
-//                 if(Objects.equals(success, "TRUE")){
-//                     model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
-//                 }else {
-//                     model.addLogRecords("L'utente " +recipient + "non ha ricevuto la mail da " + to_send.getSender());
-//                 }
+                //per sapere se la ricezione è avvenuta con successo
+                 String success = model.getClientObjectInputStream(recipient).readObject().toString();
+                 if(success.equals("RECEIVED_OK")){
+                     System.out.println("RICEVUTOOOOOO::::");
+                     final String logDetail = to_send.getSender()+"@@"+
+                             to_send.getRecipientsString()+"@@"+
+                             to_send.getSubject()+"@@"+
+                             to_send.getText().replaceAll("@@","\n")+"@@"+
+                             to_send.getDate()+"@@";
+                     Platform.runLater(() -> model.addLogRecords("EMAIL RECIVED BY " + recipient+" FROM "+to_send.getSender()+"&&\nEMAIL RECIVED&&"+logDetail));
+                 }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: " + e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
 //            catch (ClassNotFoundException e) {
 //                throw new RuntimeException(e);

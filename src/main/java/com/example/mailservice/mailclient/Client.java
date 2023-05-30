@@ -230,7 +230,8 @@ public class Client {
                     System.out.println("Ho ricevuto la mail: " + received_email);
                     this.mailbox.addEmail(received_email);
                     Platform.runLater(() -> Client.showAlert(received_email, this.mailbox.getEmailAddress()));
-
+                    outStream.writeObject("RECEIVED_OK");
+                    outStream.flush();
                 } else { //Ricevuto risultato dell'invio di una mail
                     synchronized (lock) {
                         resultOfSendEmail = message.toString();

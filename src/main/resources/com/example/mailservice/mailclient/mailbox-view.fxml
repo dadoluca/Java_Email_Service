@@ -11,7 +11,7 @@
          <children>
             <ImageView fitHeight="67.0" fitWidth="67.0" layoutX="-30.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@email.png" />
+                  <Image url="@images/email.png" />
                </image>
             </ImageView>
          </children></Pane>
