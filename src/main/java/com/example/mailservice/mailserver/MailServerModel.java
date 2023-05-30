@@ -219,25 +219,25 @@ public class MailServerModel {
                             /**
                              * la mail viene stampata nel log
                              * */
-                            final String logDetail = "SENDER: "+email.getSender()+"\n"+
-                                    "RECEIVER: "+email.getRecipientsString()+"\n"+
-                                    "SUBJECT: "+email.getSubject()+"\n"+
-                                    "CONTENT: "+email.getText().replaceAll("@@","\n")+"\n"+
-                                    "DATE: "+email.getDate()+"\n";
+                            final String logDetail = email.getSender()+"@@"+
+                                    email.getRecipientsString()+"@@"+
+                                    email.getSubject()+"@@"+
+                                    email.getText().replaceAll("@@","\n")+"@@"+
+                                    email.getDate()+"@@";
 
                             if(email.getText().contains("------- Forward message -------")){
                                 Platform.runLater(() -> this.addLogRecords("FORWARD: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "FORWARD\n"+
+                                        "FORWARD&&"+
                                         logDetail));
                             }
                             else if(email.getReplyId()!=-1){
                                 Platform.runLater(() -> this.addLogRecords("REPLY: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "REPLY\n"+
+                                        "REPLY&&"+
                                         logDetail));
                             }
                             else{
                                 Platform.runLater(() -> this.addLogRecords("NEW MAIL: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "NEW EMAIL\n"+
+                                        "NEW EMAIL&&"+
                                         logDetail));
                             }
 
