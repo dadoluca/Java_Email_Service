@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailserver.LogController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
-   <ListView fx:id="listViewLog" prefHeight="200.0" prefWidth="200.0" />
-</VBox>
+<Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color:#2562A0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailserver.LogController">
+    <children>
+        <ListView fx:id="listViewLog" layoutX="25.0" layoutY="32.0" opacity="0.93" prefHeight="350.0" prefWidth="500.0" />
+        <TextArea fx:id="txtLogRecordDetails" layoutX="25.0" layoutY="390.0" opacity="0.93" prefHeight="150.0" prefWidth="500.0" visible="false" />
+    </children>
+</Pane>

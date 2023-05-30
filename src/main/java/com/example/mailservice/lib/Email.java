@@ -132,7 +132,7 @@ public class Email implements Serializable {
      * per poter accedere al file in tempo lineare usiamo una sorta di chiave £$%&&%$£ + id
      * */
     public String toCSV(int id){
-        return id + "," + this.replyId + ",\"" + this.sender + "\"," + this.getRecipientsString() + ",\"" + this.subject + "\",\"" + this.text.replaceAll("\n","%%").replaceAll("\"","") + "\"," + this.date.withSecond(0).withNano(0);
+        return id + "," + this.replyId + ",\"" + this.sender + "\"," + this.getRecipientsString() + ",\"" + this.subject + "\",\"" + this.text.replaceAll("\n","@@").replaceAll("\"","") + "\"," + this.date.withSecond(0).withNano(0);
     }
 
 }

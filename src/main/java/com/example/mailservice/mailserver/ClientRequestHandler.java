@@ -147,20 +147,21 @@ public class ClientRequestHandler extends Thread {
                 model.getClientObjectOutputStream(recipient).flush();
 
                 /** TODO per sapere se l'invio è avvenuto con successo*/
-                 String success = (String) inStream.readObject();
-                 if(Objects.equals(success, "TRUE")){
-                     model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
-                 }else {
-                     model.addLogRecords("L'utente " +recipient + "non ha ricevuto la mail da " + to_send.getSender());
-                 }
+//                 String success = (String) inStream.readObject();
+//                 if(Objects.equals(success, "TRUE")){
+//                     model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
+//                 }else {
+//                     model.addLogRecords("L'utente " +recipient + "non ha ricevuto la mail da " + to_send.getSender());
+//                 }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
+//            catch (ClassNotFoundException e) {
+//                throw new RuntimeException(e);
+//            }
         }
     }
     private synchronized void tryErrorCommunicationEmail(String to_send, String recipient) {

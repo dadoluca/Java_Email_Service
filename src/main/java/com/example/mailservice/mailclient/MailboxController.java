@@ -1,8 +1,10 @@
 package com.example.mailservice.mailclient;
 
 import com.example.mailservice.lib.Email;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -19,9 +21,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Optional;
 
 public class MailboxController {
     @FXML
@@ -47,6 +52,8 @@ public class MailboxController {
 
     @FXML
     private TextArea txtEmailDetails;
+
+    private Stage primaryStage;
 
 
     private int port;
@@ -106,6 +113,11 @@ public class MailboxController {
         lstEmails.setOnMouseClicked(this::showSelectedEmail);
         txtEmailDetails.setEditable(false);
 
+        Platform.runLater(() -> {
+            Stage primaryStage = (Stage) lblUsername.getScene().getWindow();
+            setPrimaryStage(primaryStage);
+        });
+
     }
     @FXML
     private void onBtnDeleteClick(){
@@ -159,7 +171,7 @@ public class MailboxController {
 
     protected void updateDetailView(Email email) {
         if(email != null) {
-            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText().replaceAll("%%","\n"));
+            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText().replaceAll("@@","\n"));
             txtEmailDetails.setText(text);
         }
         btnRispondi.setVisible(true);
@@ -167,6 +179,35 @@ public class MailboxController {
         btnReplyAll.setVisible(true);
         btnForward.setVisible(true);
         txtEmailDetails.setVisible(true);
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        setWindowCloseEventHandler();
+    }
+
+    private void setWindowCloseEventHandler() {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
+
+                // Mostra una finestra di conferma
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Conferma chiusura");
+                confirmationDialog.setHeaderText("Stai per chiudere l'applicazione");
+                confirmationDialog.setContentText("Sei sicuro di voler uscire?");
+                Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    // Esegui azioni aggiuntive prima di chiudere l'applicazione
+                    // ...
+                    //TODO LOGOUT
+//                    model.logout();
+                    Platform.exit(); // Chiudi l'applicazione
+                }
+            }
+        });
     }
 
 

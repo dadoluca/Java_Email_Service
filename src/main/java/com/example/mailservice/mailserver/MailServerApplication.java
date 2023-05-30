@@ -47,8 +47,8 @@ public class MailServerApplication extends Application {
     public void start(Stage stage) throws IOException {
         System.out.println(MailServerApplication.class.getResource(""));
         FXMLLoader fxmlLoader = new FXMLLoader(MailServerApplication.class.getResource("log_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 550, 600);
+        stage.setTitle("SERVER_LOG");
         stage.setScene(scene);
         stage.show();
 

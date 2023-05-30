@@ -1,19 +1,30 @@
 package com.example.mailservice.mailserver;
 
+import com.example.mailservice.lib.Email;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class LogController {
-    @FXML
-    private Label welcomeText;
-
     @FXML
     private ListView<String> listViewLog;
 
     private MailServerModel model;
 
     //ObservableList<String> logRecords;
+
+    @FXML
+    private TextArea txtLogRecordDetails;
+
+    String selected;
 
     public void initModel(MailServerModel model) {
         // ensure model is only set once:
@@ -28,11 +39,42 @@ public class LogController {
          * */
         listViewLog.setItems(model.getLogRecords());
 
+        listViewLog.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            public void updateItem(String log_message, boolean empty) {
+                super.updateItem(log_message, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    String[] my_message=log_message.split("&&");
+                    Text content = new Text(my_message[0]);
+                    content.setFont(Font.font("Arial", FontWeight.BOLD,12));
 
+                    VBox vbox = new VBox(content);
+                    vbox.setSpacing(5); // Spazio tra i componenti all'interno del VBox
+                    vbox.setPadding(new Insets(5)); // Padding intorno al VBox
+
+                    setGraphic(vbox);
+                }
+            }
+        });
+        selected = "";
+        listViewLog.setOnMouseClicked(this::showSelectedLogRecord);
+        txtLogRecordDetails.setEditable(false);
     }
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Log");
+    protected void showSelectedLogRecord(MouseEvent mouseEvent) {
+        String logRecord= listViewLog.getSelectionModel().getSelectedItem();
+        String[]splittedLogRecords=logRecord.split("&&");
+        selected=logRecord;
+        updateDetailView(splittedLogRecords[1]);
+    }
+
+    protected void updateDetailView(String logRecord) {
+        if(logRecord != "") {
+            txtLogRecordDetails.setText(logRecord);
+        }
+        txtLogRecordDetails.setVisible(true);
     }
 }

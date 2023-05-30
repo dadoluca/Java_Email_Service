@@ -65,8 +65,8 @@ public class NewMailController {
                                 "From: "+e.getSender()+"\n"+
                                 "Date: "+e.getDate().toString()+"\n"+
                                 "Subject: "+e.getSubject()+"\n"+
-                                "To: "+e.getRecipientsString()+"\n\n" +
-                        e.getText()+"\n\n");
+                                "To: "+e.getRecipientsString().replaceAll("\"","")+"\n\n" +
+                        e.getText());
                 txtContenuto.setText(text);
         }
 
