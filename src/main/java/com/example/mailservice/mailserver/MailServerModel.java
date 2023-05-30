@@ -60,8 +60,13 @@ public class MailServerModel {
     public synchronized void addClientSocket(String email_addr, Socket socket, ObjectOutputStream outStream, ObjectInputStream inStream) {
         SocketInfo socketInfo = new SocketInfo(socket, outStream, inStream);
         clients_sockets.put(email_addr, socketInfo);
-        System.out.println("--- sockets: " + getClientsSockets());
+        System.out.println("--- socket opened: " + email_addr);
     }
+    public synchronized void removeClientSocket(String email_addr) {
+        clients_sockets.remove(email_addr);
+        System.out.println("--- socket closed: " + email_addr);
+    }
+
 
     private class SocketInfo {
         public Socket socket;

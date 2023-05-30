@@ -17,6 +17,7 @@ public class ClientRequestHandler extends Thread {
     ObjectInputStream inStream = null;
     ObjectOutputStream outStream = null;
     Socket socket;
+    boolean logout = false;
 
 
     public ClientRequestHandler(Socket socket, MailServerModel model) {
@@ -32,7 +33,7 @@ public class ClientRequestHandler extends Thread {
             throw new RuntimeException(e);
         }
         finally {
-            closeStreams();
+            closeConnection();
         }
     }
 
@@ -41,7 +42,7 @@ public class ClientRequestHandler extends Thread {
      */
     private void serveClient() {
         try {
-            while (true) {
+            while (!logout) {
                 Object message = inStream.readObject();
                 if (message instanceof String) {
                     if(message.equals("DELETE")){
@@ -59,6 +60,14 @@ public class ClientRequestHandler extends Thread {
                             }
                         }
 
+                    }
+                    else if(message.equals("LOGOUT")){
+                        Object author = inStream.readObject();
+                        if (author instanceof String){
+                            this.model.removeClientSocket(author.toString());
+                            //closeConnection();
+                            this.logout=true;
+                        }
                     }
                     else{
                             /*
@@ -90,7 +99,7 @@ public class ClientRequestHandler extends Thread {
                         }
                     }
                 }
-                if (message instanceof Email) {
+                else if (message instanceof Email) {
                         /*
                          * Riceve una mail dal client
                           */
@@ -124,7 +133,7 @@ public class ClientRequestHandler extends Thread {
     }
 
     // Chiude gli stream utilizzati durante l'ultima connessione
-    private void closeStreams() {
+    private void closeConnection() {
         try {
             if (inStream != null) {
                 inStream.close();
@@ -132,6 +141,10 @@ public class ClientRequestHandler extends Thread {
 
             if (outStream != null) {
                 outStream.close();
+            }
+
+            if(socket!=null){
+                socket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
