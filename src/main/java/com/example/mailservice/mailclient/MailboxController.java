@@ -47,7 +47,6 @@ public class MailboxController {
     private Button btnForward;
     private Client model;
 
-    private String host;
     private Email selected;
 
     @FXML
@@ -56,7 +55,6 @@ public class MailboxController {
     private Stage primaryStage;
 
 
-    private int port;
     public void initModel(Client client) {
         // ensure model is only set once:
         if (this.model != null) {
@@ -64,11 +62,6 @@ public class MailboxController {
         }
 
         this.model = client;
-
-        host = "127.0.0.1";
-        port = 3456;
-
-
         lblUsername.setText(model.mailbox.getEmailAddress());
 
         //order with decrescent Data
@@ -194,15 +187,12 @@ public class MailboxController {
 
                 // Mostra una finestra di conferma
                 Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmationDialog.setTitle("Conferma chiusura");
-                confirmationDialog.setHeaderText("Stai per chiudere l'applicazione");
-                confirmationDialog.setContentText("Sei sicuro di voler uscire? Vorrei scollegato.");
+                confirmationDialog.setTitle("Confirm closure");
+                confirmationDialog.setHeaderText("Are you sure?");
+                confirmationDialog.setContentText("You will be logged out.");
                 Optional<ButtonType> result = confirmationDialog.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    // Esegui azioni aggiuntive prima di chiudere l'applicazione
-                    // ...
-                    //TODO LOGOUT
                     model.logout();
                     Platform.exit(); // Chiudi l'applicazione
                 }

@@ -8,7 +8,11 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -18,54 +22,65 @@ import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
+
 import org.controlsfx.control.Notifications;
+
 public class Client {
     Socket socket = null;
     ObjectOutputStream outStream = null;
     ObjectInputStream inStream = null;
     Mailbox mailbox;
-    boolean logout = false;
-
-
+    private boolean is_logged_out = false;
+    private boolean is_logged = false;
+    String host;
+    int port;
+    private String resultOfSendEmail="";
+    boolean available_resultOfSendEmail= false;
 
     final int MAX_ATTEMPTS = 5;
 
-    public Client(String em_addr){
+    private final Object lock = new Object(); // Create an object for synchronization
+
+
+    public Client(String em_addr, String host, int port) {
         mailbox = new Mailbox(em_addr);
+        this.host = host;
+        this.port = port;
     }
 
 
     /**
      * Fa fino a 5 tentativi per comunicare con il server. Dopo ogni tentativo fallito
-     * aspetta 1 secondo.
-     * @param host l'indirizzo sul quale il server è in ascolto.
-     * @param port la porta su cui il server è in ascolto.
+     * aspetta 1/10 secondo.
      */
-    public boolean login(String host, int port) throws IOException {
+    public String login() throws IOException {
         int attempts = 0;
 
-        boolean success = false;
-        while(attempts < MAX_ATTEMPTS && !success) {
+        String result = "";
+        while (attempts < MAX_ATTEMPTS && !result.equals("LOGGED")) {
             attempts += 1;
             System.out.println();
 
-            success = tryLoginCommunication(host, port);
+            result = tryLoginCommunication();
 
-            if(success) {
-                System.out.println("Sono loggato come: "+this.mailbox.getEmailAddress());
+            if (result.equals("LOGGED")) {
+                System.out.println("Sono loggato come: " + this.mailbox.getEmailAddress());
                 /**
                  * Thread che si mette in ascolto della ricezione di email
                  * */
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
-                    listenForEmails();
+                    try {
+                        listenForEmails();
+                    } catch (InterruptedException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 };
                 Thread serverListener = new Thread(listener);
+                is_logged = true;
                 serverListener.start();
                 continue;
             }
@@ -76,13 +91,13 @@ public class Client {
                 e.printStackTrace();
             }
         }
-        return success;
+        return result;
     }
 
     // Tenta di comunicare con il server. Restituisce true se ha successo, false altrimenti
-    private  boolean tryLoginCommunication(String host, int port) {
+    private String tryLoginCommunication() {
         try {
-            connectToServer(host, port);
+            connectToServer();
 
             outStream.writeObject(this.mailbox.getEmailAddress());
             //outputStream.writeObject("ciao sono il client");
@@ -90,48 +105,59 @@ public class Client {
             List<Email> emailsList;
 
             String success = (String) inStream.readObject();
-            if(Objects.equals(success, "TRUE"))
-            {
+            if (Objects.equals(success, "TRUE")) {
                 //legge la sua mailbox inviata dal server
                 emailsList = (List<Email>) inStream.readObject();
-                for(Email em : emailsList){
+                for (Email em : emailsList) {
                     this.mailbox.addEmail(em);
                     //this.inboxContent.add(em);
                 }
-                System.out.println(emailsList.toString());
+                //System.out.println(emailsList);
+                return "LOGGED";
+            } else if (Objects.equals(success, "FALSE")){
+                return "NOT_FOUND";
             }
 
-            else{
-                return false;
-            }
-            return true;
         } catch (ConnectException ce) {
             // nothing to be done
-            return false;
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            //closeStreams();
+            //e.printStackTrace();
         }
+        return "SERVER_OFFLINE";
+
     }
 
-    private void tryCommunicationEmail(String host, int port,Email to_send) {
+    private String tryCommunicationEmail(Email to_send) {
+        if(!is_logged) showAlert("Server offline.. ");
         try {
             outStream.writeObject(to_send);
             outStream.flush();
 
-            /* per sapere se l'invio è avvenuto con successo NON NECESSARIO
-            String success = (String) inputStream.readObject();
-            if(Objects.equals(success, "TRUE")){System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());}
-            else{return false;}
-            return true;*/
+            // per sapere se l'invio è avvenuto con successo NON NECESSARIO
+            //String result = (String) inStream.readObject();
 
+            synchronized (lock) {
+                while (!available_resultOfSendEmail)
+                {
+                    lock.wait();
+                }
+            }
+            available_resultOfSendEmail=false;
+            if(resultOfSendEmail.equals("SEND_OK")){
+                //System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());
+            return "email successfully sent!";
+            }
+            else{
+                return "Recipient email doesn't exist!";
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             //closeStreams();
         }
+        return "email successfully sent!";
     }
 
     private void closeConnections() {
@@ -145,7 +171,8 @@ public class Client {
             }
         }
     }
-    private void connectToServer(String host, int port) throws IOException {
+
+    private void connectToServer() throws IOException {
         socket = new Socket(host, port);
         outStream = new ObjectOutputStream(socket.getOutputStream());
 
@@ -159,25 +186,28 @@ public class Client {
         //System.out.println("[Client luca.dadone01@gmail.com] Connesso");
     }
 
-    public void newEmail(String host, int port,ArrayList<String> dest,String oggetto,String contenuto){
-        Email to_send= new Email(1010,-1,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
-        tryCommunicationEmail(host,port,to_send);
+    public String newEmail(ArrayList<String> dest, String oggetto, String contenuto) {
+        Email to_send = new Email(1010, -1, this.mailbox.getEmailAddress().toString(), dest, oggetto, contenuto, LocalDateTime.now());
+        return tryCommunicationEmail(to_send);
     }
-    public void newEmail(String host, int port,int replyId, ArrayList<String> dest,String oggetto,String contenuto){
-        Email to_send= new Email(1010,replyId,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
-        tryCommunicationEmail(host,port,to_send);
+
+    public String newEmail(int replyId, ArrayList<String> dest, String oggetto, String contenuto) {
+        Email to_send = new Email(1010, replyId, this.mailbox.getEmailAddress().toString(), dest, oggetto, contenuto, LocalDateTime.now());
+        return tryCommunicationEmail(to_send);
     }
-    public void deleteEmail(Email e){
+
+    public void deleteEmail(Email e) {
         /**
          * Come gmail eliminiamo la mail in locale lato client e poi proviamo a comunicarlo al server
          * (non attendiamo risposta)
          * */
         this.mailbox.removeEmail(e);
-        String delete_msg ="DELETE";
-        tryCommunicationDeleteEmail(delete_msg,e);
+        String delete_msg = "DELETE";
+        tryCommunicationDeleteEmail(delete_msg, e);
     }
 
-    private  void tryCommunicationDeleteEmail(String delete_msg, Email email) {
+    private void tryCommunicationDeleteEmail(String delete_msg, Email email) {
+        if(!is_logged) showAlert("Server offline.. ");
         try {
             outStream.writeObject(delete_msg);
             outStream.flush();
@@ -194,9 +224,9 @@ public class Client {
     }
 
     //------------------------------ ascolto della ricezione di email dal server
-    public void listenForEmails() {
+    public void listenForEmails() throws InterruptedException, IOException {
         try {
-            while (!logout) {
+            while (!is_logged_out) {
                 Object message = inStream.readObject();
                 if (message instanceof Email received_email) {
                     /**
@@ -204,18 +234,26 @@ public class Client {
                      **/
                     System.out.println("Ho ricevuto la mail: " + received_email);
                     this.mailbox.addEmail(received_email);
-                    Platform.runLater(()-> Client.showAlert(received_email,this.mailbox.getEmailAddress()));
+                    Platform.runLater(() -> Client.showAlert(received_email, this.mailbox.getEmailAddress()));
 
-                } else if (message instanceof String) {//HO RICEVUTO UN ERRORE SUI DESTINATARI ERRATI
-                    System.out.println("ERRORE RICEVUTO::::::::: "+message.toString());
-                } else {//errore
-                    System.out.println(message.toString());
+                } else { //Ricevuto risultato dell'invio di una mail
+                   resultOfSendEmail=(String) inStream.readObject();
+                    System.out.println(resultOfSendEmail);
+                    synchronized (lock) {
+                        available_resultOfSendEmail = true;
+                        notify();
+                    }
                 }
-                //outStream.flush();
-
             }
         } catch (IOException | ClassNotFoundException e) {
             //chiusura socket
+            is_logged = false;
+            //attesa riconnessione con il server
+            while (!is_logged_out && !is_logged) {
+                //server offline
+                Thread.sleep(1000);
+                this.login();
+            }
         }
     }
 
@@ -240,7 +278,7 @@ public class Client {
         return Pattern.matches(regex, email);
     }
 
-    public static void showAlert(Email e, String client){
+    public static void showAlert(Email e, String client) {
 
         String imagePath = System.getProperty("user.dir") + "/src/main/java/com/example/mailservice/mailclient/assets/email.png";
 
@@ -248,7 +286,7 @@ public class Client {
         imageView.setFitWidth(50); // Imposta la larghezza desiderata dell'immagine
         imageView.setFitHeight(50); // Imposta l'altezza desiderata dell'immagine
         String notificationText = "From: " + e.getSender() + "\n" +
-                "Subject: " + ( e.getSubject().length() >= 30 ? e.getSubject().substring(0,30) : e.getSubject());
+                "Subject: " + (e.getSubject().length() >= 30 ? e.getSubject().substring(0, 30) : e.getSubject());
 
         Notifications.create()
                 .title(client)
@@ -259,13 +297,23 @@ public class Client {
                 .show();
     }
 
+    public static void showAlert(String msg) {
+
+        // Mostra una finestra di conferma
+        Alert confirmationDialog = new Alert(Alert.AlertType.ERROR);
+        confirmationDialog.setTitle("Scusaci");
+        confirmationDialog.setHeaderText(msg);
+        confirmationDialog.setContentText("try later.");
+        Optional<ButtonType> result = confirmationDialog.showAndWait();
+    }
+
     public void logout() {
         try {
             outStream.writeObject("LOGOUT");
             outStream.flush();
             outStream.writeObject(this.mailbox.getEmailAddress());
             outStream.flush();
-            logout= false;
+            is_logged_out = true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

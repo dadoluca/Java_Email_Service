@@ -1,17 +1,20 @@
 package com.example.mailservice.mailserver;
 
 import com.example.mailservice.lib.Email;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+import java.util.Optional;
 
 public class LogController {
     @FXML
@@ -19,7 +22,8 @@ public class LogController {
 
     private MailServerModel model;
 
-    //ObservableList<String> logRecords;
+    private Stage primaryStage;
+
 
     @FXML
     private TextArea txtLogRecordDetails;
@@ -62,13 +66,24 @@ public class LogController {
         selected = "";
         listViewLog.setOnMouseClicked(this::showSelectedLogRecord);
         txtLogRecordDetails.setEditable(false);
+
+        Platform.runLater(() -> {
+            Stage primaryStage = (Stage) txtLogRecordDetails.getScene().getWindow();
+            setPrimaryStage(primaryStage);
+        });
     }
+
 
     protected void showSelectedLogRecord(MouseEvent mouseEvent) {
         String logRecord= listViewLog.getSelectionModel().getSelectedItem();
-        String[]splittedLogRecords=logRecord.split("&&");
-        selected=logRecord;
-        updateDetailView(splittedLogRecords[1]);
+        if(logRecord.contains("&&")){
+            String[]splittedLogRecords=logRecord.split("&&");
+            selected=logRecord;
+            updateDetailView(splittedLogRecords[1]);
+        }
+        else //user login
+            txtLogRecordDetails.setVisible(false);
+
     }
 
     protected void updateDetailView(String logRecord) {
@@ -77,4 +92,31 @@ public class LogController {
         }
         txtLogRecordDetails.setVisible(true);
     }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        setWindowCloseEventHandler();
+    }
+
+    private void setWindowCloseEventHandler() {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume(); // Consuma l'evento per evitare la chiusura immediata della finestra
+
+                // Mostra una finestra di conferma
+                Alert confirmationDialog = new Alert(Alert.AlertType.WARNING);
+                confirmationDialog.setTitle("Confirm closure");
+                confirmationDialog.setHeaderText("You are about to shut down the server!");
+                confirmationDialog.setContentText("Are you sure?");
+                Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    model.logout();
+                    Platform.exit(); // Chiudi l'applicazione
+                }
+            }
+        });
+    }
+
 }

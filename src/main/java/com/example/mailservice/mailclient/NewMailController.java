@@ -28,7 +28,7 @@ public class NewMailController {
     @FXML
     private TextArea txtContenuto;
     @FXML
-    private Label txtDestinatariError;
+    private Label txtSendEmailResult;
     private Client client;
     private String host;
 
@@ -93,13 +93,13 @@ public class NewMailController {
              * Controllo se è una mail di risposta
              * */
             if (to_reply != null && to_reply.getSender().equals(splitted[0])) {
-                client.newEmail(host, port, to_reply.getId(), dest, oggetto, contenuto);
+                txtSendEmailResult.setText(client.newEmail( to_reply.getId(), dest, oggetto, contenuto));
             } else {
-                client.newEmail(host, port, dest, oggetto, contenuto);
+                txtSendEmailResult.setText(client.newEmail(dest, oggetto, contenuto));
             }
             redirectToClientView(e);
         } else {
-            txtDestinatariError.setText("Mail non valida");
+            txtSendEmailResult.setText("Mail non valida");
         }
     }
 

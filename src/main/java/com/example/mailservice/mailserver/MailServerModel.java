@@ -25,6 +25,12 @@ public class MailServerModel {
     /**
      * lista di caselle di posta
      */
+    public List<ClientRequestHandler> pool_requestHandler_threads;
+    public MailServerModel(){
+        pool_requestHandler_threads = new ArrayList<>();
+        Platform.runLater(() -> this.addLogRecords("Server is running.."));
+        loadData();
+    }
 
     private ObservableList<String> logRecords = FXCollections.observableArrayList();
 
@@ -91,9 +97,6 @@ public class MailServerModel {
         nextId = start_value;
     }
 
-    public MailServerModel() {
-        loadData();
-    }
 
     public void loadData() {
 
@@ -212,7 +215,7 @@ public class MailServerModel {
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
-        String message="RECIPPIENTS_ERROR:";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
+        String message="SEND_OK";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
         boolean send = false;
         boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
         for (String recipient : email.getRecipientsList()) {
@@ -266,12 +269,21 @@ public class MailServerModel {
                     }
                 }
                 if(!founded){
-                    message+=recipient+" non è un cliente esistente, ";
+                    message="ERROR_RECIPIENT: Recipient doesn't exist";
                 }
             }
-        System.out.println(" messaggio che dovrei restituire al client::::: "+message);
         return message;
 
+    }
+
+    public void logout(){
+        for(String email_addr : clients_sockets.keySet()){
+            clients_sockets.remove(email_addr);
+        }
+        for(Thread thread: pool_requestHandler_threads){
+            thread.interrupt();
+        }
+        System.exit(0);
     }
 }
 

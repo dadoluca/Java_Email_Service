@@ -31,8 +31,7 @@ public class ClientRequestHandler extends Thread {
             serveClient();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        finally {
+        } finally {
             closeConnection();
         }
     }
@@ -45,52 +44,47 @@ public class ClientRequestHandler extends Thread {
             while (!logout) {
                 Object message = inStream.readObject();
                 if (message instanceof String) {
-                    if(message.equals("DELETE")){
-                        Object author = inStream.readObject();
-                        if(author instanceof String){
+                    if (message.equals("DELETE")) {
+                        Object user = inStream.readObject();
+                        if (user instanceof String) {
                             Object email = inStream.readObject();
-                            if(email instanceof Email){
+                            if (email instanceof Email) {
                                 Email to_delete = (Email) email;
                                 /*
                                  * informa il log della delete
                                  * rimuove dal model
                                  */
-                                Platform.runLater(() -> model.addLogRecords("Elimino mail da "+to_delete.getSender()+ " a "+to_delete.getRecipientsString()+" per "+author));
-                                model.deleteEmail(to_delete, author.toString());
+                                Platform.runLater(() -> model.addLogRecords("Elimino mail da " + to_delete.getSender() + " a " + to_delete.getRecipientsString() + " per " + user));
+                                model.deleteEmail(to_delete, user.toString());
                             }
                         }
 
-                    }
-                    else if(message.equals("LOGOUT")){
-                        Object author = inStream.readObject();
-                        if (author instanceof String){
-                            this.model.removeClientSocket(author.toString());
-                            //closeConnection();
-                            this.logout=true;
+                    } else if (message.equals("LOGOUT")) {
+                        Object user = inStream.readObject();
+                        if (user instanceof String) {
+                            this.model.removeClientSocket(user.toString());
+                            Platform.runLater(() -> this.model.addLogRecords("User " + user + " is logged out!"));
+                            this.logout = true;
                         }
-                    }
-                    else{
-                            /*
-                             * Riceve un email address dal client che vuole loggarsi,
-                             * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
-                                */
-                        System.out.println(message + " vuole loggarsi");
+                    } else {
+                        /*
+                         * Riceve un email address dal client che vuole loggarsi,
+                         * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
+                         */
+                        //System.out.println(message + " vuole loggarsi");
                         String email_addr = message.toString();
                         Mailbox mb_client = model.getMailbox(email_addr);
-                        if (mb_client == null)
-                        {
+                        if (mb_client == null) {
                             outStream.writeObject("FALSE");
                             outStream.flush();
-                        }
-
-                        else {//l'utente esiste
-                                /*
-                                 * aggiungiamo il socket del client alla mappa dei email_addr - sockets
-                                    * */
+                        } else {//l'utente esiste
+                            /*
+                             * aggiungiamo il socket del client alla mappa dei email_addr - sockets
+                             * */
                             model.addClientSocket(email_addr, this.socket, this.outStream, this.inStream);
 
                             //stampa nel log
-                            Platform.runLater(() -> model.addLogRecords("L'utente " + mb_client.getEmailAddress() + " si è loggato"));
+                            Platform.runLater(() -> model.addLogRecords("User " + mb_client.getEmailAddress() + " is logged in!"));
 
                             //invia al client la sua mailbox
                             outStream.writeObject("TRUE");
@@ -98,30 +92,27 @@ public class ClientRequestHandler extends Thread {
                             outStream.flush();
                         }
                     }
-                }
-                else if (message instanceof Email) {
-                        /*
-                         * Riceve una mail dal client
-                          */
+                } else if (message instanceof Email) {
+                    /*
+                     * Riceve una mail dal client
+                     */
                     Email to_forward = (Email) message;
                     System.out.println("Ho ricevuto la mail: " + to_forward);
-                    String resulOfReceviveEmail=model.receiveEmail(to_forward, true);
-                    if(!resulOfReceviveEmail.equals("RECIPPIENTS_ERROR:"))//scrive nel log e su csv e controlla eventuali errori
-                    {
-                        tryErrorCommunicationEmail(resulOfReceviveEmail, to_forward.getSender());
-                    }
+                    String resulOfReceviveEmail = model.receiveEmail(to_forward, true);
+                    trySendResultCommunication(resulOfReceviveEmail, to_forward.getSender());
+                    if (resulOfReceviveEmail.equals("SEND_OK"))//scrive nel log e su csv e controlla eventuali errori
                         /*
                          * preleva i destinatari e inoltra la mail
-                            **/
-                        else{// se non ci sono errori procede all'inoltro
+                         **/
                         for (String recepient : to_forward.getRecipientsList()) {
                             tryCommunicationEmail(to_forward, recepient);
                         }
-                    }
                 }
+
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException ex) {
+            //throw new RuntimeException(ex);
+            serveClient();
         }
     }
 
@@ -143,7 +134,7 @@ public class ClientRequestHandler extends Thread {
                 outStream.close();
             }
 
-            if(socket!=null){
+            if (socket != null) {
                 socket.close();
             }
         } catch (IOException e) {
@@ -154,7 +145,7 @@ public class ClientRequestHandler extends Thread {
     //--------------------------- inoltro mail ai clients
     private synchronized void tryCommunicationEmail(Email to_send, String recipient) {
 
-        if(model.getClientSocket(recipient)!=null){ //recipient online
+        if (model.getClientSocket(recipient) != null) { //recipient online
             try {
                 model.getClientObjectOutputStream(recipient).writeObject(to_send);
                 model.getClientObjectOutputStream(recipient).flush();
@@ -168,7 +159,7 @@ public class ClientRequestHandler extends Thread {
 //                 }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
-                System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
+                System.err.println("Impossibile inviare la mail a " + recipient + " perché: " + e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -177,20 +168,15 @@ public class ClientRequestHandler extends Thread {
 //            }
         }
     }
-    private synchronized void tryErrorCommunicationEmail(String to_send, String recipient) {
-        try {
-            model.getClientObjectOutputStream(recipient).flush();
-            model.getClientObjectOutputStream(recipient).writeObject(to_send);
-            model.getClientObjectOutputStream(recipient).flush();
 
-            /** TODO per sapere se l'invio è avvenuto con successo
-             String success = (String) inStream.readObject();
-             if(Objects.equals(success, "TRUE")){
-             model.addLogRecords("L'utente "+recipient+" ha ricevuto la mail da "+to_send.getSender());
-             }*/
+    private synchronized void trySendResultCommunication(String to_send, String sender) {
+        try {
+            model.getClientObjectOutputStream(sender).writeObject(to_send);
+            model.getClientObjectOutputStream(sender).flush();
+
         } catch (SocketException e) {
             //eccezione quando il socket è chiuso
-            System.err.println("Impossibile inviare la mail a " + recipient + " perché: "+e.getMessage());
+            System.err.println("Impossibile inviare la mail a " + sender + " perché: " + e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }

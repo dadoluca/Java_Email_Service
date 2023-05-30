@@ -15,7 +15,6 @@ import java.util.List;
 
 public class MailServerApplication extends Application {
     MailServerModel model;
-    List<ClientRequestHandler> pool_requestHandler_threads;
 
 
     public void listen(int port) {
@@ -26,9 +25,9 @@ public class MailServerApplication extends Application {
                 socket = serverSocket.accept();
                 ClientRequestHandler requestHandler = new ClientRequestHandler(socket,model);
                 requestHandler.start();
-                pool_requestHandler_threads.add(requestHandler);
-                System.out.println("dimensione del pool di threads a servire i client: "
-                        +pool_requestHandler_threads.size());
+                model.pool_requestHandler_threads.add(requestHandler);
+                //System.out.println("dimensione del pool di threads a servire i client: "
+                        //+model.pool_requestHandler_threads.size());
             }
 
         } catch (IOException e) {
@@ -53,7 +52,6 @@ public class MailServerApplication extends Application {
         stage.show();
 
         model= new MailServerModel();
-        pool_requestHandler_threads = new ArrayList<>();
         /**Thread che si mette in ascolto delle richieste*/
         Runnable server = () -> {
             //Ci mettiamo in ascolto

@@ -20,21 +20,14 @@ public class LoginController {
     @FXML
     private TextField txtEmail;
     private Client client;
-    private String host;
+    private String host="127.0.0.1";
 
-    private int port;
+    private int port=3456;
 
     private Client model=null;
 
     private void initModel(Client client) {
-        // ensure model is only set once:
-        /*if (this.client != null) {
-            throw new IllegalStateException("Model can only be initialized once");
-        }*/
-        //else
         this.client = client;
-        host = "127.0.0.1";
-        port = 3456;
     }
 
     @FXML
@@ -42,14 +35,18 @@ public class LoginController {
         String mail_addr = txtEmail.getText();
         if(Client.isValidEmail(mail_addr)){
             if (model == null) {
-                model = new Client(mail_addr);
+                model = new Client(mail_addr,host,port);
                 initModel(model);
             }
-            boolean success = client.login(host, port);
-            if (success) {
+            String result = client.login();
+            if (result.equals("LOGGED")) {
                 switchToNewView(e);
-            } else {
-                errorText.setText("Utente non registrato");
+            } else if(result.equals("NOT_FOUND")) {
+                errorText.setText("User not found!");
+                model = null;
+                txtEmail.setText("");
+            }else{
+                errorText.setText("Server offline.. try later.");
                 model = null;
                 txtEmail.setText("");
             }
