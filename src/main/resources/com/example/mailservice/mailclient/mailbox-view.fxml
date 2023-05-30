@@ -7,33 +7,46 @@
 
 <Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-image: url('https://static.vecteezy.com/ti/foto-gratuito/p1/15587819-creativo-disposizione-di-blu-le-foglie-natura-sfondo-foto.jpg'); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.MailboxController">
    <children>
-      <ListView fx:id="lstEmails" layoutX="30.0" layoutY="50.0" opacity="0.93" prefHeight="500.0" prefWidth="260.0" />
-      <Button fx:id="btnRispondi" layoutX="750.0" layoutY="50.0" mnemonicParsing="false" onAction="#onBtnReplyClick" style="-fx-background-color: white;" text="Rispondi" textFill="#2562A0" visible="false">
+      <Pane layoutX="60" layoutY="26.0" pickOnBounds="true" prefHeight="40.0" prefWidth="40.0" style="-fx-background-image: email.png; -fx-background-size: cover;" visible="true">
+         <children>
+            <ImageView fitHeight="67.0" fitWidth="67.0" layoutX="-30.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@email.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Label layoutX="111.0" layoutY="30.0" text="My Mailbox" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <Button fx:id="btnDelete" layoutX="750.0" layoutY="170.0" mnemonicParsing="false" onAction="#onBtnDeleteClick" style="-fx-background-color: white;" text="Elimina" textFill="#2562A0" visible="false">
+            <Font name="System Bold Italic" size="32.0" />
+         </font></Label>
+      <ListView fx:id="lstEmails" layoutX="31.0" layoutY="121.0" opacity="0.93" prefHeight="460.0" prefWidth="260.0" />
+      <Button fx:id="btnRispondi" layoutX="751.0" layoutY="121.0" mnemonicParsing="false" onAction="#onBtnReplyClick" style="-fx-background-color: white;" text="Rispondi" textFill="#2562A0" visible="false">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Button>
-      <Label fx:id="lblUsername" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="700.0" layoutY="10.0" nodeOrientation="RIGHT_TO_LEFT" textFill="WHITE">
+      <Button fx:id="btnDelete" layoutX="751.0" layoutY="241.0" mnemonicParsing="false" onAction="#onBtnDeleteClick" style="-fx-background-color: white;" text="Elimina" textFill="#2562A0" visible="false">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label fx:id="lblUsername" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="703.0" layoutY="33.0" nodeOrientation="RIGHT_TO_LEFT" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button fx:id="btnNewEmail" layoutX="750.0" layoutY="560.0" mnemonicParsing="false" onAction="#onBtnNewEmailClick" style="-fx-background-color: white;" text="Nuova Email" textFill="#2562A0">
+      <Button fx:id="btnNewEmail" layoutX="752.0" layoutY="551.0" mnemonicParsing="false" onAction="#onBtnNewEmailClick" style="-fx-background-color: white;" text="Nuova Email" textFill="#2562A0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
-      <TextFlow fx:id="txtEmailDetails" layoutX="320.0" layoutY="50.0" opacity="0.93" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white; -fx-padding: 10" visible="false" />
-      <Button fx:id="btnReplyAll" layoutX="750.0" layoutY="90.0" mnemonicParsing="false" onAction="#onBtnReplyAllClick" style="-fx-background-color: white;" text="Rispondi a tutti" textFill="#2562A0" visible="false" />
-      <Button fx:id="btnForward" layoutX="750.0" layoutY="130.0" mnemonicParsing="false" onAction="#onBtnForwardClick" style="-fx-background-color: white;" text="Inoltra" textFill="#2562A0" visible="false" />
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="600.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="true">
-         <image>
-            <Image backgroundLoading="true" url="@../../../../../java/com/example/mailservice/mailclient/assets/user.png" />
-         </image>
-      </ImageView>
+      <TextFlow fx:id="txtEmailDetails" layoutX="321.0" layoutY="121.0" opacity="0.93" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: white; -fx-padding: 10" visible="false" />
+      <Button fx:id="btnReplyAll" layoutX="751.0" layoutY="161.0" mnemonicParsing="false" onAction="#onBtnReplyAllClick" style="-fx-background-color: white;" text="Rispondi a tutti" textFill="#2562A0" visible="false">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="btnForward" layoutX="751.0" layoutY="201.0" mnemonicParsing="false" onAction="#onBtnForwardClick" style="-fx-background-color: white;" text="Inoltra" textFill="#2562A0" visible="false">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
 
-      <Pane layoutX="600.0" layoutY="10.0" pickOnBounds="true" prefHeight="40.0" prefWidth="40.0" style="-fx-background-image: url('https://i.pinimg.com/originals/50/1e/df/501edf1ddfd8e3814d21c4855720cd10.png'); -fx-background-size: cover;" visible="true">
+      <Pane layoutX="663.0" layoutY="26.0" pickOnBounds="true" prefHeight="40.0" prefWidth="40.0" style="-fx-background-image: url('https://i.pinimg.com/originals/50/1e/df/501edf1ddfd8e3814d21c4855720cd10.png'); -fx-background-size: cover;" visible="true">
       </Pane>
    </children>
 </Pane>

@@ -136,20 +136,15 @@ public class Client {
             // per sapere se l'invio è avvenuto con successo NON NECESSARIO
             //String result = (String) inStream.readObject();
 
-            synchronized (lock) {
+            synchronized (lock) {//attendo ricezione result
                 while (!available_resultOfSendEmail)
                 {
                     lock.wait();
                 }
             }
             available_resultOfSendEmail=false;
-            if(resultOfSendEmail.equals("SEND_OK")){
-                //System.out.println("invio avvenuto con successo a: "+to_send.getRecipientsList().toString());
-            return "email successfully sent!";
-            }
-            else{
-                return "Recipient email doesn't exist!";
-            }
+            return resultOfSendEmail.equals("SEND_OK") ? "Email succesfully sent": "Recipient doesn't exist!";
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -237,11 +232,10 @@ public class Client {
                     Platform.runLater(() -> Client.showAlert(received_email, this.mailbox.getEmailAddress()));
 
                 } else { //Ricevuto risultato dell'invio di una mail
-                   resultOfSendEmail=(String) inStream.readObject();
-                    System.out.println(resultOfSendEmail);
                     synchronized (lock) {
+                        resultOfSendEmail = message.toString();
                         available_resultOfSendEmail = true;
-                        notify();
+                        lock.notify();
                     }
                 }
             }
@@ -301,7 +295,7 @@ public class Client {
 
         // Mostra una finestra di conferma
         Alert confirmationDialog = new Alert(Alert.AlertType.ERROR);
-        confirmationDialog.setTitle("Scusaci");
+        confirmationDialog.setTitle("Sorry!");
         confirmationDialog.setHeaderText(msg);
         confirmationDialog.setContentText("try later.");
         Optional<ButtonType> result = confirmationDialog.showAndWait();

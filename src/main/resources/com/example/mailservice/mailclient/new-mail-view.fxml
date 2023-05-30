@@ -2,17 +2,38 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="paneNewMail" prefHeight="579.0" prefWidth="600.0" style="-fx-background-image: url('https://static.vecteezy.com/ti/foto-gratuito/p1/15587819-creativo-disposizione-di-blu-le-foglie-natura-sfondo-foto.jpg'); -fx-background-size: cover;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
+<Pane fx:id="paneNewMail" prefHeight="600.0" prefWidth="900.0" style="-fx-background-image: url('https://static.vecteezy.com/ti/foto-gratuito/p1/15587819-creativo-disposizione-di-blu-le-foglie-natura-sfondo-foto.jpg'); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailclient.NewMailController">
    <children>
-      <Button fx:id="btnGoBack" alignment="TOP_LEFT" layoutX="15.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnGoBackClick" prefHeight="42.0" prefWidth="41.0" style="-fx-background-image: url('https://i.pinimg.com/originals/47/c0/49/47c0497b3f2d3f33efe5b9b8505015c9.png'); -fx-background-size: cover; -fx-background-color: trasparent;" />
-      <TextField fx:id="txtDestinatari" layoutX="37.0" layoutY="59.0" prefHeight="25.0" prefWidth="518.0" />
-      <Label fx:id="txtDestinatariError" layoutX="38.0" layoutY="92.0" text="" />
-      <Label layoutX="276.0" layoutY="116.0" text="Oggetto:" />
-      <TextField fx:id="txtOggetto" layoutX="38.0" layoutY="147.0" prefHeight="25.0" prefWidth="518.0" />
-      <Label layoutX="284.0" layoutY="200.0" text="Testo:" />
-      <TextArea fx:id="txtContenuto" layoutX="30.0" layoutY="229.0" prefHeight="138.0" prefWidth="529.0" />
+      <Label layoutX="348.0" layoutY="60.0" text="New Message" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="32.0" />
+         </font></Label>
+      <Button fx:id="btnGoBack" alignment="TOP_LEFT" layoutX="38.0" layoutY="28.0" mnemonicParsing="false" onAction="#onBtnGoBackClick" prefHeight="42.0" prefWidth="41.0" style="-fx-background-image: url('https://i.pinimg.com/originals/47/c0/49/47c0497b3f2d3f33efe5b9b8505015c9.png'); -fx-background-size: cover; -fx-background-color: trasparent;" />
+      <Label layoutX="190.0" layoutY="127.0" text="Recipients" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <TextField fx:id="txtDestinatari" layoutX="190.0" layoutY="147.0" opacity="0.93" prefHeight="40.0" prefWidth="520.0" promptText="name.surname@gmail.com, user@gmail.com" />
+      <Label fx:id="txtSendEmailResult" layoutX="321.0" layoutY="187.0" prefHeight="17.0"  text="" textFill="#fff1a9">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Label layoutX="190.0" layoutY="201.0" text="Subject" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <TextField fx:id="txtOggetto" layoutX="190.0" layoutY="221.0" opacity="0.93" prefHeight="40.0" prefWidth="520.0" promptText="Write here your title.." />
+      <Label layoutX="190.0" layoutY="289.0" text="Body" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <TextArea fx:id="txtContenuto" layoutX="190.0" layoutY="309.0" opacity="0.93" prefHeight="138.0" prefWidth="520.0" />
 
-      <Button fx:id="btnInvia" layoutX="506.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBtnSendClick" text="Invia" />
+      <Button fx:id="btnInvia" layoutX="190.0" layoutY="471.0" mnemonicParsing="false" onAction="#onBtnSendClick" prefHeight="40.0" prefWidth="520.0" style="-fx-background-color: white;" text="Send" textFill="#2562A0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
    </children>
 </Pane>

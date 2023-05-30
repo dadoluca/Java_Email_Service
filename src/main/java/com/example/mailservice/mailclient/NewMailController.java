@@ -48,13 +48,13 @@ public class NewMailController {
     public void setEmailtoReply(Email e, int action) {
         this.to_reply = e;
         String destinatari = e.getSender();
-        switch (action){
-            case 1 :
+        switch (action) {
+            case 1:
                 txtDestinatari.setText(destinatari);
                 break;
             case 2:
                 for (String recipient : e.getRecipientsList()) {
-                    if(!recipient.equals(this.client.mailbox.getEmailAddress()))
+                    if (!recipient.equals(this.client.mailbox.getEmailAddress()))
                         destinatari += ",   " + recipient;
                 }
                 txtDestinatari.setText(destinatari);
@@ -62,11 +62,11 @@ public class NewMailController {
             case 3:
                 txtOggetto.setText(e.getSubject());
                 String text = String.format("------- Forward message -------\n" +
-                                "From: "+e.getSender()+"\n"+
-                                "Date: "+e.getDate().toString()+"\n"+
-                                "Subject: "+e.getSubject()+"\n"+
-                                "To: "+e.getRecipientsString().replaceAll("\"","")+"\n\n" +
-                        e.getText().replaceAll("@@","\n"));
+                        "From: " + e.getSender() + "\n" +
+                        "Date: " + e.getDate().toString() + "\n" +
+                        "Subject: " + e.getSubject() + "\n" +
+                        "To: " + e.getRecipientsString().replaceAll("\"", "") + "\n\n" +
+                        e.getText().replaceAll("@@", "\n"));
                 txtContenuto.setText(text);
         }
 
@@ -75,7 +75,7 @@ public class NewMailController {
 
     @FXML
     private void onBtnSendClick(ActionEvent e) throws IOException {
-        String destinatari = txtDestinatari.getText().replaceAll(" ","");
+        String destinatari = txtDestinatari.getText().replaceAll(" ", "");
         ArrayList<String> dest = new ArrayList<>();
         boolean correctEmail = true;
         String[] splitted = destinatari.split(",");
@@ -92,12 +92,14 @@ public class NewMailController {
             /**
              * Controllo se è una mail di risposta
              * */
-            if (to_reply != null && to_reply.getSender().equals(splitted[0])) {
-                txtSendEmailResult.setText(client.newEmail( to_reply.getId(), dest, oggetto, contenuto));
-            } else {
-                txtSendEmailResult.setText(client.newEmail(dest, oggetto, contenuto));
-            }
-            redirectToClientView(e);
+            String result;
+            if (to_reply != null && to_reply.getSender().equals(splitted[0]))
+                result = client.newEmail(to_reply.getId(), dest, oggetto, contenuto);
+            else
+                result = client.newEmail(dest, oggetto, contenuto);
+            txtSendEmailResult.setText(result);
+            if(result.equals("Email succesfully sent"))
+                redirectToClientView(e);
         } else {
             txtSendEmailResult.setText("Mail non valida");
         }
