@@ -14,7 +14,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 import java.util.Optional;
+
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -30,6 +32,8 @@ public class LogController {
 
     @FXML
     private TextFlow txtLogRecordDetails;
+    @FXML
+    private ScrollPane scrollPane;
 
     String selected;
 
@@ -57,9 +61,9 @@ public class LogController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    String[] my_message=log_message.split("&&");
+                    String[] my_message = log_message.split("&&");
                     Text content = new Text(my_message[0]);
-                    content.setFont(Font.font("Arial", FontWeight.BOLD,12));
+                    content.setFont(Font.font("Arial", FontWeight.BOLD, 12));
                     content.setFill(Color.WHITE);
                     VBox vbox = new VBox(content);
                     vbox.setSpacing(5); // Spazio tra i componenti all'interno del VBox
@@ -80,30 +84,29 @@ public class LogController {
         listViewLog.setOnMouseClicked(this::showSelectedLogRecord);
 
         Platform.runLater(() -> {
-            Stage primaryStage = (Stage) txtLogRecordDetails.getScene().getWindow();
+            Stage primaryStage = (Stage) listViewLog.getScene().getWindow();
             setPrimaryStage(primaryStage);
         });
         listViewLog.setBackground(background);
         txtLogRecordDetails.setBackground(background);
-
+        scrollPane.setVisible(false);
     }
 
 
     protected void showSelectedLogRecord(MouseEvent mouseEvent) {
-        String logRecord= listViewLog.getSelectionModel().getSelectedItem();
-        if(logRecord.contains("&&")){
-            String[]splittedLogRecords=logRecord.split("&&");
-            selected=logRecord;
+        String logRecord = listViewLog.getSelectionModel().getSelectedItem();
+        if (logRecord.contains("&&")) {
+            String[] splittedLogRecords = logRecord.split("&&");
+            selected = logRecord;
             updateDetailView(splittedLogRecords[1], splittedLogRecords[2]);
-        }
-        else //user login
-            txtLogRecordDetails.setVisible(false);
+        } else //user login
+            scrollPane.setVisible(false);
     }
 
     protected void updateDetailView(String logRecord, String email) {
 
-        if(logRecord != "") {
-            String[]emailElements=email.split("@@");
+        if (logRecord != "") {
+            String[] emailElements = email.split("@@");
 
             txtLogRecordDetails.getChildren().clear();
 
@@ -128,20 +131,20 @@ public class LogController {
             subject.setFill(Color.WHITE);
             Text subjectField = new Text(emailElements[2] + "\n");
             subjectField.setFill(Color.WHITE);
-            Text textField = new Text("\n" + emailElements[3].replaceAll("@@","\n"));
+            Text textField = new Text("\n" + emailElements[3].replaceAll("@@", "\n"));
             textField.setFill(Color.WHITE);
 
             Text date = new Text("Date: ");
             date.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
             date.setFill(Color.WHITE);
-            Text dateField = new Text(emailElements[4].substring(0,10) + "\n");
+            Text dateField = new Text(emailElements[4].substring(0, 10) + "\n");
             dateField.setTextAlignment(TextAlignment.RIGHT);
             dateField.setFill(Color.WHITE);
 
-            txtLogRecordDetails.getChildren().addAll(from,fromField,to, toField,subject,subjectField,date, dateField,textField);
-
+            txtLogRecordDetails.getChildren().addAll(from, fromField, to, toField, subject, subjectField, date, dateField, textField);
         }
         txtLogRecordDetails.setVisible(true);
+        scrollPane.setVisible(true);
     }
 
     public void setPrimaryStage(Stage primaryStage) {

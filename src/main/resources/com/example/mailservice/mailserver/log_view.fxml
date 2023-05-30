@@ -4,13 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color:#2562A0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mailservice.mailserver.LogController">
+<Pane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color:#2562A0;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.mailservice.mailserver.LogController">
     <children>
-        <ListView fx:id="listViewLog" layoutX="25.0" layoutY="32.0" opacity="0.93" prefHeight="350.0" prefWidth="500.0" style="-fx-background-color: black;" stylesheets="@lisStyles.css" />
-        <ScrollPane layoutX="25.0" layoutY="390.0" maxHeight="150.0" maxWidth="500.0" prefHeight="150.0" prefWidth="500.0">
-        <StackPane style="-fx-background-color: black;">
-        <TextFlow fx:id="txtLogRecordDetails" maxHeight="150.0" maxWidth="500.0" opacity="0.93" prefHeight="130.0" prefWidth="500.0" style="-fx-background-color: black; -fx-padding: 10" visible="false" />
-        </StackPane>
+        <ListView fx:id="listViewLog" layoutX="25.0" layoutY="32.0" opacity="0.93" prefHeight="350.0" prefWidth="500.0"
+                  style="-fx-background-color: black;" stylesheets="@lisStyles.css"/>
+        <ScrollPane fx:id="scrollPane"  layoutX="25.0" layoutY="390.0" maxHeight="150.0" maxWidth="500.0" prefHeight="150.0"
+                    prefWidth="500.0">
+            <StackPane style="-fx-background-color: black;">
+                <TextFlow fx:id="txtLogRecordDetails" maxHeight="150.0" maxWidth="500.0" opacity="0.93"
+                          prefHeight="130.0" prefWidth="500.0" style="-fx-background-color: black; -fx-padding: 10"
+                          visible="false"/>
+            </StackPane>
         </ScrollPane>
     </children>
 </Pane>
