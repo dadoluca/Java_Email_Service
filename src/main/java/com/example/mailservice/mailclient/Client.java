@@ -29,6 +29,7 @@ public class Client {
     ObjectOutputStream outStream = null;
     ObjectInputStream inStream = null;
     Mailbox mailbox;
+    boolean logout = false;
 
 
 
@@ -79,7 +80,7 @@ public class Client {
     }
 
     // Tenta di comunicare con il server. Restituisce true se ha successo, false altrimenti
-    private synchronized boolean tryLoginCommunication(String host, int port) {
+    private  boolean tryLoginCommunication(String host, int port) {
         try {
             connectToServer(host, port);
 
@@ -115,9 +116,8 @@ public class Client {
         }
     }
 
-    private synchronized void tryCommunicationEmail(String host, int port,Email to_send) {
+    private void tryCommunicationEmail(String host, int port,Email to_send) {
         try {
-
             outStream.writeObject(to_send);
             outStream.flush();
 
@@ -167,17 +167,17 @@ public class Client {
         Email to_send= new Email(1010,replyId,this.mailbox.getEmailAddress().toString(),dest,oggetto,contenuto, LocalDateTime.now());
         tryCommunicationEmail(host,port,to_send);
     }
-    public void deleteEmail(String host, int port,Email e,String client_address){
+    public void deleteEmail(Email e){
         /**
          * Come gmail eliminiamo la mail in locale lato client e poi proviamo a comunicarlo al server
          * (non attendiamo risposta)
          * */
         this.mailbox.removeEmail(e);
         String delete_msg ="DELETE";
-        tryCommunicationDeleteEmail(host,port,delete_msg,e);
+        tryCommunicationDeleteEmail(delete_msg,e);
     }
 
-    private synchronized void tryCommunicationDeleteEmail(String host, int port,String delete_msg, Email email) {
+    private  void tryCommunicationDeleteEmail(String delete_msg, Email email) {
         try {
             outStream.writeObject(delete_msg);
             outStream.flush();
@@ -196,7 +196,7 @@ public class Client {
     //------------------------------ ascolto della ricezione di email dal server
     public void listenForEmails() {
         try {
-            while (true) {
+            while (!logout) {
                 Object message = inStream.readObject();
                 if (message instanceof Email received_email) {
                     /**
@@ -215,10 +215,7 @@ public class Client {
 
             }
         } catch (IOException | ClassNotFoundException e) {
-            closeStreams();
-            throw new RuntimeException(e);
-        } finally {
-            closeStreams();
+            //chiusura socket
         }
     }
 
@@ -260,6 +257,20 @@ public class Client {
 //                .darkStyle()
                 .hideAfter(Duration.INDEFINITE)
                 .show();
+    }
+
+    public void logout() {
+        try {
+            outStream.writeObject("LOGOUT");
+            outStream.flush();
+            outStream.writeObject(this.mailbox.getEmailAddress());
+            outStream.flush();
+            logout= false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeStreams();
+        }
     }
 
 }

@@ -119,7 +119,7 @@ public class MailboxController {
     }
     @FXML
     private void onBtnDeleteClick(){
-        model.deleteEmail(host,port,selected,this.model.mailbox.getEmailAddress());
+        model.deleteEmail(selected);
 //        lstEmails.refresh();
     }
 
@@ -227,14 +227,14 @@ public class MailboxController {
                 Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmationDialog.setTitle("Conferma chiusura");
                 confirmationDialog.setHeaderText("Stai per chiudere l'applicazione");
-                confirmationDialog.setContentText("Sei sicuro di voler uscire?");
+                confirmationDialog.setContentText("Sei sicuro di voler uscire? Vorrei scollegato.");
                 Optional<ButtonType> result = confirmationDialog.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     // Esegui azioni aggiuntive prima di chiudere l'applicazione
                     // ...
                     //TODO LOGOUT
-//                    model.logout();
+                    model.logout();
                     Platform.exit(); // Chiudi l'applicazione
                 }
             }
