@@ -18,9 +18,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -50,7 +48,7 @@ public class MailboxController {
     private Email selected;
 
     @FXML
-    private TextArea txtEmailDetails;
+    private TextFlow txtEmailDetails;
 
     private Stage primaryStage;
 
@@ -104,7 +102,7 @@ public class MailboxController {
         });
         selected = null;
         lstEmails.setOnMouseClicked(this::showSelectedEmail);
-        txtEmailDetails.setEditable(false);
+//        txtEmailDetails.setEditable(false);
 
         Platform.runLater(() -> {
             Stage primaryStage = (Stage) lblUsername.getScene().getWindow();
@@ -164,8 +162,41 @@ public class MailboxController {
 
     protected void updateDetailView(Email email) {
         if(email != null) {
-            String text = String.format("From: %s\nSubject: %s\n\n%s", email.getSender(), email.getSubject(),email.getText().replaceAll("@@","\n"));
-            txtEmailDetails.setText(text);
+            txtEmailDetails.getChildren().clear();
+
+            Text from = new Text("From: ");
+            from.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            Text fromField = new Text(email.getSender() + "\n");
+
+            Text subject = new Text("Subject: ");
+            subject.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            Text subjectField = new Text(email.getSubject() + "\n");
+            Text textField = new Text("\n" + email.getText().replaceAll("@@","\n"));
+
+            Text date = new Text("Date: ");
+            date.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            Text dateField = new Text(email.getDate().toString().substring(0,10) + "\n");
+            dateField.setTextAlignment(TextAlignment.RIGHT);
+
+            if(email.getRecipientsList().size() > 1){
+                Text otherRecivers = new Text("Other Recivers: ");
+                otherRecivers.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+                String recivers = "";
+                for (String recipient: email.getRecipientsList()) {
+                    if(!recipient.equals(this.model.mailbox.getEmailAddress())){
+                        recivers += recipient + " " + " ";
+                    }
+                }
+                Text otherReciversField = new Text(recivers + "\n");
+                txtEmailDetails.getChildren().addAll(from,fromField,subject,subjectField,otherRecivers, otherReciversField,date, dateField,textField);
+
+            }else {
+                txtEmailDetails.getChildren().addAll(from,fromField,subject,subjectField,date, dateField,textField);
+            }
+
+
+
+
         }
         btnRispondi.setVisible(true);
         btnDelete.setVisible(true);

@@ -7,14 +7,17 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 import java.util.Optional;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 
 public class LogController {
     @FXML
@@ -26,7 +29,7 @@ public class LogController {
 
 
     @FXML
-    private TextArea txtLogRecordDetails;
+    private TextFlow txtLogRecordDetails;
 
     String selected;
 
@@ -42,8 +45,11 @@ public class LogController {
          * la ListView si aggiorni
          * */
         listViewLog.setItems(model.getLogRecords());
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
 
         listViewLog.setCellFactory(lv -> new ListCell<String>() {
+
             @Override
             public void updateItem(String log_message, boolean empty) {
                 super.updateItem(log_message, empty);
@@ -54,10 +60,17 @@ public class LogController {
                     String[] my_message=log_message.split("&&");
                     Text content = new Text(my_message[0]);
                     content.setFont(Font.font("Arial", FontWeight.BOLD,12));
-
+                    content.setFill(Color.WHITE);
                     VBox vbox = new VBox(content);
                     vbox.setSpacing(5); // Spazio tra i componenti all'interno del VBox
                     vbox.setPadding(new Insets(5)); // Padding intorno al VBox
+
+//                    BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(0));
+//                    Border border = new Border(borderStroke);
+//                    vbox.setBorder(border);
+
+                    vbox.setBackground(background);
+
 
                     setGraphic(vbox);
                 }
@@ -65,12 +78,14 @@ public class LogController {
         });
         selected = "";
         listViewLog.setOnMouseClicked(this::showSelectedLogRecord);
-        txtLogRecordDetails.setEditable(false);
 
         Platform.runLater(() -> {
             Stage primaryStage = (Stage) txtLogRecordDetails.getScene().getWindow();
             setPrimaryStage(primaryStage);
         });
+        listViewLog.setBackground(background);
+        txtLogRecordDetails.setBackground(background);
+
     }
 
 
@@ -79,16 +94,52 @@ public class LogController {
         if(logRecord.contains("&&")){
             String[]splittedLogRecords=logRecord.split("&&");
             selected=logRecord;
-            updateDetailView(splittedLogRecords[1]);
+            updateDetailView(splittedLogRecords[1], splittedLogRecords[2]);
         }
         else //user login
             txtLogRecordDetails.setVisible(false);
-
     }
 
-    protected void updateDetailView(String logRecord) {
+    protected void updateDetailView(String logRecord, String email) {
+
         if(logRecord != "") {
-            txtLogRecordDetails.setText(logRecord);
+            String[]emailElements=email.split("@@");
+
+            txtLogRecordDetails.getChildren().clear();
+
+            Text action = new Text(logRecord);
+            action.setFont(Font.font("Helvetica", FontWeight.BOLD, 15));
+            action.setFill(Color.WHITE);
+
+            Text from = new Text("From: ");
+            from.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            from.setFill(Color.WHITE);
+            Text fromField = new Text(emailElements[0] + "\n");
+            fromField.setFill(Color.WHITE);
+
+            Text to = new Text("To: ");
+            to.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            to.setFill(Color.WHITE);
+            Text toField = new Text(emailElements[1] + "\n");
+            toField.setFill(Color.WHITE);
+
+            Text subject = new Text("Subject: ");
+            subject.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            subject.setFill(Color.WHITE);
+            Text subjectField = new Text(emailElements[2] + "\n");
+            subjectField.setFill(Color.WHITE);
+            Text textField = new Text("\n" + emailElements[3].replaceAll("@@","\n"));
+            textField.setFill(Color.WHITE);
+
+            Text date = new Text("Date: ");
+            date.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
+            date.setFill(Color.WHITE);
+            Text dateField = new Text(emailElements[4].substring(0,10) + "\n");
+            dateField.setTextAlignment(TextAlignment.RIGHT);
+            dateField.setFill(Color.WHITE);
+
+            txtLogRecordDetails.getChildren().addAll(from,fromField,to, toField,subject,subjectField,date, dateField,textField);
+
         }
         txtLogRecordDetails.setVisible(true);
     }

@@ -2,8 +2,10 @@ package com.example.mailservice.mailclient;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -20,6 +22,7 @@ public class ClientApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
 
         LoginController controller =  fxmlLoader.getController();
     }

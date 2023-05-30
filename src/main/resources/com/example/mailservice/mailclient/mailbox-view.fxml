@@ -24,7 +24,7 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
-      <TextArea fx:id="txtEmailDetails" layoutX="320.0" layoutY="50.0" opacity="0.93" prefHeight="500.0" prefWidth="400.0" visible="false" />
+      <TextFlow fx:id="txtEmailDetails" layoutX="320.0" layoutY="50.0" opacity="0.93" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white; -fx-padding: 10" visible="false" />
       <Button fx:id="btnReplyAll" layoutX="750.0" layoutY="90.0" mnemonicParsing="false" onAction="#onBtnReplyAllClick" style="-fx-background-color: white;" text="Rispondi a tutti" textFill="#2562A0" visible="false" />
       <Button fx:id="btnForward" layoutX="750.0" layoutY="130.0" mnemonicParsing="false" onAction="#onBtnForwardClick" style="-fx-background-color: white;" text="Inoltra" textFill="#2562A0" visible="false" />
       <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="600.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" visible="true">
