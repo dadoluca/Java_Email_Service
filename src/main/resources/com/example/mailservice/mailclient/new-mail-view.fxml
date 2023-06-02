@@ -16,7 +16,7 @@
             <Font name="System Bold" size="14.0" />
          </font></Label>
       <TextField fx:id="txtDestinatari" layoutX="190.0" layoutY="147.0" opacity="0.93" prefHeight="40.0" prefWidth="520.0" promptText="name.surname@gmail.com, user@gmail.com" />
-      <Label fx:id="txtSendEmailResult" layoutX="321.0" layoutY="187.0" prefHeight="17.0"  text="" textFill="#fff1a9">
+      <Label fx:id="txtSendEmailResult" layoutX="200.0" layoutY="187.0" prefHeight="17.0" text="" textFill="#fff1a9">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>

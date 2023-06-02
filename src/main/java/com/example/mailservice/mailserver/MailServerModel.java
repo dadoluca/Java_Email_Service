@@ -34,7 +34,7 @@ public class MailServerModel {
 
     private ObservableList<String> logRecords = FXCollections.observableArrayList();
 
-    public void addLogRecords(String record) {
+    public synchronized void addLogRecords(String record) {
         logRecords.add(record);
     }
 
@@ -216,7 +216,7 @@ public class MailServerModel {
     //metodo per registrare una mail in tutte le mailbox dei destinatari
     public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
         String message="SEND_OK";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
-        boolean send = false;
+        boolean written_in_csv = false;
         boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
         for (String recipient : email.getRecipientsList()) {
             founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
@@ -252,17 +252,15 @@ public class MailServerModel {
                             /**
                              *  la mail viene salvata nel csv
                              **/
-                            if(!send){
+                            if(!written_in_csv){
                                 PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
                                 writer.println();
                                 writer.print(email.toCSV(nextId));
                                 //System.out.println("scrivo "+email.toCSV(nextId));
                                 nextId++;
                                 writer.close();
+                                written_in_csv = true;
                             }
-                            send = true;
-
-
                         }
                         mailbox.addEmail(email);
                         break;

@@ -18,6 +18,7 @@ public class ClientRequestHandler extends Thread {
     ObjectOutputStream outStream = null;
     Socket socket;
     boolean logout = false;
+    String email_addr_client_to_serve;
 
 
     public ClientRequestHandler(Socket socket, MailServerModel model) {
@@ -39,13 +40,13 @@ public class ClientRequestHandler extends Thread {
     /**
      * usa java reflection per identificare tipo di messaggio ricevuto
      */
-    private void serveClient() {
+    private void serveClient() {//si occupa di servire un certo client (sempre lo stesso)
         try {
             while (!logout) {
                 Object message = inStream.readObject();
                 if (message instanceof String) {
                     if (message.equals("DELETE")) {
-                        Object user = inStream.readObject();
+                        Object user = inStream.readObject();//user che effettua l'operazione
                         if (user instanceof String) {
                             Object email = inStream.readObject();
                             if (email instanceof Email) {
@@ -66,14 +67,29 @@ public class ClientRequestHandler extends Thread {
                             Platform.runLater(() -> this.model.addLogRecords("User " + user + " is logged out!"));
                             this.logout = true;
                         }
-                    } else {
+                    } else if(message.equals("RECEIVED_OK")) {//per sapere se la ricezione è avvenuta con successo
+                        //Object user = inStream.readObject();//user che effettua l'operazione
+                        //if (user instanceof String) {
+                            Object email = inStream.readObject();
+                            if (email instanceof Email) {
+                                Email email_received_ok_by_client = (Email) email;//email che il client ha ricevuto correttamente
+                                final String logDetail = email_received_ok_by_client.getSender() + "@@" +
+                                        email_received_ok_by_client.getRecipientsString() + "@@" +
+                                        email_received_ok_by_client.getSubject() + "@@" +
+                                        email_received_ok_by_client.getText().replaceAll("@@", "\n") + "@@" +
+                                        email_received_ok_by_client.getDate() + "@@";
+                                Platform.runLater(() -> model.addLogRecords("EMAIL RECIVED BY " + email_addr_client_to_serve + " FROM " + email_received_ok_by_client.getSender() + "&&\nEMAIL RECIVED&&" + logDetail));
+                            }
+                        //}
+                    }
+                    else {
                         /*
                          * Riceve un email address dal client che vuole loggarsi,
                          * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
                          */
                         //System.out.println(message + " vuole loggarsi");
-                        String email_addr = message.toString();
-                        Mailbox mb_client = model.getMailbox(email_addr);
+                        email_addr_client_to_serve = message.toString();
+                        Mailbox mb_client = model.getMailbox(email_addr_client_to_serve);
                         if (mb_client == null) {
                             outStream.writeObject("FALSE");
                             outStream.flush();
@@ -81,7 +97,7 @@ public class ClientRequestHandler extends Thread {
                             /*
                              * aggiungiamo il socket del client alla mappa dei email_addr - sockets
                              * */
-                            model.addClientSocket(email_addr, this.socket, this.outStream, this.inStream);
+                            model.addClientSocket(email_addr_client_to_serve, this.socket, this.outStream, this.inStream);
 
                             //stampa nel log
                             Platform.runLater(() -> model.addLogRecords("User " + mb_client.getEmailAddress() + " is logged in!"));
@@ -150,31 +166,15 @@ public class ClientRequestHandler extends Thread {
                 model.getClientObjectOutputStream(recipient).writeObject(to_send);
                 model.getClientObjectOutputStream(recipient).flush();
 
-                //per sapere se la ricezione è avvenuta con successo
-                 String success = model.getClientObjectInputStream(recipient).readObject().toString();
-                 if(success.equals("RECEIVED_OK")){
-                     System.out.println("RICEVUTOOOOOO::::");
-                     final String logDetail = to_send.getSender()+"@@"+
-                             to_send.getRecipientsString()+"@@"+
-                             to_send.getSubject()+"@@"+
-                             to_send.getText().replaceAll("@@","\n")+"@@"+
-                             to_send.getDate()+"@@";
-                     Platform.runLater(() -> model.addLogRecords("EMAIL RECIVED BY " + recipient+" FROM "+to_send.getSender()+"&&\nEMAIL RECIVED&&"+logDetail));
-                 }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: " + e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
-//            catch (ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
         }
     }
-
+    //---------------------------
     private synchronized void trySendResultCommunication(String to_send, String sender) {
         try {
             model.getClientObjectOutputStream(sender).writeObject(to_send);
