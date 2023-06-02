@@ -22,6 +22,8 @@ import java.util.Date;
 
 public class NewMailController {
     @FXML
+    private Label LabelEmptyFields;
+    @FXML
     private TextField txtDestinatari;
     @FXML
     private TextField txtOggetto;
@@ -75,33 +77,38 @@ public class NewMailController {
 
     @FXML
     private void onBtnSendClick(ActionEvent e) throws IOException {
-        String destinatari = txtDestinatari.getText().replaceAll(" ", "");
-        ArrayList<String> dest = new ArrayList<>();
-        boolean correctEmail = true;
-        String[] splitted = destinatari.split(",");
-        for (int i = 0; i < splitted.length && correctEmail; i++) {
-            if (Client.isValidEmail(splitted[i]))
-                dest.add(splitted[i]);
-            else
-                correctEmail = false;
-        }
-        if (correctEmail) {
-            String oggetto = txtOggetto.getText();
-            String contenuto = txtContenuto.getText();
+        if(txtDestinatari.getText().equals("")||txtContenuto.getText().equals("")||txtOggetto.getText().equals("")){
+            LabelEmptyFields.setVisible(true);
+        }else{
+            LabelEmptyFields.setVisible(false);
+            String destinatari = txtDestinatari.getText().replaceAll(" ", "");
+            ArrayList<String> dest = new ArrayList<>();
+            boolean correctEmail = true;
+            String[] splitted = destinatari.split(",");
+            for (int i = 0; i < splitted.length && correctEmail; i++) {
+                if (Client.isValidEmail(splitted[i]))
+                    dest.add(splitted[i]);
+                else
+                    correctEmail = false;
+            }
+            if (correctEmail) {
+                String oggetto = txtOggetto.getText();
+                String contenuto = txtContenuto.getText();
 
-            /**
-             * Controllo se è una mail di risposta
-             * */
-            String result;
-            if (to_reply != null && to_reply.getSender().equals(splitted[0]))
-                result = client.newEmail(to_reply.getId(), dest, oggetto, contenuto);
-            else
-                result = client.newEmail(dest, oggetto, contenuto);
-            txtSendEmailResult.setText(result);
-            if(result.equals("Email succesfully sent"))
-                redirectToClientView(e);
-        } else {
-            txtSendEmailResult.setText("Mail not valid");
+                /**
+                 * Controllo se è una mail di risposta
+                 * */
+                String result;
+                if (to_reply != null && to_reply.getSender().equals(splitted[0]))
+                    result = client.newEmail(to_reply.getId(), dest, oggetto, contenuto);
+                else
+                    result = client.newEmail(dest, oggetto, contenuto);
+                txtSendEmailResult.setText(result);
+                if(result.equals("Email succesfully sent"))
+                    redirectToClientView(e);
+            } else {
+                txtSendEmailResult.setText("Mail not valid");
+            }
         }
     }
 

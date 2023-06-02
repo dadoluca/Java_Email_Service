@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -16,7 +17,7 @@
             <Font name="System Bold" size="14.0" />
          </font></Label>
       <TextField fx:id="txtDestinatari" layoutX="190.0" layoutY="147.0" opacity="0.93" prefHeight="40.0" prefWidth="520.0" promptText="name.surname@gmail.com, user@gmail.com" />
-      <Label fx:id="txtSendEmailResult" layoutX="200.0" layoutY="187.0" prefHeight="17.0" text="" textFill="#fff1a9">
+      <Label fx:id="txtSendEmailResult" layoutX="200.0" layoutY="187.0" prefHeight="17.0" text="" style="-fx-background-color: #ff5a5a;" textFill="WHITE" >
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
@@ -30,8 +31,14 @@
             <Font name="System Bold" size="14.0" />
          </font></Label>
       <TextArea fx:id="txtContenuto" layoutX="190.0" layoutY="309.0" opacity="0.93" prefHeight="138.0" prefWidth="520.0" />
-
-      <Button fx:id="btnInvia" layoutX="190.0" layoutY="471.0" mnemonicParsing="false" onAction="#onBtnSendClick" prefHeight="40.0" prefWidth="520.0" style="-fx-background-color: white;" text="Send" textFill="#2562A0">
+      <Label fx:id="LabelEmptyFields" layoutX="395.0" layoutY="468.0" prefHeight="17.0" style="-fx-background-color: #ff5a5a;" text="Fill in all fields !!" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect></Label>
+      <Button fx:id="btnInvia" layoutX="190.0" layoutY="495.0" mnemonicParsing="false" onAction="#onBtnSendClick" prefHeight="40.0" prefWidth="520.0" style="-fx-background-color: white;" text="Send" textFill="#2562A0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
