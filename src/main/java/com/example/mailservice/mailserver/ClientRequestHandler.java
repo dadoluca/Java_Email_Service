@@ -46,8 +46,6 @@ public class ClientRequestHandler extends Thread {
                 Object message = inStream.readObject();
                 if (message instanceof String) {
                     if (message.equals("DELETE")) {
-                        Object user = inStream.readObject();//user che effettua l'operazione
-                        if (user instanceof String) {
                             Object email = inStream.readObject();
                             if (email instanceof Email) {
                                 Email to_delete = (Email) email;
@@ -55,21 +53,15 @@ public class ClientRequestHandler extends Thread {
                                  * informa il log della delete
                                  * rimuove dal model
                                  */
-                                Platform.runLater(() -> model.addLogRecords("Elimino mail da " + to_delete.getSender() + " a " + to_delete.getRecipientsString() + " per " + user));
-                                model.deleteEmail(to_delete, user.toString());
+                                Platform.runLater(() -> model.addLogRecords("Elimino mail da " + to_delete.getSender() + " a " + to_delete.getRecipientsString() + " per " + email_addr_client_to_serve));
+                                model.deleteEmail(to_delete, email_addr_client_to_serve);
                             }
-                        }
 
                     } else if (message.equals("LOGOUT")) {
-                        Object user = inStream.readObject();
-                        if (user instanceof String) {
-                            this.model.removeClientSocket(user.toString());
-                            Platform.runLater(() -> this.model.addLogRecords("User " + user + " is logged out!"));
+                            this.model.removeClientSocket(email_addr_client_to_serve.toString());
+                            Platform.runLater(() -> this.model.addLogRecords("User " + email_addr_client_to_serve + " is logged out!"));
                             this.logout = true;
-                        }
                     } else if(message.equals("RECEIVED_OK")) {//per sapere se la ricezione è avvenuta con successo
-                        //Object user = inStream.readObject();//user che effettua l'operazione
-                        //if (user instanceof String) {
                             Object email = inStream.readObject();
                             if (email instanceof Email) {
                                 Email email_received_ok_by_client = (Email) email;//email che il client ha ricevuto correttamente
@@ -80,14 +72,12 @@ public class ClientRequestHandler extends Thread {
                                         email_received_ok_by_client.getDate() + "@@";
                                 Platform.runLater(() -> model.addLogRecords("EMAIL RECIVED BY " + email_addr_client_to_serve + " FROM " + email_received_ok_by_client.getSender() + "&&\nEMAIL RECIVED&&" + logDetail));
                             }
-                        //}
                     }
                     else {
                         /*
                          * Riceve un email address dal client che vuole loggarsi,
                          * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
                          */
-                        //System.out.println(message + " vuole loggarsi");
                         email_addr_client_to_serve = message.toString();
                         Mailbox mb_client = model.getMailbox(email_addr_client_to_serve);
                         if (mb_client == null) {

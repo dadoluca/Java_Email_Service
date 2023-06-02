@@ -101,7 +101,7 @@ public class NewMailController {
             if(result.equals("Email succesfully sent"))
                 redirectToClientView(e);
         } else {
-            txtSendEmailResult.setText("Mail non valida");
+            txtSendEmailResult.setText("Mail not valid");
         }
     }
 

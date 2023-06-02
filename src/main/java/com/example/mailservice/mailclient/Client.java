@@ -36,8 +36,8 @@ public class Client {
     private boolean is_logged = false;
     String host;
     int port;
-    private String resultOfSendEmail="";
-    boolean available_resultOfSendEmail= false;
+    private String resultOfSendEmail = "";
+    boolean available_resultOfSendEmail = false;
 
     final int MAX_ATTEMPTS = 5;
 
@@ -114,7 +114,7 @@ public class Client {
                 }
                 //System.out.println(emailsList);
                 return "LOGGED";
-            } else if (Objects.equals(success, "FALSE")){
+            } else if (Objects.equals(success, "FALSE")) {
                 return "NOT_FOUND";
             }
 
@@ -128,7 +128,10 @@ public class Client {
     }
 
     private String tryCommunicationEmail(Email to_send) {
-        if(!is_logged) showAlert("Server offline.. ");
+        if (!is_logged) {
+            showAlert("Server offline.. ");
+            return "";
+        }
         try {
             outStream.writeObject(to_send);
             outStream.flush();
@@ -137,13 +140,12 @@ public class Client {
             //String result = (String) inStream.readObject();
 
             synchronized (lock) {//attendo ricezione result
-                while (!available_resultOfSendEmail)
-                {
+                while (!available_resultOfSendEmail) {
                     lock.wait();
                 }
             }
-            available_resultOfSendEmail=false;
-            return resultOfSendEmail.equals("SEND_OK") ? "Email succesfully sent": "Recipient doesn't exist!";
+            available_resultOfSendEmail = false;
+            return resultOfSendEmail.equals("SEND_OK") ? "Email succesfully sent" : "Recipient doesn't exist!";
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -202,7 +204,10 @@ public class Client {
     }
 
     private void tryCommunicationDeleteEmail(String delete_msg, Email email) {
-        if(!is_logged) showAlert("Server offline.. ");
+        if (!is_logged) {
+            showAlert("Server offline.. ");
+            return;
+        }
         try {
             outStream.writeObject(delete_msg);
             outStream.flush();
@@ -231,6 +236,7 @@ public class Client {
                     this.mailbox.addEmail(received_email);
                     Platform.runLater(() -> Client.showAlert(received_email, this.mailbox.getEmailAddress()));
                     outStream.writeObject("RECEIVED_OK");
+                    outStream.writeObject(received_email);
                     outStream.flush();
                 } else { //Ricevuto risultato dell'invio di una mail
                     synchronized (lock) {
