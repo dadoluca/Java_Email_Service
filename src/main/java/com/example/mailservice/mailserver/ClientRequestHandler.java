@@ -7,6 +7,7 @@ import java.net.Socket;
 import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
 import javafx.application.Platform;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -161,10 +162,13 @@ public class ClientRequestHandler extends Thread {
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: " + e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+                Platform.runLater(() -> {
+                    model.addLogRecords("ERROR delivering a message from: "+to_send.getSender()+" to:"+ recipient);
+                });
             }
         }
     }
-    //---------------------------
+    //--------------------------- comunica al client se l'invio è avvenuto o se i destinatari non esistono
     private synchronized void trySendResultCommunication(String to_send, String sender) {
         try {
             model.getClientObjectOutputStream(sender).writeObject(to_send);
