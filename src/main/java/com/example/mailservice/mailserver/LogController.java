@@ -123,7 +123,7 @@ public class LogController {
             Text to = new Text("To: ");
             to.setFont(Font.font("Helvetica", FontWeight.BOLD, 13));
             to.setFill(Color.WHITE);
-            Text toField = new Text(emailElements[1] + "\n");
+            Text toField = new Text(emailElements[1].replaceAll("\"","") + "\n");
             toField.setFill(Color.WHITE);
 
             Text subject = new Text("Subject: ");

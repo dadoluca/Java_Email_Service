@@ -48,9 +48,18 @@ public class NewMailController {
     public void setEmailtoReply(Email e, int action) {
         this.to_reply = e;
         String destinatari = e.getSender();
+        String text = "";
+        String email = "From: " + e.getSender() + "\n" +
+                "Date: " + e.getDate().toString() + "\n" +
+                "Subject: " + e.getSubject() + "\n" +
+                "To: " + e.getRecipientsString().replaceAll("\"", "") + "\n\n" +
+                e.getText().replaceAll("@@", "\n");
         switch (action) {
             case 1:
                 txtDestinatari.setText(destinatari);
+                txtOggetto.setText(e.getSubject());
+                text = String.format("\n------- Replied to -------\n" + email);
+                txtContenuto.setText(text);
                 break;
             case 2:
                 for (String recipient : e.getRecipientsList()) {
@@ -58,15 +67,13 @@ public class NewMailController {
                         destinatari += ",   " + recipient;
                 }
                 txtDestinatari.setText(destinatari);
+                txtOggetto.setText(e.getSubject());
+                text = String.format("\n------- Replied to -------\n" + email);
+                txtContenuto.setText(text);
                 break;
             case 3:
                 txtOggetto.setText(e.getSubject());
-                String text = String.format("------- Forward message -------\n" +
-                        "From: " + e.getSender() + "\n" +
-                        "Date: " + e.getDate().toString() + "\n" +
-                        "Subject: " + e.getSubject() + "\n" +
-                        "To: " + e.getRecipientsString().replaceAll("\"", "") + "\n\n" +
-                        e.getText().replaceAll("@@", "\n"));
+                text = String.format("\n------- Forward message -------\n" + email);
                 txtContenuto.setText(text);
         }
 
