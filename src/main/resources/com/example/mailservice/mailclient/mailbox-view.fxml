@@ -32,11 +32,15 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button fx:id="btnNewEmail" layoutX="752.0" layoutY="551.0" mnemonicParsing="false" onAction="#onBtnNewEmailClick" style="-fx-background-color: white;" text="Nuova Email" textFill="#2562A0">
+      <Button fx:id="btnNewEmail" layoutX="752.0" layoutY="551.0" mnemonicParsing="false" onAction="#onBtnNewEmailClick" style="-fx-background-color: white;" text="New Email" textFill="#2562A0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Button>
-      <TextFlow fx:id="txtEmailDetails" layoutX="321.0" layoutY="121.0" opacity="0.93" prefHeight="460.0" prefWidth="400.0" style="-fx-background-color: white; -fx-padding: 10" visible="false" />
+      <ScrollPane fx:id="scrollPane" layoutX="321.0" layoutY="121.0" opacity="0.93" maxHeight="460.0" maxWidth="400.0" visible="false">
+      <StackPane>
+      <TextFlow fx:id="txtEmailDetails" layoutX="321.0" layoutY="121.0" opacity="0.93" prefHeight="460.0" prefWidth="380.0" style="-fx-background-color: white; -fx-padding: 10" visible="false" />
+      </StackPane>
+      </ScrollPane>
       <Button fx:id="btnReplyAll" layoutX="751.0" layoutY="161.0" mnemonicParsing="false" onAction="#onBtnReplyAllClick" style="-fx-background-color: white;" text="Rispondi a tutti" textFill="#2562A0" visible="false">
          <font>
             <Font name="System Bold" size="14.0" />

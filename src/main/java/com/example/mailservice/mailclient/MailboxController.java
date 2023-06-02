@@ -52,6 +52,9 @@ public class MailboxController {
 
     private Stage primaryStage;
 
+    @FXML
+    private ScrollPane scrollPane;
+
 
     public void initModel(Client client) {
         // ensure model is only set once:
@@ -113,7 +116,7 @@ public class MailboxController {
     @FXML
     private void onBtnDeleteClick(){
         model.deleteEmail(selected);
-//        lstEmails.refresh();
+        scrollPane.setVisible(false);
     }
 
     private void redirectToNewMailView(ActionEvent e, int action) throws IOException {
@@ -203,6 +206,7 @@ public class MailboxController {
         btnReplyAll.setVisible(true);
         btnForward.setVisible(true);
         txtEmailDetails.setVisible(true);
+        scrollPane.setVisible(true);
     }
 
     public void setPrimaryStage(Stage primaryStage) {

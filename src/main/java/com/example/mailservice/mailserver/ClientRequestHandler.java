@@ -8,6 +8,7 @@ import com.example.mailservice.lib.Email;
 import com.example.mailservice.lib.Mailbox;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -105,9 +106,10 @@ public class ClientRequestHandler extends Thread {
                      */
                     Email to_forward = (Email) message;
                     System.out.println("Ho ricevuto la mail: " + to_forward);
-                    String resulOfReceviveEmail = model.receiveEmail(to_forward, true);
-                    trySendResultCommunication(resulOfReceviveEmail, to_forward.getSender());
-                    if (resulOfReceviveEmail.equals("SEND_OK"))//scrive nel log e su csv e controlla eventuali errori
+                    Pair<Integer,String> resulOfReceviveEmail =model.receiveEmail(to_forward, true);
+                    trySendResultCommunication(resulOfReceviveEmail.getValue(), to_forward.getSender());
+                    to_forward.setId(resulOfReceviveEmail.getKey());
+                    if (resulOfReceviveEmail.getValue().equals("SEND_OK"))//scrive nel log e su csv e controlla eventuali errori
                         /*
                          * preleva i destinatari e inoltra la mail
                          **/

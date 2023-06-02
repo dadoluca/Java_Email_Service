@@ -70,6 +70,9 @@ public class Client {
                 /**
                  * Thread che si mette in ascolto della ricezione di email
                  * */
+                if(this.mailbox.getEmailList().size()>0){
+                    this.mailbox.removeAll();
+                }
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
                     try {
@@ -211,8 +214,6 @@ public class Client {
         try {
             outStream.writeObject(delete_msg);
             outStream.flush();
-            outStream.writeObject(this.mailbox.getEmailAddress());
-            outStream.flush();
             outStream.writeObject(email);
             outStream.flush();
 
@@ -311,8 +312,6 @@ public class Client {
     public void logout() {
         try {
             outStream.writeObject("LOGOUT");
-            outStream.flush();
-            outStream.writeObject(this.mailbox.getEmailAddress());
             outStream.flush();
             is_logged_out = true;
         } catch (IOException e) {

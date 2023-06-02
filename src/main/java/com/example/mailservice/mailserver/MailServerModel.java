@@ -11,13 +11,11 @@ import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import com.opencsv.CSVReader;
+import javafx.util.Pair;
 
 public class MailServerModel {
 
@@ -214,73 +212,72 @@ public class MailServerModel {
     }
 
     //metodo per registrare una mail in tutte le mailbox dei destinatari
-    public synchronized String receiveEmail(Email email,boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
+    public synchronized Pair<Integer,String> receiveEmail(Email email, boolean isNew) throws IOException {//HO MODIFICATO A STRING IN MODO CHE POSSA RITORNARE IL MESSAGGIO IN CASO DI ERRORE
         String message="SEND_OK";//stringa di messaggio composta, in modo che il server possa inviare al client l'errore
         boolean written_in_csv = false;
-        boolean founded=false;//per ogni destinatario controllo se è stata trovata una corrispondenza con gli altri utenti del servizio
+
+        for(String recipient: email.getRecipientsList()){
+            if(this.getMailbox(recipient) == null){
+                message="ERROR_RECIPIENT: Recipient doesn't exist";
+                return new Pair<>(-2,message);
+            }
+        }
+
         for (String recipient : email.getRecipientsList()) {
-            founded=false;//nuovo destinatario esaminato, faccio ripartire founded a false
-                for (Mailbox mailbox : mailboxes) {
-                    if (mailbox.getEmailAddress().equals(recipient)) {
-                        founded=true;
-                        if(isNew){/** nuova mail */
-                            /**
-                             * la mail viene stampata nel log
-                             * */
-                            final String logDetail = email.getSender()+"@@"+
-                                    email.getRecipientsString()+"@@"+
-                                    email.getSubject()+"@@"+
-                                    email.getText().replaceAll("@@","\n")+"@@"+
-                                    email.getDate()+"@@";
+            Mailbox mailbox = this.getMailbox(recipient);
+                if(isNew){/** nuova mail */
+                    /**
+                     * la mail viene stampata nel log
+                     * */
+                    final String logDetail = email.getSender()+"@@"+
+                            email.getRecipientsString()+"@@"+
+                            email.getSubject()+"@@"+
+                            email.getText().replaceAll("@@","\n")+"@@"+
+                            email.getDate()+"@@";
 
-                            if(email.getText().contains("------- Forward message -------")){
-                                Platform.runLater(() -> this.addLogRecords("FORWARD: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "FORWARD&&"+
-                                        logDetail));
-                            }
-                            else if(email.getReplyId()!=-1){
-                                Platform.runLater(() -> this.addLogRecords("REPLY: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "REPLY&&"+
-                                        logDetail));
-                            }
-                            else{
-                                Platform.runLater(() -> this.addLogRecords("NEW MAIL: " + email.getSender()+"--->"+recipient+"&&\n"+
-                                        "NEW EMAIL&&"+
-                                        logDetail));
-                            }
-
-                            /**
-                             *  la mail viene salvata nel csv
-                             **/
-                            if(!written_in_csv){
-                                PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
-                                writer.println();
-                                writer.print(email.toCSV(nextId));
-                                //System.out.println("scrivo "+email.toCSV(nextId));
-                                nextId++;
-                                writer.close();
-                                written_in_csv = true;
-                            }
-                        }
-                        mailbox.addEmail(email);
-                        break;
+                    if(email.getText().contains("------- Forward message -------")){
+                        Platform.runLater(() -> this.addLogRecords("FORWARD: " + email.getSender()+"--->"+recipient+"&&\n"+
+                                "FORWARD&&"+
+                                logDetail));
+                    }
+                    else if(email.getReplyId()!=-1){
+                        Platform.runLater(() -> this.addLogRecords("REPLY: " + email.getSender()+"--->"+recipient+"&&\n"+
+                                "REPLY&&"+
+                                logDetail));
+                    }
+                    else{
+                        Platform.runLater(() -> this.addLogRecords("NEW MAIL: " + email.getSender()+"--->"+recipient+"&&\n"+
+                                "NEW EMAIL&&"+
+                                logDetail));
+                    }
+                    /**
+                     *  la mail viene salvata nel csv
+                     **/
+                    if(!written_in_csv){
+                        PrintWriter writer = new PrintWriter(new FileWriter("src/main/java/com/example/mailservice/mailserver/data/emails.csv",true));
+                        writer.println();
+                        writer.print(email.toCSV(nextId));
+                        nextId++;
+                        writer.close();
+                        written_in_csv = true;
                     }
                 }
-                if(!founded){
-                    message="ERROR_RECIPIENT: Recipient doesn't exist";
-                }
+                mailbox.addEmail(email);
             }
-        return message;
-
+        return new Pair<>(nextId,message);
     }
 
     public void logout(){
-        for(String email_addr : clients_sockets.keySet()){
-            clients_sockets.remove(email_addr);
-        }
-        for(Thread thread: pool_requestHandler_threads){
+        for (Thread thread : pool_requestHandler_threads) {
             thread.interrupt();
         }
+
+        Iterator<String> iterator = clients_sockets.keySet().iterator();
+        while (iterator.hasNext()) {
+            String email_addr = iterator.next();
+            iterator.remove();
+        }
+
         System.exit(0);
     }
 }

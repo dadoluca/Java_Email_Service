@@ -52,7 +52,7 @@ public class NewMailController {
         String destinatari = e.getSender();
         String text = "";
         String email = "From: " + e.getSender() + "\n" +
-                "Date: " + e.getDate().toString() + "\n" +
+                "Date: " + e.getDate().toString().substring(0,10) + "\n" +
                 "Subject: " + e.getSubject() + "\n" +
                 "To: " + e.getRecipientsString().replaceAll("\"", "") + "\n\n" +
                 e.getText().replaceAll("@@", "\n");

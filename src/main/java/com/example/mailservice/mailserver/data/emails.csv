@@ -1,53 +1,12 @@
 "id","replyID","sender","recipients","subject","text","date"
-0,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","mail a davide","ciao",2023-05-26T18:35
-1,-1,"luca.dadone@gmail.com","riad.muska@gmail.com","mail a riad","ciao	",2023-05-26T18:35
-2,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com,riad.muska@gmail.com","mail a davide e riad","ciao ragazzi",2023-05-26T18:36
-4,-1,"davide.benotto@gmail.com","riad.muska@gmail.com","proviamo","ciao Riad! :D",2023-05-28T08:05
-5,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com","ciao dadon","prova",2023-05-28T08:14
-6,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com,riad.muska@gmail.com","Proviamo questa mail","Ciao amici come state?",2023-05-28T08:45
-7,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","controlliamo","ciaoooo",2023-05-30T07:05
-8,6,"riad.muska@gmail.com","luca.dadone@gmail.com","Proviamo questa mail","------- Forward message -------@@From: luca.dadone@gmail.com@@Date: 2023-05-28T08:45@@Subject: Proviamo questa mail@@To: davide.benotto@gmail.com,riad.muska@gmail.com@@@@Ciao amici come state?",2023-05-30T08:17
-9,8,"luca.dadone@gmail.com","riad.muska@gmail.com","a","a",2023-05-30T13:08
-10,7,"luca.dadone@gmail.com","riad.muska@gmail.com","popi","popi	",2023-05-30T13:11
-11,7,"luca.dadone@gmail.com","riad.muska@gmail.com","cs","cscsc",2023-05-30T13:14
-12,8,"luca.dadone@gmail.com","riad.muska@gmail.com","a","a",2023-05-30T13:34
-13,-1,"luca.dadone@gmail.com","riad.muska@gmail.com","ciao dadon","------- Forward message -------@@From: davide.benotto@gmail.com@@Date: 2023-05-28T08:14@@Subject: ciao dadon@@To: luca.dadone@gmail.com@@@@prova",2023-05-30T15:42
-14,2,"riad.muska@gmail.com","luca.dadone@gmail.com","ok bro","pappapero",2023-05-30T15:48
-15,4,"riad.muska@gmail.com","davide.benotto@gmail.com","ok","ok",2023-05-30T15:51
-16,7,"luca.dadone@gmail.com","riad.muska@gmail.com","a","a",2023-05-30T17:21
-17,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","ciao","ciao",2023-05-30T17:24
-18,6,"riad.muska@gmail.com","luca.dadone@gmail.com","scusa ti rispondo solo ora","poipoi",2023-05-30T17:26
-19,18,"luca.dadone@gmail.com","riad.muska@gmail.com","muski!!","haha tranquillo! come stai?",2023-05-30T17:29
-20,5,"luca.dadone@gmail.com","davide.benotto@gmail.com","hahahaah","ma svegliati",2023-05-30T17:31
-21,5,"luca.dadone@gmail.com","davide.benotto@gmail.com","weila bello","Scusa ancora una cosa, doma che fai?	",2023-05-30T17:36
-22,18,"luca.dadone@gmail.com","riad.muska@gmail.com","ma va bro tranquillo","ciaooo",2023-05-30T17:42
-23,18,"luca.dadone@gmail.com","riad.muska@gmail.com","boyz","aaaaa",2023-05-30T17:46
-24,18,"luca.dadone@gmail.com","riad.muska@gmail.com","caca","caca",2023-05-30T17:48
-25,18,"luca.dadone@gmail.com","riad.muska@gmail.com","ma sme lili","suca",2023-05-30T17:51
-26,18,"luca.dadone@gmail.com","riad.muska@gmail.com,davide.benotto@gmail.coma","","",2023-05-30T18:03
-27,18,"luca.dadone@gmail.com","riad.muska@gmail.com,davide.benotto@gmail.com","","",2023-05-30T18:03
-28,5,"luca.dadone@gmail.com","davide.benotto@gmail.com,riad.muska@gmail.coma","","",2023-05-30T18:05
-29,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","ooo","tarantelle	",2023-05-30T18:45
-30,18,"luca.dadone@gmail.com","riad.muska@gmail.com","daue","aDadADdD",2023-05-30T18:49
-31,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","aaa","aaa",2023-05-30T18:50
-32,30,"riad.muska@gmail.com","luca.dadone@gmail.com","jbkjajkabjkb","nnknlnknk	",2023-05-30T18:55
-33,1010,"luca.dadone@gmail.com","riad.muska@gmail.com","ciao","ciao	",2023-05-30T18:56
-34,32,"luca.dadone@gmail.com","riad.muska@gmail.com","ciao riad","ciao riad",2023-05-30T18:59
-35,5,"luca.dadone@gmail.com","davide.benotto@gmail.com","benon","ciao",2023-06-02T14:34
-36,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com,riad.muska@gmail.com","Ciao ragazzi","Vediamo se funziona ",2023-06-02T14:58
-37,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com,riad.muska@gmail.com","oooo raga","ragazzi",2023-06-02T15:03
-38,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com,riad.muska@gmail.com","cazzo dai","multi",2023-06-02T15:08
-39,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com,riad.muska@gmail.com","ciocio","multi",2023-06-02T15:15
-40,-1,"davide.benotto@gmail.com","luca.dadone@gmail.com,riad.muska@gmail.com","ciao ragazzi","ciao ragazzi",2023-06-02T15:38
-41,-1,"riad.muska@gmail.com","luca.dadone@gmail.com,davide.benotto@gmail.com","2","2",2023-06-02T15:40
-42,-1,"riad.muska@gmail.com","luca.dadone@gmail.com,davide.benotto@gmail.com","2.2","2.2",2023-06-02T15:47
-43,-1,"riad.muska@gmail.com","luca.dadone@gmail.com,davide.benotto@gmail.com","cia voi 2 ","pppp	",2023-06-02T15:51
-44,-1,"riad.muska@gmail.com","luca.dadone@gmail.com,davide.benotto@gmail.com","popi","popipopi	",2023-06-02T15:52
-45,-1,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","cioioioioiio","cacca",2023-06-02T15:55
-46,1010,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","rispondo a tutti","cacca e riso",2023-06-02T15:57
-47,44,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","ooooo","ooo",2023-06-02T16:01
-48,47,"luca.dadone@gmail.com","davide.benotto@gmail.com","a","a",2023-06-02T16:09
-49,-1,"luca.dadone@gmail.com","luca.dadone@gmail.com","aa","aa",2023-06-02T17:01
-50,-1,"riad.muska@gmail.com","luca.dadone@gmail.com","aa","aa",2023-06-02T17:05
-51,47,"riad.muska@gmail.com","davide.benotto@gmail.com,luca.dadone@gmail.com","ooooo","aaaa@@------- Replied to -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T16:01@@Subject: ooooo@@To: riad.muska@gmail.com,luca.dadone@gmail.com@@@@ooo@@cacca boia",2023-06-02T17:10
-52,1010,"luca.dadone@gmail.com","riad.muska@gmail.com,davide.benotto@gmail.com","ooooo"," cazzo mazzo@@------- Replied to -------@@From: riad.muska@gmail.com@@Date: 2023-06-02T17:10:33.149878100@@Subject: ooooo@@To: davide.benotto@gmail.com,luca.dadone@gmail.com@@@@aaaa@@------- Replied to -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T16:01@@Subject: ooooo@@To: riad.muska@gmail.com,luca.dadone@gmail.com@@@@ooo@@cacca boia",2023-06-02T17:11
+0,-1,"luca.dadone@gmail.com","davide.benotto@gmail.com","Progetto PROG 3","Ciao Davide, domani ci saresti per studiare e fare il progetto ?@@@@Luca Dadone",2023-06-02T17:34
+1,-1,"luca.dadone@gmail.com","riad.muska@gmail.com","Partita di tennis","Genitle Muska,@@@@Nella giornata di domani si terrà un torneo interno, indende partecipare?@@Mi faccia sapere, @@@@Saluti,@@Luca Dadone",2023-06-02T17:37
+2,0,"davide.benotto@gmail.com","luca.dadone@gmail.com","Progetto PROG 3","Ciao carissimo!! @@Domani ho il dentista al mattino ma nel pomeriggio potresti venire da me!@@@@Davide Benotto@@@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:34:58.426364500@@Subject: Progetto PROG 3@@To: davide.benotto@gmail.com@@@@Ciao Davide, domani ci saresti per studiare e fare il progetto ?@@@@Luca Dadone",2023-06-02T17:38
+3,2,"luca.dadone@gmail.com","davide.benotto@gmail.com","Progetto PROG 3","Ok allora a domani!!@@@@------- Replied to -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T17:38:46.967345@@Subject: Progetto PROG 3@@To: luca.dadone@gmail.com@@@@Ciao carissimo!! @@Domani ho il dentista al mattino ma nel pomeriggio potresti venire da me!@@@@Davide Benotto@@@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:34:58.426364500@@Subject: Progetto PROG 3@@To: davide.benotto@gmail.com@@@@Ciao Davide, domani ci saresti per studiare e fare il progetto ?@@@@Luca Dadone",2023-06-02T17:39
+4,1,"riad.muska@gmail.com","luca.dadone@gmail.com","Partita di tennis","Buona sera Luca,@@@@Le faccio sapere al più presto le mie disponibilità per il torneo, spero almeno ci sia un rinfresco@@@@Riad Muska@@@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:37:06.839742400@@Subject: Partita di tennis@@To: riad.muska@gmail.com@@@@Genitle Muska,@@@@Nella giornata di domani si terrà un torneo interno, indende partecipare?@@Mi faccia sapere, @@@@Saluti,@@Luca Dadone",2023-06-02T17:40
+5,-1,"riad.muska@gmail.com","davide.benotto@gmail.com","Partita di tennis","Beno scusa se ti distirbo,@@Mi hanno invitato a sto torneo ma temo di non essere abbastanza forte@@Vieni a vedermi??@@@@Riad@@@@------- Forward message -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:37:06.839742400@@Subject: Partita di tennis@@To: riad.muska@gmail.com@@@@Genitle Muska,@@@@Nella giornata di domani si terrà un torneo interno, indende partecipare?@@Mi faccia sapere, @@@@Saluti,@@Luca Dadone",2023-06-02T17:46
+6,-1,"davide.benotto@gmail.com","riad.muska@gmail.com,luca.dadone@gmail.com","Ragazzi mega notiziona!","Mi mancano 3 esami!!@@A voi invece come sta andando??@@@@Davide",2023-06-02T18:06
+7,6,"riad.muska@gmail.com","davide.benotto@gmail.com,luca.dadone@gmail.com","Ragazzi mega notiziona!","Bene a me due :)) !!@@@@Riad@@@@------- Replied to -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T18:06:15.780477800@@Subject: Ragazzi mega notiziona!@@To: riad.muska@gmail.com,luca.dadone@gmail.com@@@@Mi mancano 3 esami!!@@A voi invece come sta andando??@@@@Davide",2023-06-02T18:07
+8,6,"riad.muska@gmail.com","davide.benotto@gmail.com","Ragazzi mega notiziona!","Questa risposta la do solo a te! Me ne mancano 4 hihi@@------- Replied to -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T18:06:15.780477800@@Subject: Ragazzi mega notiziona!@@To: riad.muska@gmail.com,luca.dadone@gmail.com@@@@Mi mancano 3 esami!!@@A voi invece come sta andando??@@@@Davide",2023-06-02T18:09
+9,-1,"luca.dadone@gmail.com","riad.muska@gmail.com","Progetto PROG 3","@@------- Forward message -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T17:38:46.967345@@Subject: Progetto PROG 3@@To: luca.dadone@gmail.com@@@@Ciao carissimo!! @@Domani ho il dentista al mattino ma nel pomeriggio potresti venire da me!@@@@Davide Benotto@@@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:34:58.426364500@@Subject: Progetto PROG 3@@To: davide.benotto@gmail.com@@@@Ciao Davide, domani ci saresti per studiare e fare il progetto ?@@@@Luca Dadone",2023-06-02T18:10
+10,9,"riad.muska@gmail.com","luca.dadone@gmail.com","Progetto PROG 3","Ciao,@@E finiamolo sto progetto!!@@Saluti,@@@@Riad@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T18:10:50.691843@@Subject: Progetto PROG 3@@To: riad.muska@gmail.com@@@@@@------- Forward message -------@@From: davide.benotto@gmail.com@@Date: 2023-06-02T17:38:46.967345@@Subject: Progetto PROG 3@@To: luca.dadone@gmail.com@@@@Ciao carissimo!! @@Domani ho il dentista al mattino ma nel pomeriggio potresti venire da me!@@@@Davide Benotto@@@@@@------- Replied to -------@@From: luca.dadone@gmail.com@@Date: 2023-06-02T17:34:58.426364500@@Subject: Progetto PROG 3@@To: davide.benotto@gmail.com@@@@Ciao Davide, domani ci saresti per studiare e fare il progetto ?@@@@Luca Dadone",2023-06-02T18:11
