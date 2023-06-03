@@ -264,7 +264,7 @@ public class MailServerModel {
                 }
                 mailbox.addEmail(email);
             }
-        return new Pair<>(nextId,message);
+        return new Pair<>(nextId-1,message);
     }
 
     public void logout(){

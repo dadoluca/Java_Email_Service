@@ -310,6 +310,10 @@ public class Client {
     }
 
     public void logout() {
+        if (!is_logged) {
+            is_logged_out = true;
+            return;
+        }
         try {
             outStream.writeObject("LOGOUT");
             outStream.flush();
