@@ -68,7 +68,10 @@ public class Mailbox {
     }
 
     public void removeAll(){
-        Platform.runLater(() -> { this.emailList.removeAll();});
+        int length = this.emailList.size();
+            for (int i = 0; i<length; i++){
+                Platform.runLater(() -> {this.emailList.remove(0);        });
+            }
     }
 
 }
