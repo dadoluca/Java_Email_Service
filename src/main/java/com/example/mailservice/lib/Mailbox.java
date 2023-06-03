@@ -25,7 +25,9 @@ public class Mailbox {
     }
     private final ObservableList<Email> emailList;
     public ArrayList<Email> getEmailList() {
-        return new ArrayList<>(emailList);
+        ArrayList<Email> list = new ArrayList<>();
+        list.addAll(emailList);
+        return list;
     }
     public ObservableList<Email> getObsEmailList() {
         return emailList;
