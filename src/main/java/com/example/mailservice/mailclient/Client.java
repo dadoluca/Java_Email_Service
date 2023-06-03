@@ -59,7 +59,7 @@ public class Client {
         int attempts = 0;
 
         String result = "";
-        while (attempts < MAX_ATTEMPTS && !result.equals("LOGGED")) {
+        while (attempts < MAX_ATTEMPTS && !is_logged) {
             attempts += 1;
             System.out.println();
 
@@ -70,9 +70,8 @@ public class Client {
                 /**
                  * Thread che si mette in ascolto della ricezione di email
                  * */
-                if(this.mailbox.getEmailList().size()>0){
-                    this.mailbox.removeAll();
-                }
+                if(this.mailbox!=null){
+                    this.mailbox.removeAll();}
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
                     try {
@@ -85,11 +84,8 @@ public class Client {
                 Thread serverListener = new Thread(listener);
                 is_logged = true;
                 serverListener.start();
-                continue;
-            }
-
-            try {
-                Thread.sleep(100);
+            } else try {
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
