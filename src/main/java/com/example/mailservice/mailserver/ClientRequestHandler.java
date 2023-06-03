@@ -55,7 +55,7 @@ public class ClientRequestHandler extends Thread {
                                  * informa il log della delete
                                  * rimuove dal model
                                  */
-                                Platform.runLater(() -> model.addLogRecords("Elimino mail da " + to_delete.getSender() + " a " + to_delete.getRecipientsString() + " per " + email_addr_client_to_serve));
+                                Platform.runLater(() -> model.addLogRecords("DELETED email from " + to_delete.getSender() + " to " + to_delete.getRecipientsString() + " for " + email_addr_client_to_serve));
                                 model.deleteEmail(to_delete, email_addr_client_to_serve);
                             }
 

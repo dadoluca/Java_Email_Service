@@ -95,7 +95,7 @@ public class LogController {
 
     protected void showSelectedLogRecord(MouseEvent mouseEvent) {
         String logRecord = listViewLog.getSelectionModel().getSelectedItem();
-        if (logRecord.contains("&&")) {
+        if (logRecord!=null && logRecord.contains("&&")) {
             String[] splittedLogRecords = logRecord.split("&&");
             selected = logRecord;
             updateDetailView(splittedLogRecords[1], splittedLogRecords[2]);
