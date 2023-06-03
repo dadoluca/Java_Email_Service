@@ -72,6 +72,7 @@ public class Client {
                  * */
                 if(this.mailbox!=null){
                     this.mailbox.removeAll();}
+
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
                     try {

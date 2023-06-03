@@ -68,9 +68,7 @@ public class Mailbox {
     }
 
     public void removeAll(){
-        for(Email mail: this.getEmailList()){
-            Platform.runLater(() ->this.emailList.remove(mail));
-        }
+        Platform.runLater(() -> { this.emailList.removeAll();});
     }
 
 }
