@@ -117,6 +117,10 @@ public class MailboxController {
     private void onBtnDeleteClick(){
         model.deleteEmail(selected);
         scrollPane.setVisible(false);
+        btnRispondi.setVisible(false);
+        btnDelete.setVisible(false);
+        btnReplyAll.setVisible(false);
+        btnForward.setVisible(false);
     }
 
     private void redirectToNewMailView(ActionEvent e, int action) throws IOException {
