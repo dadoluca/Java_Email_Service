@@ -55,7 +55,7 @@ public class Client {
      * Fa fino a 5 tentativi per comunicare con il server. Dopo ogni tentativo fallito
      * aspetta 1/10 secondo.
      */
-    public String login() throws IOException {
+    public String login() throws IOException, InterruptedException {
         int attempts = 0;
 
         String result = "";
@@ -70,9 +70,6 @@ public class Client {
                 /**
                  * Thread che si mette in ascolto della ricezione di email
                  * */
-                if(this.mailbox!=null){
-                    this.mailbox.removeAll();}
-
                 Runnable listener = () -> {
                     //Ci mettiamo in ascolto
                     try {
@@ -95,7 +92,7 @@ public class Client {
     }
 
     // Tenta di comunicare con il server. Restituisce true se ha successo, false altrimenti
-    private String tryLoginCommunication() {
+    private String tryLoginCommunication() throws InterruptedException {
         try {
             connectToServer();
 
@@ -106,6 +103,8 @@ public class Client {
 
             String success = (String) inStream.readObject();
             if (Objects.equals(success, "TRUE")) {
+                if(this.mailbox!=null){
+                    this.mailbox.removeAll();}
                 //legge la sua mailbox inviata dal server
                 emailsList = (List<Email>) inStream.readObject();
                 for (Email em : emailsList) {
@@ -119,9 +118,11 @@ public class Client {
             }
 
         } catch (ConnectException ce) {
-            // nothing to be done
+            // non riusciamo a connetterci a al server in quanto offline
+            Thread.sleep(200);
+
         } catch (IOException | ClassNotFoundException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         return "SERVER_OFFLINE";
 

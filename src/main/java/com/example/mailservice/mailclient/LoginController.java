@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @FXML
-    protected void onBtnLoginClick(ActionEvent e) throws IOException {
+    protected void onBtnLoginClick(ActionEvent e) throws IOException, InterruptedException {
         String mail_addr = txtEmail.getText();
         if(Client.isValidEmail(mail_addr)){
             if (model == null) {
