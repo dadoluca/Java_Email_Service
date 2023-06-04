@@ -156,9 +156,10 @@ public class ClientRequestHandler extends Thread {
 
         if (model.getClientSocket(recipient) != null) { //recipient online
             try {
-                model.getClientObjectOutputStream(recipient).writeObject(to_send);
-                model.getClientObjectOutputStream(recipient).flush();
-
+                synchronized (model.getClientObjectOutputStream(recipient)){//nel caso due client hander diversi volesso mandare la mail allo stesso utente
+                    model.getClientObjectOutputStream(recipient).writeObject(to_send);
+                    model.getClientObjectOutputStream(recipient).flush();
+                }
             } catch (SocketException e) {
                 //eccezione quando il socket è chiuso
                 System.err.println("Impossibile inviare la mail a " + recipient + " perché: " + e.getMessage());

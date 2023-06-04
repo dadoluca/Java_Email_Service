@@ -104,7 +104,9 @@ public class Client {
             String success = (String) inStream.readObject();
             if (Objects.equals(success, "TRUE")) {
                 if(this.mailbox!=null){
-                    this.mailbox.removeAll();}
+                    this.mailbox.removeAll();
+                    Thread.sleep(200);
+                }
                 //legge la sua mailbox inviata dal server
                 emailsList = (List<Email>) inStream.readObject();
                 for (Email em : emailsList) {
