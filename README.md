@@ -2,6 +2,7 @@
 # Java_Email_Service
 
 Sono stati utilizzati in questo progetto:
+- pattern MVC
 - JavaFx
 - sockets
 - Java Reflection
