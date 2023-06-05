@@ -1,4 +1,5 @@
-JAVA EMAIL SERVICE
+
+# Java_Email_Service
 
 Sono stati utilizzati in questo progetto:
 - JavaFx
@@ -13,6 +14,10 @@ Sono stati utilizzati in questo progetto:
 --------------------------------------------------------------------------------------------------------
 
 TRACCIA PROGETTO:
+
+Progetto di programmazione 3 UNITO
+
+Testo:
 
 Si sviluppi un’applicazione Java che implementi un servizio di posta elettronica organizzato con un mail server che gestisce le caselle di posta elettronica degli utenti e i mail client necessari per permettere agli utenti di accedere alle proprie caselle di posta.
 
@@ -63,4 +68,4 @@ Mailbox ha una lista osservabile di mail, in modo che gli observer (ListView del
 --------------------------------------------------------------------------------------------------------
 
 TESTING
-Per testare l'applicativo si possono usare come indirizzi email quelli scritti nel file user.txt (luca.dadone@gmail.com ..)
+Per testare l'applicativo si possono usare come indirizzi email quelli scritti nel file user.txt (luca.dadone@gmail.com, riad.muska@gmail.com, davide.benotto@gmail.com)
