@@ -77,6 +77,7 @@ public class ClientRequestHandler extends Thread {
                     }
                     else {
                         /*
+                         * LOGIN
                          * Riceve un email address dal client che vuole loggarsi,
                          * verifica che sia loggato, e restituisce "TRUE" se si è loggati, "FALSE" altrimenti
                          */
