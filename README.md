@@ -3,7 +3,7 @@ This project is an implementation of a Java application that provides an email s
 ### Technologies Used:
 - `JavaFx`
 - `Sockets`
-- `MVC pattern`
+- `MVC` pattern
 - `Java Reflection`
 - `Observer Observable` pattern-based mechanisms
 - `Multi-threaded` programming:
