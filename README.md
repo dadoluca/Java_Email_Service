@@ -1,13 +1,12 @@
 # Java Email Service
 This project is an implementation of a Java application that provides an email service organized with a mail server responsible for managing users' mailboxes and the necessary mail clients for users to access their mailboxes.
 ### Technologies Used:
-
-- MVC pattern
-- JavaFx
-- Sockets
-- Java Reflection
-- Observer Observable pattern-based mechanisms
-- Multi-threaded programming:
+- `JavaFx`
+- `Sockets`
+- `MVC pattern`
+- `Java Reflection`
+- `Observer Observable` pattern-based mechanisms
+- `Multi-threaded` programming:
   - Client-side synchronization mechanisms (synchronized(lock) {})
   - Server-side synchronization methods (synchronized)
   - Wait() and signal() synchronization mechanisms for operation execution waiting
